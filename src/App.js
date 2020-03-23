@@ -1,13 +1,24 @@
 import React from 'react';
-import Panel from './components/menu/Panel'
+import { MemoryRouter, Switch, Route } from 'react-router-dom';
+import Main from './components/menu/Main';
+import Connect from './components/menu/Connect';
+import Lobby from './components/menu/Lobby';
 
 function App() {
   return (
-    <div>
-      <Panel width='500px' height='300px'>
-        <h1>First window</h1>
-      </Panel>
-    </div>
+    <MemoryRouter>
+      <Switch>
+        <Route exact path="/">
+          <Main />
+        </Route>
+        <Route path='/connect'>
+          <Connect />
+        </Route>
+        <Route path='/lobby'>
+          <Lobby />
+        </Route>
+      </Switch>  
+    </MemoryRouter>
   );
 }
 
