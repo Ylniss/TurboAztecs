@@ -6,7 +6,7 @@ export default function LobbyMenu() {
   const [players, setPlayers] = useState([]);
 
   return (
-    <Panel>
+    <Panel width="500px" height="300px">
       Game id: {gameId} <button>Copy</button>
       <ul>
         {players.map((player, index) => {

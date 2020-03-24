@@ -29,7 +29,7 @@ export const GlobalProvider = ({ children }) => {
 
     return (
         <GlobalContext.Provider value={{
-            // This allows acces to global state and its actions from any component we request from useContext hook
+            // This allows access to global state and its actions from any component we request from useContext hook
             nickname: state.nickname,
             gameId: state.gameId,
             setNickname,
