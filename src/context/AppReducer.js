@@ -3,12 +3,12 @@ export default (state, action) => {
   switch (action.type) {
     case 'set_nickname':
       return {
-        //   ...state, <- To tak chyba musi być, żeby nie usunąć gameId, bo reducer zawsze nadpisuje stan, ale nie jestem pewien
+        ...state, 
         nickname: state.nickname
       };
     case 'set_gameId':
       return {
-          // ...state, <- j.w.
+        ...state,
         gameId: state.gameId
       };
     default:
