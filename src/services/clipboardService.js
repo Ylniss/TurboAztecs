@@ -1,8 +1,5 @@
 export function copyToClipboard(str) {
-   // Create new element
-   var el = document.createElement('textarea');
-
-   // Set value (string to be copied)
+   let el = document.createElement('textarea');
    el.value = str;
 
    // Set non-editable to avoid focus and move outside of view
@@ -15,8 +12,7 @@ export function copyToClipboard(str) {
 
    // Copy text to clipboard
    document.execCommand('copy');
-   
+
    // Remove temporary element
    document.body.removeChild(el);
-
 }

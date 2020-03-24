@@ -19,7 +19,12 @@ export default function Panel(props) {
     position: 'absolute',
     top: '50%',
     left: '50%',
-    transform: 'translate(-50%, -50%)'
+    transform: 'translate(-50%, -50%)',
+
+    //shadow
+    webkitBoxShadow: "3px 3px 5px 2px #111",
+    mozBoxShadow: "3px 3px 5px 2px #111",
+    boxShadow: "3px 3px 5px 2px #111"
   }
 
   return (
