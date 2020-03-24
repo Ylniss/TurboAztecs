@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Panel from './Panel';
 
-export default function Connect() {
+export default function ConnectMenu() {
   const [gameId, setGameId] = useState('');
 
   return (

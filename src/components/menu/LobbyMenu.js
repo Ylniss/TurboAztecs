@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Panel from './Panel';
 
-export default function Lobby() {
+export default function LobbyMenu() {
   const [gameId, setGameId] = useState('');
   const [players, setPlayers] = useState([]);
 

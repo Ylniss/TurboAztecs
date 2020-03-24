@@ -3,7 +3,7 @@ import Panel from './Panel';
 import { Link } from 'react-router-dom';
 import GlobalContext from '../../context/GlobalState';
 
-export default function Main() {
+export default function MainMenu() {
   const [nickname, setNickname] = useState('');
   // CR: To trza bedzie rozkminić czy jakiś hooks customowy jest potrzebny, żeby wywoływał ten setNickname z globalnego stanu czy jak
   // const { setNickname } = useContext(GlobalContext);

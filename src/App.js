@@ -1,21 +1,21 @@
 import React from 'react';
 import { MemoryRouter, Switch, Route } from 'react-router-dom';
-import Main from './components/menu/MainMenu';
-import Connect from './components/menu/ConnectMenu';
-import Lobby from './components/menu/LobbyMenu';
+import MainMenu from './components/menu/MainMenu';
+import ConnectMenu from './components/menu/ConnectMenu';
+import LobbyMenu from './components/menu/LobbyMenu';
 
 function App() {
   return (
     <MemoryRouter>
       <Switch>
         <Route exact path="/">
-          <Main />
+          <MainMenu />
         </Route>
         <Route path='/connect'>
-          <Connect />
+          <ConnectMenu />
         </Route>
         <Route path='/lobby'>
-          <Lobby />
+          <LobbyMenu />
         </Route>
       </Switch>  
     </MemoryRouter>
