@@ -4,7 +4,7 @@ import MainMenu from './components/menu/MainMenu';
 import ConnectMenu from './components/menu/ConnectMenu';
 import LobbyMenu from './components/menu/LobbyMenu';
 
-function App() {
+export default function App() {
   return (
     <MemoryRouter>
       <Switch>
@@ -21,5 +21,3 @@ function App() {
     </MemoryRouter>
   );
 }
-
-export default App;
