@@ -1,8 +1,8 @@
 import React from 'react';
 import { MemoryRouter, Switch, Route } from 'react-router-dom';
-import Main from './components/menu/Main';
-import Connect from './components/menu/Connect';
-import Lobby from './components/menu/Lobby';
+import Main from './components/menu/MainMenu';
+import Connect from './components/menu/ConnectMenu';
+import Lobby from './components/menu/LobbyMenu';
 
 function App() {
   return (

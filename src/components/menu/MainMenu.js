@@ -9,17 +9,15 @@ export default function Main() {
   // const { setNickname } = useContext(GlobalContext);
 
   return (
-    <>
-      <Panel width="500px" height="300px">
-        <label htmlFor="nickname">Nickname</label>
-        <input
-          type="text"
-          value={nickname}
-          onChange={e => setNickname(e.target.value)}
-        />
-        <Link to="/lobby">Create game</Link>
-        <Link to="/connect">Join game</Link>
-      </Panel>
-    </>
+    <Panel width="500px" height="300px">
+      <label htmlFor="nickname">Nickname</label>
+      <input
+        type="text"
+        value={nickname}
+        onChange={e => setNickname(e.target.value)}
+      />
+      <Link to="/lobby">Create game</Link>
+      <Link to="/connect">Join game</Link>
+    </Panel>
   );
 }
