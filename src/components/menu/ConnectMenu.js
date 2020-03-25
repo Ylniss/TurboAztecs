@@ -1,14 +1,11 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import Panel from './shared/Panel';
 import Row from './shared/Row';
+import '../../styles.css';
 
 export default function ConnectMenu() {
   const [gameId, setGameId] = useState('');
-
-  const connectStyle = {
-    display: 'flex',
-    justifyContent: 'center'
-  }
 
   return (
     <form>
@@ -23,7 +20,8 @@ export default function ConnectMenu() {
           </Row>
 
           <Row>
-            <div style={connectStyle}>
+            <div className="btn-row">
+              <Link to="/"><button className="btn-back">Back</button></Link>
               <button>Connect</button>
             </div>
           </Row> 

@@ -22,9 +22,9 @@ export default function Panel(props) {
     transform: 'translate(-50%, -50%)',
 
     //shadow
-    webkitBoxShadow: "3px 3px 5px 2px #111",
-    mozBoxShadow: "3px 3px 5px 2px #111",
-    boxShadow: "3px 3px 5px 2px #111"
+    WebkitBoxShadow: "3px 3px 5px 2px #111",
+    MozBoxShadow: "3px 3px 5px 2px #111",
+    BoxShadow: "3px 3px 5px 2px #111"
   }
 
   return (

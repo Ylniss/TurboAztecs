@@ -3,16 +3,12 @@ import Panel from './shared/Panel';
 import Row from './shared/Row';
 import { Link } from 'react-router-dom';
 import GlobalContext from '../../context/GlobalState';
+import '../../styles.css';
 
 export default function MainMenu() {
   const [nickname, setNickname] = useState('');
   // CR: To trza bedzie rozkminić czy jakiś hooks customowy jest potrzebny, żeby wywoływał ten setNickname z globalnego stanu czy jak
   // const { setNickname } = useContext(GlobalContext);
-
-  const buttonsStyle = {
-    display: 'flex',
-    justifyContent: 'space-between'
-  }
 
   return (
     <form>
@@ -27,7 +23,7 @@ export default function MainMenu() {
         </Row>
 
         <Row>
-          <div style={buttonsStyle}>
+          <div className='btn-row'>
             <Link to="/lobby"><button>Create</button></Link>
             <Link to="/connect"><button>Join</button></Link>     
           </div> 
