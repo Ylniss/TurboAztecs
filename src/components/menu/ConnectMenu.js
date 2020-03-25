@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import Panel from './shared/Panel';
 import Row from './shared/Row';
+import '../../styles.css';
 import { connect } from '../../services/connectionService';
 
 export default function ConnectMenu() {
@@ -28,7 +30,8 @@ export default function ConnectMenu() {
       </Row>
 
       <Row>
-        <div style={connectStyle}>
+        <div className="btn-row">
+          <Link to="/"><button className="btn-back">Back</button></Link>
           <button onClick={connect}>Connect</button>
         </div>
       </Row>

@@ -4,6 +4,7 @@ import Row from './shared/Row';
 import { Link } from 'react-router-dom';
 import { GlobalContext } from '../../context/GlobalState';
 import { createGame, joinGame } from '../../services/peerService';
+import '../../styles.css';
 
 export default function MainMenu() {
   const [nickname, setNickname] = useState('');
@@ -11,10 +12,6 @@ export default function MainMenu() {
   // const { setNickname } = useContext(GlobalContext);
   const { setGameId } = useContext(GlobalContext);
 
-  const buttonsStyle = {
-    display: 'flex',
-    justifyContent: 'space-between'
-  };
 
   const create = () => {
     let gameId = createGame();
@@ -34,7 +31,7 @@ export default function MainMenu() {
       </Row>
 
       <Row>
-        <div style={buttonsStyle}>
+        <div className='btn-row'>
           <Link to="/lobby">
             <button onClick={() => create()}>Create</button>
           </Link>

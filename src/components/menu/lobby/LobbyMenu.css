@@ -1,0 +1,28 @@
+.copy-icon {
+  margin-left: 12px;
+}
+
+.player-list {
+  width: 75%;
+}
+
+.game-id {
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.color-picker {
+  border: none;
+  border-radius: 3px;
+
+  width: 36px;
+  height: 36px;
+
+  transition: 0.2s;
+}
+
+.color-picker:hover {
+  -webkit-box-shadow: 0 0px 4px 0px #b8b8b8;
+  -moz-box-shadow: 0 0px 4px 0px  #b8b8b8;
+  box-shadow: 0 0px 4px 0px  #b8b8b8;
+}

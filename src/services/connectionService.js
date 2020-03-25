@@ -1,3 +1,3 @@
-export function connect(gameId) {
+export const connect = gameId => {
   console.log(gameId);
 }
