@@ -9,6 +9,8 @@ body {
   background-image: url('./assets/img/background.jpg');
   background-attachment: fixed;
   background-position: center;
+
+  color: #111111;
 }
 
 code {
@@ -36,9 +38,9 @@ input {
   border-radius: 5px;
   padding: 0 20px;
 
-  -webkit-box-shadow: 2px 2px 3px 2px #111;
-  -moz-box-shadow: 2px 2px 3px 2px #111;
-  box-shadow: 2px 2px 3px 2px #111;
+  -webkit-box-shadow: 2px 2px 4px 0px #111;
+  -moz-box-shadow: 2px 2px 4px 0px #111;
+  box-shadow: 2px 2px 4px 0px #111;
 }
 
 input:focus{
@@ -46,7 +48,7 @@ input:focus{
 }
 
 button {
-  background-color: #dac400;
+  background-color: #bd9d10;
 
   border:none;
   border-radius: 3px;
@@ -68,15 +70,42 @@ button {
 }
 
 button a {
-  color: #202020;
   text-decoration: none;
 }
 
+.btn-back {
+  background-color: #da0000;
+}
+
+.btn-row {
+ display: flex;
+ justify-content: space-between;
+}
+
 button:hover {
-  background-color: #e6d966;
-  font-size: 21px;
+  filter: brightness(150%);
 }
 
 button:focus{
   outline: none;
+}
+
+ul {
+  padding: 0;
+}
+
+li {
+  list-style-type: none;
+
+  display: flex;
+  justify-content: space-between;
+
+  border-bottom: #2b2b2b solid 1px;
+  border-radius: 2px;
+
+  margin-top: 16px;
+  padding-bottom: 2px;
+
+  font-size: 30px;
+  font-weight: 750;
 }
