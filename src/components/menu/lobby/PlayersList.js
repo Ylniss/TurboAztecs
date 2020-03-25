@@ -5,18 +5,22 @@ import './LobbyMenu.css';
 export default function PlayersList() {
   const playerTestInit = [ //remove later
     {
+      id: 1,
       nickname: "Bakenszeftwagen",
       color: "#ff0000"
     },
     {
-      nickname: "Zrodiasz420",
+      id: 2,
+      nickname: "Zordiasz420",
       color: "#00ff00"
     },
     {
+      id: 3,
       nickname: "Autism boiii",
       color: "#ffff00"
     },
     {
+      id: 4,
       nickname: "Bamboozlord",
       color: "#0000ff"
     }
@@ -40,9 +44,9 @@ export default function PlayersList() {
   return (
   <ul className="player-list">
     {
-      players.map((player, i) => {
+      players.map(player => {
         return( 
-          <li key={i}>
+          <li key={player.id}>
             {player.nickname} <ColorPicker startColor={player.color}/>
           </li>
         )
