@@ -12,11 +12,13 @@ export default function MainMenu() {
   // const { setNickname } = useContext(GlobalContext);
   const { setGameId } = useContext(GlobalContext);
 
-
-  const create = () => {
-    let gameId = createGame();
-    console.log(gameId);
-    setGameId(gameId);
+  const create = e => {
+    createGame().then((gameId) => {
+      console.log(gameId);
+      setGameId(gameId);
+    }, () => {
+      console.log('Something went wrong with generating game');
+    });
   }
 
   return (

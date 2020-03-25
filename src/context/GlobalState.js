@@ -17,14 +17,14 @@ export const GlobalProvider = ({ children }) => {
         dispatch({
             type: 'set_nickname',
             payload: nickname
-        })
+        });
     }
 
     function setGameId(gameId) {
         dispatch({
             type: 'set_gameId',
             payload: gameId
-        })
+        });
     }
 
     return (

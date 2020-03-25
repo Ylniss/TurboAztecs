@@ -5,13 +5,13 @@ export default (state, action) => {
       return {
         ...state, 
         nickname: state.nickname
-      };
+      }
     case 'set_gameId':
       return {
         ...state,
         gameId: state.gameId
-      };
+      }
     default:
       return state;
   }
-};
+}
