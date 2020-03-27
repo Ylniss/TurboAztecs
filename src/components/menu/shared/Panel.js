@@ -1,15 +1,15 @@
 import React from 'react'
 import PropTypes from "prop-types";
 
-export default function Panel(props) {
-  
+export default function Panel({ children, width, height }) {
+
   const panelStyle = {
     background: '#383838',
     border: 'none',
     padding: '30px',
     borderRadius: '10px',
-    width: props.width,
-    height: props.height,
+    width: width,
+    height: height,
 
     display: 'flex',
     flexDirection: 'column',
@@ -29,7 +29,7 @@ export default function Panel(props) {
 
   return (
     <div style={panelStyle}>
-      {props.children}
+      {children}
     </div>
   )
 }

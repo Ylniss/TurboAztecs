@@ -13,7 +13,7 @@ export default function LobbyMenu() {
 
   return (
     <Panel width="600px" height="400px">
-      <Row size='1' direction='row'>
+      <Row size='1' itemsDirection='row'>
         <div className="game-id">Game ID:{' ' + gameId}</div>
         <img className="copy-icon"
           src={copyIcon}
