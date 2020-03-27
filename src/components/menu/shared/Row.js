@@ -1,9 +1,9 @@
 import React from 'react'
 
-export default function Row({ children, size, direction }) {
+export default function Row({ children, size, itemsDirection }) {
   const rowStyle = {
     display: 'flex',
-    flexDirection: direction === 'row' ? 'row' : 'column',
+    flexDirection: itemsDirection === 'row' ? 'row' : 'column',
     flex: size
   }
 
