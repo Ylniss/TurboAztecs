@@ -1,15 +1,20 @@
 // Reducer specifies state changes logic
 export default (state, action) => {
   switch (action.type) {
-    case 'set_nickname':
+    case 'SET_NICKNAME':
       return {
         ...state, 
-        nickname: state.nickname
+        nickname: action.payload
       }
-    case 'set_gameId':
+    case 'SET_HOSTPEER':
       return {
         ...state,
-        gameId: state.gameId
+        hostPeer: action.payload
+      }
+    case 'ADD_PLAYER':
+      return {
+        ...state,
+        players: [...state.players, action.payload]
       }
     default:
       return state;

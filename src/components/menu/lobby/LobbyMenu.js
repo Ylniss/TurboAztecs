@@ -1,24 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import copyIcon from './copy-icon.svg';
 import { copyToClipboard } from '../../../services/clipboardService.js';
 import Panel from '../shared/Panel';
 import Row from '../shared/Row';
 import PlayersList from './PlayersList';
+import { GlobalContext } from '../../../context/GlobalState.js';
 import './LobbyMenu.css';
 
 export default function LobbyMenu() {
-  const [gameId, setGameId] = useState('sdgwergerg34rf43'); //temporary init value for tests
-
+  // const [gameId, setGameId] = useState('sdgwergerg34rf43'); //temporary init value for tests
+  const { hostPeer, players } = useContext(GlobalContext);
 
   return (
     <Panel width="600px" height="400px">
       <Row size='1' direction='row'>
-        <div className="game-id">Game ID:{' ' + gameId}</div>
+        <div className="game-id">Game ID:{' ' + hostPeer.id}</div>
         <img className="copy-icon"
           src={copyIcon}
           width='25' height='25'
-          onClick={copyToClipboard(gameId)}
+          onClick={copyToClipboard(hostPeer.id)}
           alt="copy"
         />
       </Row>

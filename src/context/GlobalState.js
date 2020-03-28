@@ -3,7 +3,9 @@ import AppReducer from './AppReducer';
 
 const initialState = {
     nickname: '',
-    gameId: ''
+    hostPeer: {},
+    players: [],
+    availableColors: ["#ff0000", "#00ff00", "#ffff00", "#0000ff"]
 }
 
 export const GlobalContext = createContext(initialState);
@@ -12,18 +14,25 @@ export const GlobalContext = createContext(initialState);
 export const GlobalProvider = ({ children }) => {
     const [state, dispatch] = useReducer(AppReducer, initialState);
 
-    // Actions
+    // Action dispatchers
     function setNickname(nickname) {
         dispatch({
-            type: 'set_nickname',
+            type: 'SET_NICKNAME',
             payload: nickname
         });
     }
 
-    function setGameId(gameId) {
+    function setHostPeer(hostPeer) {
         dispatch({
-            type: 'set_gameId',
-            payload: gameId
+            type: 'SET_HOSTPEER',
+            payload: hostPeer
+        });
+    }
+
+    function addPlayer(player) {
+        dispatch({
+            type: 'ADD_PLAYER',
+            payload: player
         });
     }
 
@@ -31,9 +40,12 @@ export const GlobalProvider = ({ children }) => {
         <GlobalContext.Provider value={{
             // This allows acces to global state and its actions from any component we request from useContext hook
             nickname: state.nickname,
-            gameId: state.gameId,
+            hostPeer: state.hostPeer,
+            players: state.players,
+            availableColors: state.availableColors,
             setNickname,
-            setGameId
+            setHostPeer,
+            addPlayer
         }}>
             { children }
         </GlobalContext.Provider>

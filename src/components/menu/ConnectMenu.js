@@ -1,21 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import Panel from './shared/Panel';
 import Row from './shared/Row';
 import '../../styles.css';
 import { connect } from '../../services/connectionService';
+import { createPlayerPeer } from '../../services/peerService';
+import { GlobalContext } from '../../context/GlobalState';
+import { getNext } from '../../services/arrayHelper';
 
 export default function ConnectMenu() {
   const [gameId, setGameId] = useState('');
+  const { availableColors, hostPeer, nickname, addPlayer } = useContext(GlobalContext)
 
   const connectStyle = {
     display: 'flex',
     justifyContent: 'center'
   };
 
-  const connect = (e) => {
-    e.preventDefault();
-    connect(gameId);
+  const connect = () => {
+    createPlayerPeer((peer) => {
+      addPlayer({ peer, nickname,  });
+      connect(gameId);
+    });
   }
 
   return (
@@ -32,7 +38,7 @@ export default function ConnectMenu() {
       <Row>
         <div className="btn-row">
           <Link to="/"><button className="btn-back">Back</button></Link>
-          <button onClick={connect}>Connect</button>
+          <Link to="/lobby"><button onClick={connect}>Connect</button></Link>
         </div>
       </Row>
     </Panel>
