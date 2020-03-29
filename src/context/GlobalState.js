@@ -8,22 +8,22 @@ const initialState = {
         {
           id: 1,
           nickname: "Bakenszeftwagen",
-          color: "#ff0000"
+          color: "#47cf31"
         },
         {
           id: 2,
           nickname: "Zordiasz420",
-          color: "#00ff00"
+          color: "#0c81f2"
         },
         {
           id: 3,
           nickname: "Autism boiii",
-          color: "#ffff00"
+          color: "#d2952b"
         },
         {
           id: 4,
           nickname: "Bamboozlord",
-          color: "#0000ff"
+          color: "#808080"
         }
     ]
 }
@@ -54,7 +54,7 @@ export const GlobalProvider = ({ children }) => {
             // This allows acces to global state and its actions from any component we request from useContext hook
             nickname: state.nickname,
             gameId: state.gameId,
-            players: state.players, // todo: add addPlayer, removePlayer action dispatchers and actions i reducer
+            players: state.players, // todo: add addPlayer, removePlayer action dispatchers and actions in reducer
             setNickname,
             setGameId
         }}>

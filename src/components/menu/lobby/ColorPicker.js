@@ -2,14 +2,14 @@ import React, { useState } from 'react';
 import './LobbyMenu.css';
 import { getNext } from '../../../services/arrayHelper.js';
 
-const availableColors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00'];
+const availableColors = ['#47cf31', '#0c81f2', '#d2952b', '#808080'];
 
-export default function ColorPicker({startColor}) {
+export default function ColorPicker({ startColor }) {
   startColor = startColor ? startColor : availableColors[0];
 
   //todo: color has to be send via peerjs to other clients
   const [color, setColor] = useState(startColor);
-  
+
   const colorPickerStyle = {
     backgroundColor: color
   }
@@ -19,7 +19,7 @@ export default function ColorPicker({startColor}) {
   }
 
   return (
-    <div className='color-picker' 
+    <div className='color-picker'
       style={colorPickerStyle}
       onClick={changeColor}>
     </div>

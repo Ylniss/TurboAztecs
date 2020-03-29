@@ -1,0 +1,31 @@
+.green-panel {
+  position: absolute;
+  height: 27.245%;
+
+  top: 1.5%;
+  left: 0.75%;
+}
+
+.blue-panel {
+  position: absolute;
+  height: 27.245%;
+
+  top: 71.25%;
+  left: 0.75%;
+}
+
+.brown-panel {
+  position: absolute;
+  height: 27.245%;
+
+  top: 1.5%;
+  left: 76.05%;
+}
+
+.grey-panel {
+  position: absolute;
+  height: 27.245%;
+
+  top: 71.25%;
+  left: 76.05%;
+}

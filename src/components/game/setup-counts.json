@@ -1,0 +1,32 @@
+{
+  "tiles": [
+    {
+      "name": "crossing-tile.png",
+      "count": 23
+    },
+    {
+      "name": "t-crossing-tile.png",
+      "count": 26
+    },
+    {
+      "name": "turn-tile",
+      "count": 28
+    },
+    {
+      "name": "straight-tile",
+      "count": 28
+    }
+  ],
+
+  "items": [
+    {
+      "name": "diamond.png",
+      "count": 1
+    },
+    {
+      "name": "amulet.png",
+      "count": 4
+    }
+
+  ]
+}

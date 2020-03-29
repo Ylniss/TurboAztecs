@@ -1,0 +1,60 @@
+.table {
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  position: fixed;
+  left:0px;
+  top:0px;
+
+  width:100%;
+  height:100%;
+
+  max-width:100%;
+  max-height:100%;
+}
+
+.board {
+  /* center */
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  height:100%;
+}
+
+.tile {
+  /* center - so much duplication, use scss and its inheritance*/
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  height:13%;
+}
+
+.item {
+  /* center - so much duplication, use scss and its inheritance*/
+  position: absolute;
+  top: 800px;
+  left: 1400px;
+
+  height:7.5%;
+}
+
+.diamond {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  height:12%;
+}
+
+.shadow {
+  -webkit-box-shadow: 0 0px 4px 0px #111;
+  -moz-box-shadow: 0 0px 4px 0px  #111;
+  box-shadow: 0 0px 4px 0px  #111;
+}
