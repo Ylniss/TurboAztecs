@@ -8,8 +8,23 @@ export default (state, action) => {
       };
     case 'set_gameId':
       return {
-          // ...state, <- j.w.
+        // ...state, <- j.w.
         gameId: state.gameId
+      };
+    case 'SET_Z_POSITIONS':
+      return {
+        ...state,
+        zPositions: state.zPositions
+      };
+    case 'ADD_GAMEOBJECT':
+      return {
+        ...state,
+        gameObjects: [...state.gameObjects, action.payload]
+      };
+    case 'UPDATE_GAMEOBJECT':
+      return {
+        ...state,
+        gameObjects: state.gameObjects.map(gameObj => gameObj.id === action.payload.id ? action.payload : gameObj)
       };
     default:
       return state;

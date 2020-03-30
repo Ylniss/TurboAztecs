@@ -1,11 +1,11 @@
 {
   "tiles": [
     {
-      "name": "crossing-tile.png",
+      "name": "crossing-tile",
       "count": 23
     },
     {
-      "name": "t-crossing-tile.png",
+      "name": "t-crossing-tile",
       "count": 26
     },
     {
@@ -20,11 +20,11 @@
 
   "items": [
     {
-      "name": "diamond.png",
-      "count": 1
+      "name": "barrel",
+      "count": 4
     },
     {
-      "name": "amulet.png",
+      "name": "amulet",
       "count": 4
     }
 

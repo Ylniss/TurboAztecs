@@ -6,26 +6,32 @@ const initialState = {
     gameId: '',
     players: [
         {
-          id: 1,
-          nickname: "Bakenszeftwagen",
-          color: "#47cf31"
+            id: 1,
+            nickname: "Bakenszeftwagen",
+            color: "#47cf31"
         },
         {
-          id: 2,
-          nickname: "Zordiasz420",
-          color: "#0c81f2"
+            id: 2,
+            nickname: "Zordiasz420",
+            color: "#0c81f2"
         },
         {
-          id: 3,
-          nickname: "Autism boiii",
-          color: "#d2952b"
+            id: 3,
+            nickname: "Autism boiii",
+            color: "#d2952b"
         },
         {
-          id: 4,
-          nickname: "Bamboozlord",
-          color: "#808080"
+            id: 4,
+            nickname: "Bamboozlord",
+            color: "#808080"
         }
-    ]
+    ],
+    zPositions: [ //needed for layering objects on screen properly
+        { type: 'diamond', z: 100000 },
+        { type: 'item', z: 50000 },
+        { type: 'tile', z: 0 }
+    ],
+    gameObjects: []
 }
 
 export const GlobalContext = createContext(initialState);
@@ -49,16 +55,50 @@ export const GlobalProvider = ({ children }) => {
         })
     }
 
+    function setZPositions(zPositions) {
+        dispatch({
+            type: 'SET_Z_POSITIONS',
+            payload: zPositions
+        })
+    }
+
+    function addGameObject(gameObject) {
+        dispatch({
+            type: 'ADD_GAMEOBJECT',
+            payload: gameObject
+        })
+    }
+
+    function removeGameObject(id) {
+        dispatch({
+            type: 'REMOVE_GAMEOBJECT',
+            payload: id
+        })
+    }
+
+    function updateGameObject(gameObject) {
+        dispatch({
+            type: 'UPDATE_GAMEOBJECT',
+            payload: gameObject
+        })
+    }
+
     return (
         <GlobalContext.Provider value={{
             // This allows acces to global state and its actions from any component we request from useContext hook
             nickname: state.nickname,
             gameId: state.gameId,
             players: state.players, // todo: add addPlayer, removePlayer action dispatchers and actions in reducer
+            zPositions: state.zPositions,
+            gameObjects: state.gameObjects,
             setNickname,
-            setGameId
+            setGameId,
+            setZPositions,
+            addGameObject,
+            removeGameObject,
+            updateGameObject
         }}>
-            { children }
+            {children}
         </GlobalContext.Provider>
     )
 }

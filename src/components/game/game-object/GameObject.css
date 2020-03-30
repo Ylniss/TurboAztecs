@@ -1,0 +1,14 @@
+.tile {
+  position: relative;
+  height: 124px;
+}
+
+.item {
+  position: relative;
+  height: 71px;
+}
+
+.diamond {
+  position: relative;
+  height: 90px;
+}

@@ -1,37 +1,37 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
+import { GlobalContext } from '../../../context/GlobalState';
 import { PlayerPanels } from '../player-panels/PlayerPanels';
+import { useSpawner } from '../spawner';
 import './Table.css';
 
 import tableImage from '../../../assets/img/table/table.jpg';
 import boardImage from '../../../assets/img/table/board.jpg';
 
-import { tiles, items } from '../setup-counts.json';
-
-const importGameObjectImages = () => {
-  const req = require.context('../../../assets/img/game-objects', false, /\.(png|jpe?g|svg)$/)
-
-  let images = {};
-  req.keys().map(item => { images[item.replace('./', '')] = req(item); });
-
-  return images;
-}
+import { GameObject } from '../game-object/GameObject';
 
 export const Table = () => {
-  console.log(tiles);
-  console.log(items);
+  const { gameObjects } = useContext(GlobalContext)
+  const [spawn] = useSpawner();
 
-  const images = importGameObjectImages();
+  useEffect(() => {
+    spawn('diamond', 915, 440);
+    spawn('crossing-tile', 808, 423);
+    spawn('barrel', 890, 423);
+    spawn('heart', 908, 483);
+  }, []);
 
   return (
     <>
-      <img className='table' src={tableImage} alt='table' />
-      <img className='board shadow' src={boardImage} alt='board' />
+      <img className='table' draggable="false" src={tableImage} alt='table' />
+      <img className='board shadow-around' draggable="false" src={boardImage} alt='board' />
 
       <PlayerPanels />
 
-      <img className='tile shadow' src={images[tiles[0].name]} alt='tile' />
-      <img className='item diamond' src={images[items[0].name]} alt='item' />
-      <img className='item shadow' src={images[items[1].name]} alt='item' />
+      {
+        gameObjects.map(gameObj =>
+          <GameObject key={gameObj.id} gameObjectInit={gameObj} />
+        )
+      }
     </>
   )
 }
