@@ -14,14 +14,14 @@ export default (state, action) => {
     case 'SET_Z_POSITIONS':
       return {
         ...state,
-        zPositions: state.zPositions
+        zPositions: action.payload
       };
     case 'ADD_GAMEOBJECT':
       return {
         ...state,
         gameObjects: [...state.gameObjects, action.payload]
       };
-    case 'UPDATE_GAMEOBJECT':
+    case 'UPDATE_GAMEOBJECTS':
       return {
         ...state,
         gameObjects: state.gameObjects.map(gameObj => gameObj.id === action.payload.id ? action.payload : gameObj)

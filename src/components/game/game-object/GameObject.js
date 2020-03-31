@@ -3,60 +3,52 @@ import { GlobalContext } from '../../../context/GlobalState';
 import Draggable from 'react-draggable';
 import './GameObject.css';
 
-const importGameObjectImages = () => { //todo: better to move it outside so its not called every time when game object is re rendered....
-  const req = require.context('../../../assets/img/game-objects', false, /\.(png|jpe?g|svg)$/)
+export const GameObject = ({ gameObjectInit, images }) => {
 
-  let images = {};
-  req.keys().map(item => { images[item.replace('./', '')] = req(item); });
-
-  return images;
-}
-
-export const GameObject = ({ gameObjectInit }) => {
-
-  const { zPositions, updateGameObject, setZPositions } = useContext(GlobalContext);
-
+  const { zPositions, updateGameObjects, setZPositions } = useContext(GlobalContext);
   const [gameObject, setGameObject] = useState(gameObjectInit);
 
-  const getCurrentZPostition = () => {
+  const getGlobalZPostition = () => {
     return zPositions.filter(x => x.type === gameObject.type)[0].z;
   }
 
-  useEffect(() => {
-    gameObject.z = getCurrentZPostition();
+  // update gameObject only with this function
+  const update = (setProps) => {
+    setProps();
     setGameObject(gameObject);
+    updateGameObjects(gameObject);
+    console.log(`${gameObject.name} (${gameObject.id}) updated!`);
+  }
+
+  // on init
+  useEffect(() => {
+    update(() => gameObject.z = getGlobalZPostition());
+    console.log(`${gameObject.name} (${gameObject.id}) rendered!`);
   }, []);
 
-  console.log(`${gameObject.name} (${gameObject.id}) rendered!`);
-
-  // todo: changing of gameobject in global state of all game objects
-  // and there on every action trigger send updated state to ALL peers
   const onDragStart = () => {
-    let zPosition = getCurrentZPostition();
-    //setZPositions(zPositions.map(x => x.type === gameObject.type )); //todo: to ogarnac
-    gameObject.z = ++zPosition;
-    setGameObject(gameObject);
-    console.log(gameObject.name + ' ' + gameObject.x + ' ' + gameObject.y + ' ' + gameObject.z);
-    updateGameObject(gameObject);
-    
+    let zPosition = getGlobalZPostition();  
+    update(() => gameObject.z = ++zPosition);
+    setZPositions(zPositions.map(item => item.type === gameObject.type ? {type: item.type, z: zPosition} : item));   
+    console.log(gameObject.name + ' X: ' + gameObject.x + ' Y: ' + gameObject.y + ' Z: ' + gameObject.z);
   }
 
   const onDrag = (position) => {
-    gameObject.x = position.x;
-    gameObject.y = position.y;
-    setGameObject(gameObject);
-    updateGameObject(gameObject);
-    console.log(gameObject.name + ' ' + gameObject.x + ' ' + gameObject.y + ' ' + gameObject.z);
+    update(() => {
+      gameObject.x = position.x;
+      gameObject.y = position.y;
+    });
+    console.log(gameObject.name + ' X: ' + gameObject.x + ' Y: ' + gameObject.y + ' Z: ' + gameObject.z);
   }
 
   const onDragEnd = () => {
 
   }
 
-  const images = importGameObjectImages();
   return (
       <Draggable
         handle={`.${gameObject.type}`}
+        bounds=".table"
         defaultPosition={{x: gameObject.x, y: gameObject.y}}
         position={null}
         onStart={onDragStart}

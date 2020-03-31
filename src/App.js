@@ -26,6 +26,5 @@ export default function App() {
         </Switch>  
       </MemoryRouter>
     </GlobalProvider>
-
   );
 }

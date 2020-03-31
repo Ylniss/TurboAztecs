@@ -76,9 +76,9 @@ export const GlobalProvider = ({ children }) => {
         })
     }
 
-    function updateGameObject(gameObject) {
+    function updateGameObjects(gameObject) {
         dispatch({
-            type: 'UPDATE_GAMEOBJECT',
+            type: 'UPDATE_GAMEOBJECTS',
             payload: gameObject
         })
     }
@@ -96,7 +96,7 @@ export const GlobalProvider = ({ children }) => {
             setZPositions,
             addGameObject,
             removeGameObject,
-            updateGameObject
+            updateGameObjects
         }}>
             {children}
         </GlobalContext.Provider>
