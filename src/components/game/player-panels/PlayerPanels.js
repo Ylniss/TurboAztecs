@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { GlobalContext } from '../../../context/GlobalState';
+import { useWindowSize } from '../../../hooks/windowSize'
 
 import './PlayerPanels.css';
 
@@ -10,6 +11,11 @@ import greyPlayerPanel from '../../../assets/img/table/grey-panel.png';
 
 export const PlayerPanels = () => {
   const { players } = useContext(GlobalContext);
+  const [windowWidth, windowHeight] = useWindowSize();
+
+  const panelStyle = {
+    height: windowHeight
+  }
 
   const getPlayerPanel = (color) => {
     //todo: get colors from available colors globalstate after merge

@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { GlobalContext } from '../../../context/GlobalState';
 import Draggable from 'react-draggable';
-import './GameObject.css';
 
 export const GameObject = ({ gameObjectInit, images }) => {
 
@@ -16,6 +15,7 @@ export const GameObject = ({ gameObjectInit, images }) => {
   const update = (setProps) => {
     setProps();
     setGameObject(gameObject);
+    // todo: recount aspect ratio before updating gameObjects
     updateGameObjects(gameObject);
     console.log(`${gameObject.name} (${gameObject.id}) updated!`);
   }
@@ -27,9 +27,9 @@ export const GameObject = ({ gameObjectInit, images }) => {
   }, []);
 
   const onDragStart = () => {
-    let zPosition = getGlobalZPostition();  
+    let zPosition = getGlobalZPostition();
     update(() => gameObject.z = ++zPosition);
-    setZPositions(zPositions.map(item => item.type === gameObject.type ? {type: item.type, z: zPosition} : item));   
+    setZPositions(zPositions.map(item => item.type === gameObject.type ? { type: item.type, z: zPosition } : item));
     console.log(gameObject.name + ' X: ' + gameObject.x + ' Y: ' + gameObject.y + ' Z: ' + gameObject.z);
   }
 
@@ -46,21 +46,27 @@ export const GameObject = ({ gameObjectInit, images }) => {
   }
 
   return (
-      <Draggable
-        handle={`.${gameObject.type}`}
-        bounds=".table"
-        defaultPosition={{x: gameObject.x, y: gameObject.y}}
-        position={null}
-        onStart={onDragStart}
-        onDrag={onDrag}
-        onStop={onDragEnd}>
-          <img 
-            className={gameObject.type !== 'diamond' ? gameObject.type + ' shadow-around' : gameObject.type}
-            style={{zIndex: gameObject.z}}
-            draggable="false"
-            src={images[gameObject.name + '.png']}
-            alt={gameObject.name} 
-          />
-      </Draggable>
+    <Draggable
+      bounds='.table'
+      defaultPosition={{ x: gameObject.x, y: gameObject.y }} //todo: it should take recalculated x and y for user browser size
+      position={null}
+      onStart={onDragStart}
+      onDrag={onDrag}
+      onStop={onDragEnd}
+      >
+        
+      <img
+        className={gameObject.type !== 'diamond' ? 'shadow-around' : ''}
+        style={{
+          position: 'relative',
+          zIndex: gameObject.z,
+          height: gameObject.height,
+          transform: `rotate(${gameObject.turn * 90}deg)`
+        }}
+        draggable='false'
+        src={images[gameObject.name + '.png']}
+        alt={gameObject.name}
+      />
+    </Draggable>
   )
 }

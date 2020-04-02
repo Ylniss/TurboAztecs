@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { GlobalContext } from '../../context/GlobalState';
+import { GlobalContext } from '../context/GlobalState';
 import { v4 as uuidv4 } from 'uuid';
 
 export const useSpawner = () => {
@@ -70,7 +70,7 @@ export const useSpawner = () => {
       height,
       turnable: isTurnable(name),
       flippable: isFlippable(name),
-      turn: 0,
+      turn: 1,
       flipped: false
     })
   }
