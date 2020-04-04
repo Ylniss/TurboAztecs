@@ -17,10 +17,10 @@ export const Table = () => {
   const [spawn] = useSpawner();
 
   useEffect(() => {
-    // spawn('diamond', 915, 440);
-    // spawn('crossing-tile', 808, 423);
-    // spawn('barrel', 890, 423);
-    // spawn('heart', 908, 483);
+    spawn('diamond', 915, 440);
+    spawn('crossing-tile', 808, 423);
+    spawn('barrel', 890, 423);
+    spawn('heart', 908, 483);
   }, []);
 
   return (

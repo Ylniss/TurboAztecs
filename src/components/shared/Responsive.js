@@ -3,37 +3,33 @@ import { useWindowSize } from '../../hooks/windowSize'
 
 export const Responsive = ({ children }) => {
 
-  const [width, height] = useWindowSize();
+  const [windowWidth, windowHeight] = useWindowSize();
   const [aspectRatio] = useState(9 / 16);
 
-  const [marginTop, setMarginTop] = useState();
-  const [scale, setScale] = useState(1);
-  const [translateY, setTranslateY] = useState(0);
+  const [width, setWidth] = useState(0);
+  const [height, setHeight] = useState(0);
 
   useEffect(() => {
-    const ratio = height / width;
-    const margin = (ratio - 0.5) / 2 * 100;
-
-    if (margin < 0) setMarginTop(0);
-    else setMarginTop(margin);
-
-    if (ratio < 0.5) {
-      setScale(ratio * 2);
-      setTranslateY(-25 / ratio + 50);
+    const ratio = windowHeight / windowWidth;
+    if (ratio < aspectRatio) {
+      setHeight(windowHeight);
+      setWidth(1 / aspectRatio * windowHeight);
     } else {
-      setScale(1);
-      setTranslateY(0);
+      setWidth(windowWidth);
+      setHeight(aspectRatio * windowWidth);
     }
-    console.log(`${width}x${height}  -  ${ratio}  -  ${translateY}`);
-  }, [width, height]);
 
+  }, [windowWidth, windowHeight]);
+
+  console.log(`${windowWidth}x${windowHeight}  -  ratio:${windowHeight / windowWidth}  -  w:${width}  -  h:${height}`);
   return (
     <div style={{
       position: 'relative',
-      marginTop: `${marginTop}%`,
       width,
-      height: width * aspectRatio,
-      transform: `scale(${scale}) translate(0, ${translateY}%)`
+      height,
+      top: '50vh',
+      left: '50%',
+      transform: 'translate(-50%, -50%)'
     }}>
       {children}
     </div>

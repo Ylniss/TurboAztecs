@@ -15,12 +15,10 @@ export const GameObject = ({ gameObjectInit, images }) => {
   const update = (setProps) => {
     setProps();
     setGameObject(gameObject);
-    // todo: recount aspect ratio before updating gameObjects
     updateGameObjects(gameObject);
     console.log(`${gameObject.name} (${gameObject.id}) updated!`);
   }
 
-  // on init
   useEffect(() => {
     update(() => gameObject.z = getGlobalZPostition());
     console.log(`${gameObject.name} (${gameObject.id}) rendered!`);
@@ -48,25 +46,25 @@ export const GameObject = ({ gameObjectInit, images }) => {
   return (
     <Draggable
       bounds='.table'
-      defaultPosition={{ x: gameObject.x, y: gameObject.y }} //todo: it should take recalculated x and y for user browser size
+      defaultPosition={{ x: gameObject.x, y: gameObject.y }}
       position={null}
       onStart={onDragStart}
       onDrag={onDrag}
       onStop={onDragEnd}
-      >
-        
-      <img
-        className={gameObject.type !== 'diamond' ? 'shadow-around' : ''}
-        style={{
-          position: 'relative',
-          zIndex: gameObject.z,
-          height: gameObject.height,
-          transform: `rotate(${gameObject.turn * 90}deg)`
-        }}
-        draggable='false'
-        src={images[gameObject.name + '.png']}
-        alt={gameObject.name}
-      />
+    >
+      <div style={{ position: 'absolute', zIndex: gameObject.z, height: gameObject.height, width: gameObject.width }}>
+        <img
+          className={gameObject.type !== 'diamond' ? 'shadow-around' : ''}
+          style={{
+            height: gameObject.height,
+            transform: `rotate(${gameObject.turn * 90}deg)`
+          }}
+          draggable='false'
+          src={images[gameObject.name + '.png']}
+          alt={gameObject.name}
+        />
+      </div>
+
     </Draggable>
   )
 }
