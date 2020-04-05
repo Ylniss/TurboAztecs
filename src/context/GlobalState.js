@@ -27,7 +27,8 @@ const initialState = {
         }
     ],
     zPositions: [ //needed for layering objects on screen properly
-        { type: 'diamond', z: 100000 },
+        { type: 'diamond', z: 150000 },
+        { type: 'pawn', z: 100000 },
         { type: 'item', z: 50000 },
         { type: 'tile', z: 0 }
     ],

@@ -15,6 +15,13 @@ export const useSpawner = () => {
       case 'turn-tile':
       case 'straight-tile':
         return 'tile';
+      case 'green-pawn':
+      case 'blue-pawn':
+      case 'brown-pawn':
+      case 'grey-pawn':
+        return 'pawn';
+      case 'overlay':
+        return 'overlay';
       default:
         return 'item';
     }
@@ -23,31 +30,34 @@ export const useSpawner = () => {
   const getSize = (type) => {
     switch (type) {
       case 'diamond':
-        return { width: 90, height: 90 };
+        return 8.4;
       case 'tile':
-        return { width: 124, height: 124 };
+        return 12;
       case 'item':
-        return { width: 71, height: 71 };
+        return 6.4;
+      case 'pawn':
+        return 8;
       default:
         return null;
     }
   }
 
-  const isTurnable = (name) => {
-    switch (name) {
+  const isTurnable = (type) => {
+    switch (type) {
       case 'diamond':
       case 'item:':
-      case 'pawn': //todo: add pawns
+      case 'pawn':
+      case 'overlay':
         return false;
       default:
         return true;
     }
   }
 
-  const isFlippable = (name) => {
-    switch (name) {
+  const isFlippable = (type) => {
+    switch (type) {
       case 'diamond':
-      case 'pawn': //todo: add pawns
+      case 'pawn':
       case 'overlay': //todo: add overlays
         return false;
       default:
@@ -55,22 +65,19 @@ export const useSpawner = () => {
     }
   }
 
-  const spawn = (name, x, y) => {
-    
-    const type = getType(name);
-    const { width, height } = getSize(type);
+  const spawn = (name, x, y, turn = 0) => {
 
+    const type = getType(name);
     addGameObject({
       id: uuidv4(),
       type,
       name,
       x,
       y,
-      width,
-      height,
-      turnable: isTurnable(name),
-      flippable: isFlippable(name),
-      turn: 1,
+      size: getSize(type),
+      turnable: isTurnable(type),
+      flippable: isFlippable(type),
+      turn,
       flipped: false
     })
   }
@@ -79,5 +86,5 @@ export const useSpawner = () => {
     //todo
   }
 
-  return [spawn, spawnRandom];
+  return { spawn, spawnRandom };
 }

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { GlobalContext } from '../../../context/GlobalState';
-import Draggable from 'react-draggable';
+import { Draggable } from '../draggable/Draggable';
 
 export const GameObject = ({ gameObjectInit, images }) => {
 
@@ -43,28 +43,34 @@ export const GameObject = ({ gameObjectInit, images }) => {
 
   }
 
+  const getShadowEffectStyle = type => {
+    switch (type) {
+      case 'diamond':
+      case 'pawn':
+        return ''
+      default: return 'shadow-around'
+    }
+  }
+
   return (
     <Draggable
-      bounds='.table'
-      defaultPosition={{ x: gameObject.x, y: gameObject.y }}
-      position={null}
+      startPosition={{ x: gameObject.x, y: gameObject.y }}
       onStart={onDragStart}
       onDrag={onDrag}
       onStop={onDragEnd}
     >
-      <div style={{ position: 'absolute', zIndex: gameObject.z, height: gameObject.height, width: gameObject.width }}>
-        <img
-          className={gameObject.type !== 'diamond' ? 'shadow-around' : ''}
-          style={{
-            height: gameObject.height,
-            transform: `rotate(${gameObject.turn * 90}deg)`
-          }}
-          draggable='false'
-          src={images[gameObject.name + '.png']}
-          alt={gameObject.name}
-        />
-      </div>
-
+      <img
+        className={getShadowEffectStyle(gameObject.type)}
+        style={{
+          position: 'absolute',
+          zIndex: gameObject.z,
+          height: `${gameObject.size}%`,
+          transform: `rotate(${gameObject.turn * 90}deg)`
+        }}
+        draggable='false'
+        src={images[gameObject.name + '.png']}
+        alt={gameObject.name}
+      />
     </Draggable>
   )
 }
