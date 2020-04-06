@@ -3,9 +3,11 @@ import AppReducer from './AppReducer';
 
 const initialState = {
     nickname: '',
-    hostPeer: {},
+    hostPeer: '',
     players: [],
-    availableColors: ["#ff0000", "#00ff00", "#ffff00", "#0000ff"]
+    availableColors: ["#ff0000", "#00ff00", "#ffff00", "#0000ff"],
+    hostConnections: [],
+    clientConnection: {}
 }
 
 export const GlobalContext = createContext(initialState);
@@ -24,7 +26,7 @@ export const GlobalProvider = ({ children }) => {
 
     function setHostPeer(hostPeer) {
         dispatch({
-            type: 'SET_HOSTPEER',
+            type: 'SET_HOSTPEERID',
             payload: hostPeer
         });
     }
@@ -36,6 +38,35 @@ export const GlobalProvider = ({ children }) => {
         });
     }
 
+    function clearPlayers() {
+        dispatch({
+            type: 'CLEAR_PLAYERS'
+        });
+    }
+
+    function setPlayers(players) {
+        dispatch({
+            type: 'SET_PLAYERS',
+            payload: players
+        });
+    }
+
+    function addHostConnection(connection) {
+        dispatch({
+            type: 'ADD_HOST_CONNECTION',
+            payload: connection
+        });
+    }
+
+    function setClientConnection(connection) {
+        dispatch({
+            type: 'SET_CLIENT_CONNECTION',
+            payload: connection
+        });
+    }
+
+    // TODO deleteConnection, deletePlayer (wyjebac clearPlayers)
+
     return (
         <GlobalContext.Provider value={{
             // This allows acces to global state and its actions from any component we request from useContext hook
@@ -43,9 +74,15 @@ export const GlobalProvider = ({ children }) => {
             hostPeer: state.hostPeer,
             players: state.players,
             availableColors: state.availableColors,
+            hostConnections: state.hostConnections,
+            clientConnection: state.clientConnection,
             setNickname,
             setHostPeer,
-            addPlayer
+            addPlayer,
+            clearPlayers,
+            setPlayers,
+            addHostConnection,
+            setClientConnection
         }}>
             { children }
         </GlobalContext.Provider>
