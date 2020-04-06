@@ -1,8 +1,7 @@
-import React from 'react'
-import PropTypes from "prop-types";
+import React from 'react';
+import PropTypes from 'prop-types';
 
 export default function Panel({ children, width, height }) {
-
   const panelStyle = {
     background: '#383838',
     border: 'none',
@@ -22,19 +21,15 @@ export default function Panel({ children, width, height }) {
     transform: 'translate(-50%, -50%)',
 
     //shadow
-    WebkitBoxShadow: "3px 3px 5px 2px #111",
-    MozBoxShadow: "3px 3px 5px 2px #111",
-    BoxShadow: "3px 3px 5px 2px #111"
-  }
+    WebkitBoxShadow: '3px 3px 5px 2px #111',
+    MozBoxShadow: '3px 3px 5px 2px #111',
+    BoxShadow: '3px 3px 5px 2px #111',
+  };
 
-  return (
-    <div style={panelStyle}>
-      {children}
-    </div>
-  )
+  return <div style={panelStyle}>{children}</div>;
 }
 
 Panel.propTypes = {
   width: PropTypes.string.isRequired,
-  height: PropTypes.string.isRequired
-}
+  height: PropTypes.string.isRequired,
+};

@@ -2,63 +2,82 @@ import React, { createContext, useReducer } from 'react';
 import AppReducer from './AppReducer';
 
 const initialState = {
-    nickname: '',
-    gameId: '',
-    players: [
-        {
-          id: 1,
-          nickname: "Bakenszeftwagen",
-          color: "#ff0000"
-        },
-        {
-          id: 2,
-          nickname: "Zordiasz420",
-          color: "#00ff00"
-        },
-        {
-          id: 3,
-          nickname: "Autism boiii",
-          color: "#ffff00"
-        },
-        {
-          id: 4,
-          nickname: "Bamboozlord",
-          color: "#0000ff"
-        }
-    ]
-}
+  nickname: '',
+  players: [],
+  availableColors: ['#ff0000', '#00ff00', '#ffff00', '#0000ff'],
+  hostConnections: [],
+  clientConnection: {},
+};
 
 export const GlobalContext = createContext(initialState);
 
 // Provider component provides actions for other components to use
 export const GlobalProvider = ({ children }) => {
-    const [state, dispatch] = useReducer(AppReducer, initialState);
+  const [state, dispatch] = useReducer(AppReducer, initialState);
 
-    // Actions
-    function setNickname(nickname) {
-        dispatch({
-            type: 'set_nickname',
-            payload: nickname
-        })
-    }
+  // Action dispatchers
+  function setNickname(nickname) {
+    dispatch({
+      type: 'SET_NICKNAME',
+      payload: nickname,
+    });
+  }
 
-    function setGameId(gameId) {
-        dispatch({
-            type: 'set_gameId',
-            payload: gameId
-        })
-    }
+  function addPlayer(player) {
+    dispatch({
+      type: 'ADD_PLAYER',
+      payload: player,
+    });
+  }
 
-    return (
-        <GlobalContext.Provider value={{
-            // This allows acces to global state and its actions from any component we request from useContext hook
-            nickname: state.nickname,
-            gameId: state.gameId,
-            players: state.players, // todo: add addPlayer, removePlayer action dispatchers and actions i reducer
-            setNickname,
-            setGameId
-        }}>
-            { children }
-        </GlobalContext.Provider>
-    )
-}
+  function clearPlayers() {
+    dispatch({
+      type: 'CLEAR_PLAYERS',
+    });
+  }
+
+  function setPlayers(players) {
+    dispatch({
+      type: 'SET_PLAYERS',
+      payload: players,
+    });
+  }
+
+  function addHostConnection(connection) {
+    dispatch({
+      type: 'ADD_HOST_CONNECTION',
+      payload: connection,
+    });
+  }
+
+  function setClientConnection(connection) {
+    dispatch({
+      type: 'SET_CLIENT_CONNECTION',
+      payload: connection,
+    });
+  }
+
+  // TODO deleteConnection, deletePlayer (wyjebac clearPlayers)
+
+  return (
+    <GlobalContext.Provider
+      value={{
+        // This allows acces to global state and its actions from any component we request from useContext hook
+        nickname: state.nickname,
+        hostPeer: state.hostPeer,
+        players: state.players,
+        availableColors: state.availableColors,
+        hostConnections: state.hostConnections,
+        clientConnection: state.clientConnection,
+        setNickname,
+        addPlayer,
+        clearPlayers,
+        setPlayers,
+        addHostConnection,
+        setClientConnection,
+      }}
+    >
+      {children}
+    </GlobalContext.Provider>
+  );
+};
