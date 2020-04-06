@@ -9,8 +9,8 @@ export default function PlayersList() {
   const { sendMessage } = usePeerMessenger();
 
   useEffect(() => {
-    hostConnections.forEach((conn) => {
-      sendMessage(conn, 'players', players);
+    hostConnections.forEach((connection) => {
+      sendMessage(connection, 'players', players);
     });
   }, [players]);
 

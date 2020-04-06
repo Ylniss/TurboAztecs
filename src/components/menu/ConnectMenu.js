@@ -27,7 +27,7 @@ export default function ConnectMenu() {
   };
 
   const createPlayer = () => {
-    return new Promise((resolve, reject) => {
+    return new Promise(() => {
       createPlayerPeer().then((playerPeer) => {
         let player = {
           peerId: playerPeer.id,
@@ -35,11 +35,13 @@ export default function ConnectMenu() {
           color: availableColors[0],
         };
         addPlayer(player);
-        connectToHost(playerPeer, hostPeerId.current.value).then((conn) => {
-          setClientConnection(conn);
-          sendMessage(conn, 'player', player); // conn, bo setX jest async
-          history.push('/lobby', { hostPeerId: hostPeerId.current.value });
-        });
+        connectToHost(playerPeer, hostPeerId.current.value).then(
+          (connection) => {
+            setClientConnection(connection);
+            sendMessage(connection, 'player', player);
+            history.push('/lobby', { hostPeerId: hostPeerId.current.value });
+          }
+        );
       });
     });
   };

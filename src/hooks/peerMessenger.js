@@ -12,7 +12,7 @@ export const usePeerMessenger = () => {
     console.log(message);
 
     connection.send(message);
-  }
+  };
 
   const receiveMessage = (message) => {
     switch (message.type) {
@@ -32,7 +32,7 @@ export const usePeerMessenger = () => {
         console.log(`Unknown message: ${message}`);
         break;
     }
-  }
+  };
 
-  return { sendMessage, receiveMessage }
-}
+  return { sendMessage, receiveMessage };
+};

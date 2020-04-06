@@ -1,17 +1,13 @@
 import Peer from 'peerjs';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { usePeerMessenger } from './peerMessenger';
 
 export const useClientPeer = () => {
   const [peer, setPeer] = useState();
   const { receiveMessage } = usePeerMessenger();
-  const isInitialMount = useRef(true);
 
   useEffect(() => {
-    if (isInitialMount.current) {
-      // stinky shit
-      isInitialMount.current = false;
-    } else {
+    if (peer) {
       peer.on('disconnected', () => {
         console.log(`${peer.id} disconnected`);
         peer.destroy();
@@ -30,9 +26,9 @@ export const useClientPeer = () => {
     }
   }, [peer]);
 
-  const createPlayerPeer = (hostId, addPlayer) => {
+  const createPlayerPeer = () => {
     return new Promise((resolve, reject) => {
-      let playerPeer = new Peer(null, { key: 'peerjs', debug: 2 });
+      const playerPeer = new Peer(null, { key: 'peerjs', debug: 2 });
 
       playerPeer.on('open', (id) => {
         console.log(`Opened peer with id: ${id}`);
@@ -50,20 +46,20 @@ export const useClientPeer = () => {
 
   const connectToHost = (peer, hostId) => {
     return new Promise((resolve, reject) => {
-      const conn = peer.connect(hostId, { serialization: 'json' });
+      const connection = peer.connect(hostId, { serialization: 'json' });
 
-      conn.on('open', () => {
+      connection.on('open', () => {
         console.log(`Connected to: ${conn.peer}`);
 
-        conn.on('data', (data) => {
+        connection.on('data', (data) => {
           console.log('Player received data: ');
           console.log(data);
 
           receiveMessage(data);
         });
 
-        if (conn) {
-          resolve(conn);
+        if (connection) {
+          resolve(connection);
         } else {
           console.log('Error occured on connection');
           reject();

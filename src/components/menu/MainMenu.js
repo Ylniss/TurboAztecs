@@ -9,11 +9,13 @@ import { useAsync } from '../../hooks/async';
 import { Loader } from './shared/Loader';
 
 export default function MainMenu() {
-  const { nickname, setNickname, availableColors, addPlayer, setHostPeer } = useContext(GlobalContext);
+  const { nickname, setNickname, availableColors, addPlayer } = useContext(
+    GlobalContext
+  );
   const { createHostPeer } = useHostPeer();
   const history = useHistory();
 
-  const onCreate = e => {
+  const onCreate = (e) => {
     e.preventDefault();
     execute();
   };
@@ -24,14 +26,13 @@ export default function MainMenu() {
         let host = {
           peerId: hostPeer.id,
           nickname,
-          color: availableColors[0]
+          color: availableColors[0],
         };
         addPlayer(host);
-        setHostPeer(hostPeer);
         history.push('/lobby', { hostPeerId: hostPeer.id });
       });
     });
-  }
+  };
 
   const { execute, pending } = useAsync(createHost, false);
 
@@ -46,7 +47,7 @@ export default function MainMenu() {
           <input
             type="text"
             value={nickname}
-            onChange={e => setNickname(e.target.value)}
+            onChange={(e) => setNickname(e.target.value)}
           />
         </Row>
 

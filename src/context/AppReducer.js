@@ -6,11 +6,6 @@ export default (state, action) => {
         ...state,
         nickname: action.payload,
       };
-    case 'SET_HOSTPEER':
-      return {
-        ...state,
-        hostPeer: action.payload,
-      };
     case 'ADD_PLAYER':
       return {
         ...state,
