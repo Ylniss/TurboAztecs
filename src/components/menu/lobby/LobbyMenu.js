@@ -28,10 +28,9 @@ export default function LobbyMenu() {
 
   return (
     <Panel width="600px" height="400px">
-      <Row size="1" direction="row">
+      <Row size='1' itemsDirection='row'>
         <div className="game-id">Game ID:{' ' + hostPeerId}</div>
-        <img
-          className="copy-icon"
+        <img className="copy-icon"
           src={copyIcon}
           width="25"
           height="25"

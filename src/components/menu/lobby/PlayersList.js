@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react';
+import { GlobalContext } from '../../../context/GlobalState';
 import ColorPicker from './ColorPicker';
 import './LobbyMenu.css';
-import { GlobalContext } from '../../../context/GlobalState';
 import { usePeerMessenger } from '../../../hooks/peerMessenger';
 
 export default function PlayersList() {
