@@ -10,7 +10,7 @@ export const useAsync = (asyncFunction, immediate = true) => {
   // useCallback ensures the below useEffect is not called
   // on every render, but only if asyncFunction changes.
   const execute = useCallback(() => {
-    setPending(true); 
+    setPending(true);
     setValue(null);
     setError(null);
     return asyncFunction()

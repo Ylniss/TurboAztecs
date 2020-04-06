@@ -14,7 +14,7 @@ export const usePeerMessenger = () => {
     connection.send(message);
   };
 
-  const receiveMessage = (message) => {
+  const receiveMessage = message => {
     switch (message.type) {
       case 'player':
         addPlayer(message.data);

@@ -9,20 +9,18 @@ import { useAsync } from '../../hooks/async';
 import { Loader } from './shared/Loader';
 
 export default function MainMenu() {
-  const { nickname, setNickname, availableColors, addPlayer } = useContext(
-    GlobalContext
-  );
+  const { nickname, setNickname, availableColors, addPlayer } = useContext(GlobalContext);
   const { createHostPeer } = useHostPeer();
   const history = useHistory();
 
-  const onCreate = (e) => {
+  const onCreate = e => {
     e.preventDefault();
     execute();
   };
 
   const createHost = () => {
     return new Promise((resolve, reject) => {
-      createHostPeer().then((hostPeer) => {
+      createHostPeer().then(hostPeer => {
         let host = {
           peerId: hostPeer.id,
           nickname,
@@ -41,22 +39,18 @@ export default function MainMenu() {
       {/* It works because in JavaScript, true && expression always evaluates to expression, and false && expression always evaluates to false. */}
       <div>{pending && <Loader />}</div>
 
-      <Panel width="500px" height="300px">
-        <Row size="1">
-          <label htmlFor="nickname">Nickname</label>
-          <input
-            type="text"
-            value={nickname}
-            onChange={(e) => setNickname(e.target.value)}
-          />
+      <Panel width='500px' height='300px'>
+        <Row size='1'>
+          <label htmlFor='nickname'>Nickname</label>
+          <input type='text' value={nickname} onChange={e => setNickname(e.target.value)} />
         </Row>
 
         <Row>
-          <div className="btn-row">
-            <Link to="/lobby">
+          <div className='btn-row'>
+            <Link to='/lobby'>
               <button onClick={onCreate}>Create</button>
             </Link>
-            <Link to="/connect">
+            <Link to='/connect'>
               <button>Join</button>
             </Link>
           </div>

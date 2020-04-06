@@ -9,14 +9,14 @@ export default function PlayersList() {
   const { sendMessage } = usePeerMessenger();
 
   useEffect(() => {
-    hostConnections.forEach((connection) => {
+    hostConnections.forEach(connection => {
       sendMessage(connection, 'players', players);
     });
   }, [players]);
 
   return (
-    <ul className="player-list">
-      {players.map((player) => {
+    <ul className='player-list'>
+      {players.map(player => {
         return (
           <li key={player.peerId}>
             {player.nickname} <ColorPicker startColor={player.color} />

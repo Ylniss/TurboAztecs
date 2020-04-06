@@ -27,31 +27,31 @@ export default function LobbyMenu() {
   };
 
   return (
-    <Panel width="600px" height="400px">
-      <Row size="1" itemsDirection="row">
-        <div className="game-id">Game ID:{' ' + hostPeerId}</div>
+    <Panel width='600px' height='400px'>
+      <Row size='1' itemsDirection='row'>
+        <div className='game-id'>Game ID:{' ' + hostPeerId}</div>
         <img
-          className="copy-icon"
+          className='copy-icon'
           src={copyIcon}
-          width="25"
-          height="25"
+          width='25'
+          height='25'
           onClick={copyToClipboard(hostPeerId)}
-          alt="copy"
+          alt='copy'
         />
       </Row>
 
-      <Row size="8.5">
+      <Row size='8.5'>
         <PlayersList />
       </Row>
 
       <Row>
-        <div className="btn-row">
-          <Link to="/">
-            <button className="btn-back" onClick={onBack}>
+        <div className='btn-row'>
+          <Link to='/'>
+            <button className='btn-back' onClick={onBack}>
               Back
             </button>
           </Link>
-          <Link to="/game">
+          <Link to='/game'>
             <button>Start</button>
           </Link>
         </div>

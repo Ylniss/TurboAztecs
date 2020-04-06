@@ -18,7 +18,7 @@ export const useClientPeer = () => {
         peer.destroy();
       });
 
-      peer.on('error', (error) => {
+      peer.on('error', error => {
         console.log(error);
       });
 
@@ -30,7 +30,7 @@ export const useClientPeer = () => {
     return new Promise((resolve, reject) => {
       const playerPeer = new Peer(null, { key: 'peerjs', debug: 2 });
 
-      playerPeer.on('open', (id) => {
+      playerPeer.on('open', id => {
         console.log(`Opened peer with id: ${id}`);
         setPeer(playerPeer);
 
@@ -49,9 +49,9 @@ export const useClientPeer = () => {
       const connection = peer.connect(hostId, { serialization: 'json' });
 
       connection.on('open', () => {
-        console.log(`Connected to: ${conn.peer}`);
+        console.log(`Connected to: ${connection.peer}`);
 
-        connection.on('data', (data) => {
+        connection.on('data', data => {
           console.log('Player received data: ');
           console.log(data);
 

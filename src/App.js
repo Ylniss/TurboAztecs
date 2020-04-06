@@ -11,16 +11,16 @@ export default function App() {
     <GlobalProvider>
       <MemoryRouter>
         <Switch>
-          <Route exact path="/">
+          <Route exact path='/'>
             <MainMenu />
           </Route>
-          <Route path="/connect">
+          <Route path='/connect'>
             <ConnectMenu />
           </Route>
-          <Route path="/lobby">
+          <Route path='/lobby'>
             <LobbyMenu />
           </Route>
-          <Route path="/game">
+          <Route path='/game'>
             <Table />
           </Route>
         </Switch>

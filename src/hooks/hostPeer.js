@@ -13,11 +13,11 @@ export const useHostPeer = () => {
   useEffect(() => {
     if (peer) {
       // stinky shit
-      peer.on('connection', (connection) => {
+      peer.on('connection', connection => {
         console.log(`Host Connected to: ${connection.peer}`);
         addHostConnection(connection);
 
-        connection.on('data', (data) => {
+        connection.on('data', data => {
           console.log('Host received data: ');
           console.log(data);
 
@@ -35,7 +35,7 @@ export const useHostPeer = () => {
         peer.destroy();
       });
 
-      peer.on('error', (error) => {
+      peer.on('error', error => {
         console.log(error);
       });
 
@@ -47,7 +47,7 @@ export const useHostPeer = () => {
     return new Promise((resolve, reject) => {
       const hostPeer = new Peer(null, { key: 'peerjs', debug: 2 });
 
-      hostPeer.on('open', (id) => {
+      hostPeer.on('open', id => {
         console.log(`Opened peer with id: ${id}`);
         setPeer(hostPeer);
 
@@ -61,7 +61,7 @@ export const useHostPeer = () => {
     });
   };
 
-  const clearConnections = (peer) => {
+  const clearConnections = peer => {
     peer.destroy();
   };
 
