@@ -4,14 +4,14 @@ import MainMenu from './components/menu/MainMenu';
 import ConnectMenu from './components/menu/ConnectMenu';
 import LobbyMenu from './components/menu/lobby/LobbyMenu';
 import { Table } from './components/game/table/Table';
-import { GlobalProvider } from './context/GlobalState'
+import { GlobalProvider } from './context/GlobalState';
 
 export default function App() {
   return (
     <GlobalProvider>
       <MemoryRouter>
         <Switch>
-          <Route exact path="/">
+          <Route exact path='/'>
             <MainMenu />
           </Route>
           <Route path='/connect'>
@@ -23,7 +23,7 @@ export default function App() {
           <Route path='/game'>
             <Table />
           </Route>
-        </Switch>  
+        </Switch>
       </MemoryRouter>
     </GlobalProvider>
   );

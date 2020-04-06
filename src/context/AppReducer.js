@@ -4,27 +4,29 @@ export default (state, action) => {
     case 'set_nickname':
       return {
         //   ...state, <- To tak chyba musi być, żeby nie usunąć gameId, bo reducer zawsze nadpisuje stan, ale nie jestem pewien
-        nickname: state.nickname
+        nickname: state.nickname,
       };
     case 'set_gameId':
       return {
         // ...state, <- j.w.
-        gameId: state.gameId
+        gameId: state.gameId,
       };
     case 'SET_Z_POSITIONS':
       return {
         ...state,
-        zPositions: action.payload
+        zPositions: action.payload,
       };
     case 'ADD_GAMEOBJECT':
       return {
         ...state,
-        gameObjects: [...state.gameObjects, action.payload]
+        gameObjects: [...state.gameObjects, action.payload],
       };
     case 'UPDATE_GAMEOBJECTS':
       return {
         ...state,
-        gameObjects: state.gameObjects.map(gameObj => gameObj.id === action.payload.id ? action.payload : gameObj)
+        gameObjects: state.gameObjects.map(gameObj =>
+          gameObj.id === action.payload.id ? action.payload : gameObj
+        ),
       };
     default:
       return state;

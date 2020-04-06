@@ -3,10 +3,9 @@ import { GlobalContext } from '../context/GlobalState';
 import { v4 as uuidv4 } from 'uuid';
 
 export const useSpawner = () => {
-
   const { addGameObject } = useContext(GlobalContext);
 
-  const getType = (name) => {
+  const getType = name => {
     switch (name) {
       case 'diamond':
         return 'diamond';
@@ -25,9 +24,9 @@ export const useSpawner = () => {
       default:
         return 'item';
     }
-  }
+  };
 
-  const getSize = (type) => {
+  const getSize = type => {
     switch (type) {
       case 'diamond':
         return 8.4;
@@ -40,9 +39,9 @@ export const useSpawner = () => {
       default:
         return null;
     }
-  }
+  };
 
-  const isTurnable = (type) => {
+  const isTurnable = type => {
     switch (type) {
       case 'diamond':
       case 'item:':
@@ -52,9 +51,9 @@ export const useSpawner = () => {
       default:
         return true;
     }
-  }
+  };
 
-  const isFlippable = (type) => {
+  const isFlippable = type => {
     switch (type) {
       case 'diamond':
       case 'pawn':
@@ -63,10 +62,9 @@ export const useSpawner = () => {
       default:
         return true;
     }
-  }
+  };
 
   const spawn = (name, x, y, turn = 0) => {
-
     const type = getType(name);
     addGameObject({
       id: uuidv4(),
@@ -78,13 +76,13 @@ export const useSpawner = () => {
       turnable: isTurnable(type),
       flippable: isFlippable(type),
       turn,
-      flipped: false
-    })
-  }
+      flipped: false,
+    });
+  };
 
   const spawnRandom = () => {
     //todo
-  }
+  };
 
   return { spawn, spawnRandom };
-}
+};

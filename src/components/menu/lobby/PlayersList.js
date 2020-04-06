@@ -7,16 +7,14 @@ export default function PlayersList() {
   const { players } = useContext(GlobalContext);
 
   return (
-    <ul className="player-list">
-      {
-        players.map(player => {
-          return (
-            <li key={player.id}>
-              {player.nickname} <ColorPicker startColor={player.color} />
-            </li>
-          )
-        })
-      }
+    <ul className='player-list'>
+      {players.map(player => {
+        return (
+          <li key={player.id}>
+            {player.nickname} <ColorPicker startColor={player.color} />
+          </li>
+        );
+      })}
     </ul>
-  )
+  );
 }

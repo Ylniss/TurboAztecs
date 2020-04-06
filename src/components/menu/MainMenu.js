@@ -12,21 +12,21 @@ export default function MainMenu() {
 
   return (
     <form>
-      <Panel width="500px" height="300px">
+      <Panel width='500px' height='300px'>
         <Row size='1'>
-          <label htmlFor="nickname">Nickname</label>
-          <input
-            type="text"
-            value={nickname}
-            onChange={e => setNickname(e.target.value)}
-          />
+          <label htmlFor='nickname'>Nickname</label>
+          <input type='text' value={nickname} onChange={e => setNickname(e.target.value)} />
         </Row>
 
         <Row>
           <div className='btn-row'>
-            <Link to="/lobby"><button>Create</button></Link>
-            <Link to="/connect"><button>Join</button></Link>     
-          </div> 
+            <Link to='/lobby'>
+              <button>Create</button>
+            </Link>
+            <Link to='/connect'>
+              <button>Join</button>
+            </Link>
+          </div>
         </Row>
       </Panel>
     </form>

@@ -11,17 +11,12 @@ export default function ColorPicker({ startColor }) {
   const [color, setColor] = useState(startColor);
 
   const colorPickerStyle = {
-    backgroundColor: color
-  }
+    backgroundColor: color,
+  };
 
   const changeColor = () => {
     setColor(getNext(availableColors, color));
-  }
+  };
 
-  return (
-    <div className='color-picker'
-      style={colorPickerStyle}
-      onClick={changeColor}>
-    </div>
-  )
+  return <div className='color-picker' style={colorPickerStyle} onClick={changeColor}></div>;
 }

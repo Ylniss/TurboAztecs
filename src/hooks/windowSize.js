@@ -6,7 +6,7 @@ export const useWindowSize = () => {
   useLayoutEffect(() => {
     const updateSize = () => {
       setSize([window.innerWidth, window.innerHeight]);
-    }
+    };
 
     window.addEventListener('resize', updateSize);
     updateSize();
@@ -15,4 +15,4 @@ export const useWindowSize = () => {
   }, []);
 
   return size;
-}
+};

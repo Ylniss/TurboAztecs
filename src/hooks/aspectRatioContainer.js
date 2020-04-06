@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
-import { useWindowSize } from './windowSize'
+import { useWindowSize } from './windowSize';
 
-export const useAspectRatioContainer = (aspectRatio) => {
-
+export const useAspectRatioContainer = aspectRatio => {
   const [windowWidth, windowHeight] = useWindowSize();
 
   const [width, setWidth] = useState(0);
@@ -12,13 +11,12 @@ export const useAspectRatioContainer = (aspectRatio) => {
     const ratio = windowHeight / windowWidth;
     if (ratio < aspectRatio) {
       setHeight(windowHeight);
-      setWidth(1 / aspectRatio * windowHeight);
+      setWidth((1 / aspectRatio) * windowHeight);
     } else {
       setWidth(windowWidth);
       setHeight(aspectRatio * windowWidth);
     }
-
   }, [windowWidth, windowHeight, aspectRatio]);
 
-  return [ width, height ];
-}
+  return [width, height];
+};

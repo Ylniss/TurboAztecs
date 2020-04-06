@@ -10,27 +10,32 @@ import './LobbyMenu.css';
 export default function LobbyMenu() {
   const [gameId, setGameId] = useState('sdgwergerg34rf43'); //temporary init value for tests
 
-
   return (
-    <Panel width="600px" height="400px">
+    <Panel width='600px' height='400px'>
       <Row size='1' itemsDirection='row'>
-        <div className="game-id">Game ID:{' ' + gameId}</div>
-        <img className="copy-icon"
+        <div className='game-id'>Game ID:{' ' + gameId}</div>
+        <img
+          className='copy-icon'
           src={copyIcon}
-          width='25' height='25'
+          width='25'
+          height='25'
           onClick={copyToClipboard(gameId)}
-          alt="copy"
+          alt='copy'
         />
       </Row>
-      
+
       <Row size='8.5'>
         <PlayersList />
       </Row>
 
       <Row>
-        <div className="btn-row">
-          <Link to="/"><button className="btn-back">Back</button></Link>
-          <Link to="/game"><button>Start</button></Link>
+        <div className='btn-row'>
+          <Link to='/'>
+            <button className='btn-back'>Back</button>
+          </Link>
+          <Link to='/game'>
+            <button>Start</button>
+          </Link>
         </div>
       </Row>
     </Panel>
