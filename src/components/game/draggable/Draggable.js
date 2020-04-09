@@ -3,10 +3,7 @@ import { useAspectRatioContainer } from '../../../hooks/aspectRatioContainer';
 
 export const Draggable = ({ children, startPosition, onStart, onDrag, onStop }) => {
   const [width, height] = useAspectRatioContainer(9 / 16);
-  const [{ x, y }, setPosition] = useState({
-    x: startPosition.x,
-    y: startPosition.y,
-  });
+  const [{ x, y }, setPosition] = useState(startPosition);
   const relX = useRef(0);
   const relY = useRef(0);
   const elementRef = useRef(null);

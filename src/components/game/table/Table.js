@@ -13,12 +13,12 @@ export const Table = () => {
   const { gameObjects, players } = useContext(GlobalContext);
 
   const images = useImages();
-  const { getPlayerPanel, spawnDiamond, spawnPlayer } = useTableSettuper();
+  const { getPlayerPanel, spawnDiamondWithTile, spawnPlayerWithTile } = useTableSettuper();
 
   useEffect(() => {
-    spawnDiamond();
+    spawnDiamondWithTile();
     players.forEach(player => {
-      spawnPlayer(player.color);
+      spawnPlayerWithTile(player.color);
     });
   }, []);
 
@@ -31,7 +31,7 @@ export const Table = () => {
         {players.map(player => getPlayerPanel(player.color))}
 
         {gameObjects.map(gameObj => (
-          <GameObject key={gameObj.id} gameObjectInit={gameObj} images={images} />
+          <GameObject key={gameObj.id + gameObj.x} gameObject={gameObj} images={images} />
         ))}
       </Responsive>
     </>

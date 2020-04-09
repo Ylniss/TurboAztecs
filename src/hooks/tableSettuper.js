@@ -66,12 +66,12 @@ export const useTableSettuper = () => {
     }
   };
 
-  const spawnDiamond = () => {
-    spawn('crossing-tile', 46.7, 44);
-    spawn('diamond', 47.7, 45.7);
+  const spawnDiamondWithTile = () => {
+    const diamondId = spawn('diamond', 47.7, 45.7);
+    spawn('crossing-tile', 46.7, 44, 0, [diamondId]);
   };
 
-  const spawnPlayer = color => {
+  const spawnPlayerWithTile = color => {
     switch (color) {
       case '#47cf31':
         spawn('turn-tile', 31.8, 17.9, 2);
@@ -95,5 +95,5 @@ export const useTableSettuper = () => {
     }
   };
 
-  return { getPlayerPanel, spawnDiamond, spawnPlayer };
+  return { getPlayerPanel, spawnDiamondWithTile, spawnPlayerWithTile };
 };

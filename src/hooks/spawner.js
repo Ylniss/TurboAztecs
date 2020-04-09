@@ -41,6 +41,27 @@ export const useSpawner = () => {
     }
   };
 
+  const getImgExtension = type => {
+    switch (type) {
+      case 'diamond':
+      case 'pawn':
+        return '.png';
+      default:
+        return '.jpg';
+    }
+  };
+
+  const getCollisionBox = (type, x, y) => {
+    switch (type) {
+      case 'diamond':
+        return { x, y, width: 5.4, height: 5.4 };
+      case 'overlay':
+        return { x, y, width: 2, height: 9 };
+      default:
+        return { x, y, width: getSize(type), height: getSize(type) };
+    }
+  };
+
   const isTurnable = type => {
     switch (type) {
       case 'diamond':
@@ -64,20 +85,26 @@ export const useSpawner = () => {
     }
   };
 
-  const spawn = (name, x, y, turn = 0) => {
+  const spawn = (name, x, y, turn = 0, childrenIds = []) => {
     const type = getType(name);
+    const id = uuidv4();
     addGameObject({
-      id: uuidv4(),
+      id,
       type,
       name,
       x,
       y,
       size: getSize(type),
+      collisionBox: getCollisionBox(type, x, y),
       turnable: isTurnable(type),
       flippable: isFlippable(type),
       turn,
       flipped: false,
+      imgExtension: getImgExtension(type),
+      childrenIds,
     });
+
+    return id;
   };
 
   const spawnRandom = () => {
