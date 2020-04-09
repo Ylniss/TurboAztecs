@@ -4,28 +4,6 @@ import AppReducer from './AppReducer';
 const initialState = {
   nickname: '',
   gameId: '',
-  players: [
-    {
-      id: 1,
-      nickname: 'Bakenszeftwagen',
-      color: '#47cf31',
-    },
-    {
-      id: 2,
-      nickname: 'Zordiasz420',
-      color: '#0c81f2',
-    },
-    {
-      id: 3,
-      nickname: 'Autism boiii',
-      color: '#d2952b',
-    },
-    {
-      id: 4,
-      nickname: 'Bamboozlord',
-      color: '#808080',
-    },
-  ],
   zPositions: [
     //needed for layering objects on screen properly
     { type: 'diamond', z: 150000 },
@@ -34,6 +12,10 @@ const initialState = {
     { type: 'tile', z: 0 },
   ],
   gameObjects: [],
+  players: [],
+  availableColors: ['#47cf31', '#0c81f2', '#d2952b', '#808080'],
+  hostConnections: [],
+  clientConnection: {},
 };
 
 export const GlobalContext = createContext(initialState);
@@ -42,18 +24,11 @@ export const GlobalContext = createContext(initialState);
 export const GlobalProvider = ({ children }) => {
   const [state, dispatch] = useReducer(AppReducer, initialState);
 
-  // Actions
+  // Action dispatchers
   function setNickname(nickname) {
     dispatch({
-      type: 'set_nickname',
+      type: 'SET_NICKNAME',
       payload: nickname,
-    });
-  }
-
-  function setGameId(gameId) {
-    dispatch({
-      type: 'set_gameId',
-      payload: gameId,
     });
   }
 
@@ -85,17 +60,59 @@ export const GlobalProvider = ({ children }) => {
     });
   }
 
+  function addPlayer(player) {
+    dispatch({
+      type: 'ADD_PLAYER',
+      payload: player,
+    });
+  }
+
+  function clearPlayers() {
+    dispatch({
+      type: 'CLEAR_PLAYERS',
+    });
+  }
+
+  function setPlayers(players) {
+    dispatch({
+      type: 'SET_PLAYERS',
+      payload: players,
+    });
+  }
+
+  function addHostConnection(connection) {
+    dispatch({
+      type: 'ADD_HOST_CONNECTION',
+      payload: connection,
+    });
+  }
+
+  function setClientConnection(connection) {
+    dispatch({
+      type: 'SET_CLIENT_CONNECTION',
+      payload: connection,
+    });
+  }
+
+  // TODO deleteConnection, deletePlayer (wyjebac clearPlayers)
+
   return (
     <GlobalContext.Provider
       value={{
         // This allows acces to global state and its actions from any component we request from useContext hook
         nickname: state.nickname,
-        gameId: state.gameId,
-        players: state.players, // todo: add addPlayer, removePlayer action dispatchers and actions in reducer
+        hostPeer: state.hostPeer,
+        players: state.players,
         zPositions: state.zPositions,
-        gameObjects: state.gameObjects,
+        availableColors: state.availableColors,
+        hostConnections: state.hostConnections,
+        clientConnection: state.clientConnection,
         setNickname,
-        setGameId,
+        addPlayer,
+        clearPlayers,
+        setPlayers,
+        addHostConnection,
+        setClientConnection,
         setZPositions,
         addGameObject,
         removeGameObject,
