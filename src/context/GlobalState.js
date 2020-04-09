@@ -104,6 +104,7 @@ export const GlobalProvider = ({ children }) => {
         hostPeer: state.hostPeer,
         players: state.players,
         zPositions: state.zPositions,
+        gameObjects: state.gameObjects,
         availableColors: state.availableColors,
         hostConnections: state.hostConnections,
         clientConnection: state.clientConnection,
