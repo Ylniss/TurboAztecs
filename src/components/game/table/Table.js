@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useRef } from 'react';
 import { GlobalContext } from '../../../context/GlobalState';
 import { Responsive } from '../../shared/Responsive';
 import { GameObject } from '../game-object/GameObject';
@@ -10,7 +10,7 @@ import tableImage from '../../../assets/img/table/table.jpg';
 import boardImage from '../../../assets/img/table/board.jpg';
 
 export const Table = () => {
-  const { gameObjects, players } = useContext(GlobalContext);
+  const { players, gameObjects } = useContext(GlobalContext);
 
   const images = useImages();
   const { getPlayerPanel, spawnDiamondWithTile, spawnPlayerWithTile } = useTableSettuper();
@@ -30,8 +30,8 @@ export const Table = () => {
 
         {players.map(player => getPlayerPanel(player.color))}
 
-        {gameObjects.map(gameObj => (
-          <GameObject key={gameObj.id + gameObj.x} gameObject={gameObj} images={images} />
+        {Object.keys(gameObjects).map(key => (
+          <GameObject key={key + gameObjects[key].x} id={key} gameObjects={gameObjects} images={images} />
         ))}
       </Responsive>
     </>

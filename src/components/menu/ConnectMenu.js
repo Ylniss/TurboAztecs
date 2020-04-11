@@ -15,35 +15,26 @@ export default function ConnectMenu() {
   const hostPeerId = useRef();
   const history = useHistory();
   const { sendMessage } = usePeerMessenger();
+  const { execute, pending } = useAsync(createPlayer, false);
 
   const onConnect = e => {
     e.preventDefault();
     execute();
   };
 
-  const createPlayer = () => {
-    return new Promise(() => {
-      createPlayerPeer().then(playerPeer => {
-        let player = {
-          peerId: playerPeer.id,
-          nickname,
-          color: availableColors[0],
-        };
-        addPlayer(player);
-        connectToHost(playerPeer, hostPeerId.current.value).then(connection => {
-          setClientConnection(connection);
-          sendMessage(connection, 'player', player);
-          history.push('/lobby', { hostPeerId: hostPeerId.current.value });
-        });
-      });
+  async function createPlayer() {
+    const playerPeer = await createPlayerPeer();
+    let player = {
+      peerId: playerPeer.id,
+      nickname,
+      color: availableColors[0],
+    };
+    addPlayer(player);
+    connectToHost(playerPeer, hostPeerId.current.value).then(connection => {
+      setClientConnection(connection);
+      sendMessage(connection, 'player', player);
+      history.push('/lobby', { hostPeerId: hostPeerId.current.value });
     });
-  };
-
-  const { execute, pending } = useAsync(createPlayer, false);
-
-  const connectStyle = {
-    display: 'flex',
-    justifyContent: 'center',
   };
 
   return (

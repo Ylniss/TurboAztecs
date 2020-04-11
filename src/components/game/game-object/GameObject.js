@@ -1,66 +1,62 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useState, useContext, useRef } from 'react';
 import { GlobalContext } from '../../../context/GlobalState';
 import { Draggable } from '../draggable/Draggable';
 import { useCollider } from '../../../hooks/collider';
 
-export const GameObject = ({ gameObject, images }) => {
-  const { zPositions, setZPositions, updateGameObjects } = useContext(GlobalContext);
+export const GameObject = ({ id, gameObjects, images }) => {
+  const { zPositions, setZPositions, setGameObjects } = useContext(GlobalContext);
+  const [gameObject] = useState(gameObjects[id]);
   const { handleCollision } = useCollider();
 
-  const getGlobalZPostition = () => {
-    return zPositions.filter(x => x.type === gameObject.type)[0].z;
-  };
-
-  // update gameObject only with this function
-  const update = setProps => {
-    setProps();
-    updateGameObjects(gameObject);
-    console.log(`${gameObject.name} (${gameObject.id}) updated!`);
-  };
+  useEffect(() => {
+    console.log(`${gameObject.name} (${gameObject.id}) re-rendered!`);
+  });
 
   useEffect(() => {
-    update(() => (gameObject.z = getGlobalZPostition()));
+    const updatedGameObjects = gameObjects;
+    updatedGameObjects[id].z = zPositions[gameObject.type];
+    setGameObjects(updatedGameObjects);
     console.log(`${gameObject.name} (${gameObject.id}) rendered!`);
   }, []);
 
-  // useEffect(() => {
-  //   //const gameObj = gameObjects.find(item => item.id === gameObject.id);
-  //   setGameObject(gameObjectInit);
-  //   console.log(`${gameObjectInit.name} (${gameObjectInit.id}) updated with x: ${gameObjectInit.x} y: ${gameObjectInit.y}`);
-  // }, [gameObjects]);
-
   const onDragStart = () => {
-    let zPosition = getGlobalZPostition();
-    update(() => (gameObject.z = ++zPosition));
-    setZPositions(
-      zPositions.map(item =>
-        item.type === gameObject.type ? { type: item.type, z: zPosition } : item
-      )
-    );
+    let zPosition = zPositions[gameObject.type];
+    zPositions[gameObject.type] = ++zPosition;
+    setZPositions(zPositions);
+
+    const updatedGameObjects = gameObjects;
+    updatedGameObjects[id].z = zPosition;
+    setGameObjects(updatedGameObjects);
+
     console.log(
       gameObject.name + ' X: ' + gameObject.x + ' Y: ' + gameObject.y + ' Z: ' + gameObject.z
     );
   };
 
-  const setPosition = (gameObj, position) => {
-    gameObj.x = position.x;
-    gameObj.y = position.y;
-    gameObj.collisionBox.x = position.x;
-    gameObj.collisionBox.y = position.y;
-  };
-
   const onDrag = position => {
-    update(() => {
-      // gameObject.childrenIds.forEach(childId => {
-      //   const child = gameObjects.find(item => item.id === childId);
-      //   const offset = { x: child.x - gameObject.x, y: child.y - gameObject.y };
 
-      //   setPosition(child, { x: position.x + offset.x, y: position.y + offset.y });
-      //   updateGameObjects(child);
-      // });
+    const updatedGameObjects = gameObjects;
 
-      setPosition(gameObject, position);
+    gameObject.childrenIds.forEach(childId => {
+      const offset = {
+        x: updatedGameObjects[childId].x - gameObject.x,
+        y: updatedGameObjects[childId].y - gameObject.y,
+      };
+      updatedGameObjects[childId].x = position.x + offset.x;
+      updatedGameObjects[childId].y = position.y + offset.y;
     });
+
+    updatedGameObjects[id].x = position.x;
+    updatedGameObjects[id].y = position.y;
+    updatedGameObjects[id].collisionBox.x = position.x;
+    updatedGameObjects[id].collisionBox.y = position.y;
+
+    setGameObjects(updatedGameObjects);
+
+    let zPosition = zPositions[gameObject.type];
+    zPositions[gameObject.type] = zPosition;
+    setZPositions(zPositions);
+
     console.log(
       gameObject.name + ' X: ' + gameObject.x + ' Y: ' + gameObject.y + ' Z: ' + gameObject.z
     );

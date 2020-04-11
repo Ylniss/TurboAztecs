@@ -1,17 +1,15 @@
-import React, { createContext, useReducer } from 'react';
+import React, { createContext, useReducer, useRef, useState } from 'react';
 import AppReducer from './AppReducer';
 
 const initialState = {
   nickname: '',
   gameId: '',
-  zPositions: [
-    //needed for layering objects on screen properly
-    { type: 'diamond', z: 150000 },
-    { type: 'pawn', z: 100000 },
-    { type: 'item', z: 50000 },
-    { type: 'tile', z: 0 },
-  ],
-  gameObjects: [],
+  zPositions: {
+    diamond: 150000,
+    pawn: 100000,
+    item: 50000,
+    tile: 0,
+  },
   players: [],
   availableColors: ['#47cf31', '#0c81f2', '#d2952b', '#808080'],
   hostConnections: [],
@@ -23,6 +21,7 @@ export const GlobalContext = createContext(initialState);
 // Provider component provides actions for other components to use
 export const GlobalProvider = ({ children }) => {
   const [state, dispatch] = useReducer(AppReducer, initialState);
+  const [gameObjects, setGameObjects] = useState({});
 
   // Action dispatchers
   function setNickname(nickname) {
@@ -36,27 +35,6 @@ export const GlobalProvider = ({ children }) => {
     dispatch({
       type: 'SET_Z_POSITIONS',
       payload: zPositions,
-    });
-  }
-
-  function addGameObject(gameObject) {
-    dispatch({
-      type: 'ADD_GAMEOBJECT',
-      payload: gameObject,
-    });
-  }
-
-  function removeGameObject(id) {
-    dispatch({
-      type: 'REMOVE_GAMEOBJECT',
-      payload: id,
-    });
-  }
-
-  function updateGameObjects(gameObject) {
-    dispatch({
-      type: 'UPDATE_GAMEOBJECTS',
-      payload: gameObject,
     });
   }
 
@@ -104,7 +82,7 @@ export const GlobalProvider = ({ children }) => {
         hostPeer: state.hostPeer,
         players: state.players,
         zPositions: state.zPositions,
-        gameObjects: state.gameObjects,
+        gameObjects: gameObjects,
         availableColors: state.availableColors,
         hostConnections: state.hostConnections,
         clientConnection: state.clientConnection,
@@ -115,9 +93,7 @@ export const GlobalProvider = ({ children }) => {
         addHostConnection,
         setClientConnection,
         setZPositions,
-        addGameObject,
-        removeGameObject,
-        updateGameObjects,
+        setGameObjects,
       }}
     >
       {children}

@@ -3,7 +3,7 @@ import { GlobalContext } from '../context/GlobalState';
 import { v4 as uuidv4 } from 'uuid';
 
 export const useSpawner = () => {
-  const { addGameObject } = useContext(GlobalContext);
+  const { gameObjects, setGameObjects } = useContext(GlobalContext);
 
   const getType = name => {
     switch (name) {
@@ -88,7 +88,10 @@ export const useSpawner = () => {
   const spawn = (name, x, y, turn = 0, childrenIds = []) => {
     const type = getType(name);
     const id = uuidv4();
-    addGameObject({
+
+    const updatedGameObjects = gameObjects;
+
+    updatedGameObjects[id] = {
       id,
       type,
       name,
@@ -102,7 +105,9 @@ export const useSpawner = () => {
       flipped: false,
       imgExtension: getImgExtension(type),
       childrenIds,
-    });
+    }
+
+    setGameObjects(updatedGameObjects);
 
     return id;
   };
