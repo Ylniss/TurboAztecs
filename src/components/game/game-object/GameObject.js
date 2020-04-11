@@ -53,10 +53,6 @@ export const GameObject = ({ id, gameObjects, images }) => {
 
     setGameObjects(updatedGameObjects);
 
-    let zPosition = zPositions[gameObject.type];
-    zPositions[gameObject.type] = zPosition;
-    setZPositions(zPositions);
-
     console.log(
       gameObject.name + ' X: ' + gameObject.x + ' Y: ' + gameObject.y + ' Z: ' + gameObject.z
     );
