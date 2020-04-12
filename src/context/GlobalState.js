@@ -1,9 +1,14 @@
-import React, { createContext, useReducer, useRef, useState } from 'react';
+import React, { createContext, useReducer } from 'react';
 import AppReducer from './AppReducer';
 
 const initialState = {
+  // constants
+  availableColors: ['#47cf31', '#0c81f2', '#d2952b', '#808080'],
+  screenDefaults: { width: 1920, height: 1080, aspectRatio: 0.5625 },
+
   nickname: '',
   gameId: '',
+  gameObjects: {},
   zPositions: {
     diamond: 150000,
     pawn: 100000,
@@ -11,7 +16,6 @@ const initialState = {
     tile: 0,
   },
   players: [],
-  availableColors: ['#47cf31', '#0c81f2', '#d2952b', '#808080'],
   hostConnections: [],
   clientConnection: {},
 };
@@ -21,7 +25,6 @@ export const GlobalContext = createContext(initialState);
 // Provider component provides actions for other components to use
 export const GlobalProvider = ({ children }) => {
   const [state, dispatch] = useReducer(AppReducer, initialState);
-  const [gameObjects, setGameObjects] = useState({});
 
   // Action dispatchers
   function setNickname(nickname) {
@@ -35,6 +38,13 @@ export const GlobalProvider = ({ children }) => {
     dispatch({
       type: 'SET_Z_POSITIONS',
       payload: zPositions,
+    });
+  }
+
+  function setGameObjects(gameObjects) {
+    dispatch({
+      type: 'SET_GAMEOBJECTS',
+      payload: gameObjects,
     });
   }
 
@@ -78,12 +88,13 @@ export const GlobalProvider = ({ children }) => {
     <GlobalContext.Provider
       value={{
         // This allows acces to global state and its actions from any component we request from useContext hook
+        availableColors: state.availableColors,
+        screenDefaults: state.screenDefaults,
         nickname: state.nickname,
         hostPeer: state.hostPeer,
         players: state.players,
+        gameObjects: state.gameObjects,
         zPositions: state.zPositions,
-        gameObjects: gameObjects,
-        availableColors: state.availableColors,
         hostConnections: state.hostConnections,
         clientConnection: state.clientConnection,
         setNickname,

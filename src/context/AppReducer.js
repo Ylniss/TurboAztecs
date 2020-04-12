@@ -36,6 +36,11 @@ export default (state, action) => {
         ...state,
         zPositions: action.payload,
       };
+    case 'SET_GAMEOBJECTS':
+      return {
+        ...state,
+        gameObjects: action.payload,
+      };
     default:
       return state;
   }
