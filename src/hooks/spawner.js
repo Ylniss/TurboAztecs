@@ -3,7 +3,7 @@ import { GlobalContext } from '../context/GlobalState';
 import { v4 as uuidv4 } from 'uuid';
 
 export const useSpawner = () => {
-  const { gameObjects, setGameObjects } = useContext(GlobalContext);
+  const { gameObjects } = useContext(GlobalContext);
 
   const getType = name => {
     switch (name) {
@@ -26,39 +26,14 @@ export const useSpawner = () => {
     }
   };
 
-  const getSize = type => {
+  const getCollisionCircle = (type) => {
     switch (type) {
       case 'diamond':
-        return 8.4;
-      case 'tile':
-        return 12;
-      case 'item':
-        return 6.4;
-      case 'pawn':
-        return 8;
-      default:
-        return null;
-    }
-  };
-
-  const getImgExtension = type => {
-    switch (type) {
-      case 'diamond':
-      case 'pawn':
-        return '.png';
-      default:
-        return '.jpg';
-    }
-  };
-
-  const getCollisionBox = (type, x, y) => {
-    switch (type) {
-      case 'diamond':
-        return { x, y, width: 5.4, height: 5.4 };
+        return 3;
       case 'overlay':
-        return { x, y, width: 2, height: 9 };
+        return 2;
       default:
-        return { x, y, width: getSize(type), height: getSize(type) };
+        return 8;
     }
   };
 
@@ -89,25 +64,19 @@ export const useSpawner = () => {
     const type = getType(name);
     const id = uuidv4();
 
-    const updatedGameObjects = gameObjects;
-
-    updatedGameObjects[id] = {
+    gameObjects[id] = {
       id,
       type,
       name,
       x,
       y,
-      size: getSize(type),
-      collisionBox: getCollisionBox(type, x, y),
+      collisionCircle: getCollisionCircle(type),
       turnable: isTurnable(type),
       flippable: isFlippable(type),
       turn,
       flipped: false,
-      imgExtension: getImgExtension(type),
       childrenIds,
     }
-
-    setGameObjects(updatedGameObjects);
 
     return id;
   };

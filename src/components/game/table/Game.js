@@ -1,15 +1,12 @@
 import React, { useContext, useEffect } from 'react';
 import { GlobalContext } from '../../../context/GlobalState';
-import { Container, Sprite, useApp } from '@inlet/react-pixi';
+import { Container, useApp } from '@inlet/react-pixi';
 import { Board } from './Board';
 import { useAspectRatioContainer } from '../../../hooks/aspectRatioContainer';
 import { useTableSettuper } from '../../../hooks/tableSettuper';
 import { useImages } from '../../../hooks/images';
 import { PlayerPanel } from './PlayerPanel';
-
-import boardImage from '../../../assets/img/table/board.png';
-import tile from '../../../assets/img/game-objects/crossing-tile.png';
-import item from '../../../assets/img/game-objects/amulet.png';
+import { GameObject } from '../game-object/GameObject';
 
 export const Game = ({ players }) => {
   const app = useApp();
@@ -33,17 +30,20 @@ export const Game = ({ players }) => {
   }, [app.renderer.width, app.renderer.height, width, height]);
 
   return (
-    <Container>
+    <Container sortableChildren={true}>
       <Board />
-      <Sprite image={tile} x={458} y={182} scale={0.93} />
-      <Sprite image={item} x={465} y={209} scale={0.93} />
-      
+      {/* {(() => {
+        if (Object.keys(gameObjects)[0]) {
+          return <GameObject id={Object.keys(gameObjects)[0]} gameObjects={gameObjects} images={images}/>
+        }
+      })()} */}
 
-      {/* {players.forEach(player => (
-        <PlayerPanel />
-      ))} */}
-      {players.forEach(player => (
-        <Sprite image={boardImage} x={50} y={60} />
+      {Object.keys(gameObjects).map(id => (
+        <GameObject key={id} id={id} gameObjects={gameObjects} images={images} />
+      ))}
+
+      {players.map(player => (
+        <PlayerPanel key={player.color} />
       ))}
     </Container>
   );

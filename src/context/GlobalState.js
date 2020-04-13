@@ -1,4 +1,4 @@
-import React, { createContext, useReducer } from 'react';
+import React, { createContext, useReducer, useRef } from 'react';
 import AppReducer from './AppReducer';
 
 const initialState = {
@@ -8,13 +8,6 @@ const initialState = {
 
   nickname: '',
   gameId: '',
-  gameObjects: {},
-  zPositions: {
-    diamond: 150000,
-    pawn: 100000,
-    item: 50000,
-    tile: 0,
-  },
   players: [],
   hostConnections: [],
   clientConnection: {},
@@ -25,26 +18,19 @@ export const GlobalContext = createContext(initialState);
 // Provider component provides actions for other components to use
 export const GlobalProvider = ({ children }) => {
   const [state, dispatch] = useReducer(AppReducer, initialState);
+  const gameObjects = useRef({});
+  const zPositions = useRef({
+    diamond: 150000,
+    pawn: 100000,
+    item: 50000,
+    tile: 0,
+  });
 
   // Action dispatchers
   function setNickname(nickname) {
     dispatch({
       type: 'SET_NICKNAME',
       payload: nickname,
-    });
-  }
-
-  function setZPositions(zPositions) {
-    dispatch({
-      type: 'SET_Z_POSITIONS',
-      payload: zPositions,
-    });
-  }
-
-  function setGameObjects(gameObjects) {
-    dispatch({
-      type: 'SET_GAMEOBJECTS',
-      payload: gameObjects,
     });
   }
 
@@ -93,8 +79,8 @@ export const GlobalProvider = ({ children }) => {
         nickname: state.nickname,
         hostPeer: state.hostPeer,
         players: state.players,
-        gameObjects: state.gameObjects,
-        zPositions: state.zPositions,
+        gameObjects: gameObjects.current,
+        zPositions: zPositions.current,
         hostConnections: state.hostConnections,
         clientConnection: state.clientConnection,
         setNickname,
@@ -103,8 +89,6 @@ export const GlobalProvider = ({ children }) => {
         setPlayers,
         addHostConnection,
         setClientConnection,
-        setZPositions,
-        setGameObjects,
       }}
     >
       {children}

@@ -31,16 +31,6 @@ export default (state, action) => {
         ...state,
         clientConnection: action.payload,
       };
-    case 'SET_Z_POSITIONS':
-      return {
-        ...state,
-        zPositions: action.payload,
-      };
-    case 'SET_GAMEOBJECTS':
-      return {
-        ...state,
-        gameObjects: action.payload,
-      };
     default:
       return state;
   }
