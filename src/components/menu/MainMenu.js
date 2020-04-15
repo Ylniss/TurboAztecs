@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import Panel from './shared/Panel';
 import Row from './shared/Row';
 import { Link, useHistory } from 'react-router-dom';
@@ -12,8 +12,10 @@ export default function MainMenu() {
   const { nickname, setNickname, availableColors, addPlayer } = useContext(GlobalContext);
   const { createHostPeer } = useHostPeer();
   const history = useHistory();
+  const [linkClassName, setLinkClassName] = useState('');
 
   const onCreate = e => {
+    setLinkClassName('disabled-link');
     e.preventDefault();
     execute();
   };
@@ -47,10 +49,10 @@ export default function MainMenu() {
 
         <Row>
           <div className='btn-row'>
-            <Link to='/lobby'>
+            <Link to='/lobby' className={linkClassName}>
               <button onClick={onCreate}>Create</button>
             </Link>
-            <Link to='/connect'>
+            <Link to='/connect' className={linkClassName}>
               <button>Join</button>
             </Link>
           </div>
