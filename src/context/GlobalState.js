@@ -94,6 +94,12 @@ export const GlobalProvider = ({ children }) => {
     });
   }
 
+  function clearHostConnections() {
+    dispatch({
+      type: 'CLEAR_HOST_CONNECTIONS',
+    });
+  }
+
   // TODO deleteConnection, deletePlayer (wyjebac clearPlayers)
 
   return (
@@ -118,6 +124,7 @@ export const GlobalProvider = ({ children }) => {
         addGameObject,
         removeGameObject,
         updateGameObjects,
+        clearHostConnections
       }}
     >
       {children}

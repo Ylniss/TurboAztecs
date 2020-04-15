@@ -58,6 +58,11 @@ export const useClientPeer = () => {
           receiveMessage(data);
         });
 
+        connection.on('close', () => {
+          console.log(`Connection closed: ${connection}`);
+          peer.destroy();
+        });
+
         if (connection) {
           resolve(connection);
         } else {

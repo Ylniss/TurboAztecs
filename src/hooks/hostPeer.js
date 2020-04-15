@@ -1,9 +1,8 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import Peer from 'peerjs';
-import { useEffect, useState, useRef, useContext } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { GlobalContext } from '../context/GlobalState';
 import { usePeerMessenger } from './peerMessenger';
-
-// peerjs --port 9000 --key peerjs
 
 export const useHostPeer = () => {
   const [peer, setPeer] = useState();
@@ -12,7 +11,6 @@ export const useHostPeer = () => {
 
   useEffect(() => {
     if (peer) {
-      // stinky shit
       peer.on('connection', connection => {
         console.log(`Host Connected to: ${connection.peer}`);
         addHostConnection(connection);
@@ -61,9 +59,14 @@ export const useHostPeer = () => {
     });
   };
 
-  const clearConnections = peer => {
-    peer.destroy();
+  const clearHostConnections = connections => {
+    connections.forEach(conn => {
+      conn.close();
+
+      console.log('Closed connection:');
+      console.log(conn);
+    });
   };
 
-  return { createHostPeer, clearConnections };
+  return { createHostPeer, clearHostConnections };
 };

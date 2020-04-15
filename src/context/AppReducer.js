@@ -31,6 +31,11 @@ export default (state, action) => {
         ...state,
         clientConnection: action.payload,
       };
+    case 'CLEAR_HOST_CONNECTIONS':
+      return {
+        ...state,
+        hostConnections: [],
+      };
     case 'SET_Z_POSITIONS':
       return {
         ...state,

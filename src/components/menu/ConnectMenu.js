@@ -23,19 +23,22 @@ export default function ConnectMenu() {
 
   const createPlayer = () => {
     return new Promise(() => {
-      createPlayerPeer().then(playerPeer => {
-        let player = {
-          peerId: playerPeer.id,
-          nickname,
-          color: availableColors[0],
-        };
-        addPlayer(player);
-        connectToHost(playerPeer, hostPeerId.current.value).then(connection => {
-          setClientConnection(connection);
-          sendMessage(connection, 'player', player);
-          history.push('/lobby', { hostPeerId: hostPeerId.current.value });
+      if (hostPeerId.current.value) {
+        createPlayerPeer().then(playerPeer => {
+          let player = {
+            peerId: playerPeer.id,
+            nickname,
+            color: availableColors[0],
+          };
+          addPlayer(player);
+          connectToHost(playerPeer, hostPeerId.current.value).then(connection => {
+            setClientConnection(connection);
+            sendMessage(connection, 'player', player);
+            history.push('/lobby', { hostPeerId: hostPeerId.current.value });
+          });
         });
-      });
+      }
+      alert('Provide game ID');
     });
   };
 

@@ -10,8 +10,8 @@ import './LobbyMenu.css';
 import { useHostPeer } from '../../../hooks/hostPeer';
 
 export default function LobbyMenu() {
-  const { clearPlayers, hostPeer } = useContext(GlobalContext);
-  const { clearConnections } = useHostPeer();
+  const { clearPlayers, hostConnections, clientConnection } = useContext(GlobalContext);
+  const { clearHostConnections } = useHostPeer();
   const [hostPeerId, setHostPeerId] = useState();
   const location = useLocation();
 
@@ -21,7 +21,7 @@ export default function LobbyMenu() {
 
   const onBack = () => {
     // wszyscy peerowie też muszą zostać rozjebani i cofnięci do MainMenu/ConnectMenu
-    clearConnections(hostPeer);
+    clearHostConnections(hostConnections);
     clearPlayers();
   };
 
