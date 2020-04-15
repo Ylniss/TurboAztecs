@@ -3,8 +3,17 @@ import AppReducer from './AppReducer';
 
 const initialState = {
   nickname: '',
+  gameId: '',
+  zPositions: [
+    //needed for layering objects on screen properly
+    { type: 'diamond', z: 150000 },
+    { type: 'pawn', z: 100000 },
+    { type: 'item', z: 50000 },
+    { type: 'tile', z: 0 },
+  ],
+  gameObjects: [],
   players: [],
-  availableColors: ['#ff0000', '#00ff00', '#ffff00', '#0000ff'],
+  availableColors: ['#47cf31', '#0c81f2', '#d2952b', '#808080'],
   hostConnections: [],
   clientConnection: {},
 };
@@ -20,6 +29,34 @@ export const GlobalProvider = ({ children }) => {
     dispatch({
       type: 'SET_NICKNAME',
       payload: nickname,
+    });
+  }
+
+  function setZPositions(zPositions) {
+    dispatch({
+      type: 'SET_Z_POSITIONS',
+      payload: zPositions,
+    });
+  }
+
+  function addGameObject(gameObject) {
+    dispatch({
+      type: 'ADD_GAMEOBJECT',
+      payload: gameObject,
+    });
+  }
+
+  function removeGameObject(id) {
+    dispatch({
+      type: 'REMOVE_GAMEOBJECT',
+      payload: id,
+    });
+  }
+
+  function updateGameObjects(gameObject) {
+    dispatch({
+      type: 'UPDATE_GAMEOBJECTS',
+      payload: gameObject,
     });
   }
 
@@ -66,6 +103,8 @@ export const GlobalProvider = ({ children }) => {
         nickname: state.nickname,
         hostPeer: state.hostPeer,
         players: state.players,
+        zPositions: state.zPositions,
+        gameObjects: state.gameObjects,
         availableColors: state.availableColors,
         hostConnections: state.hostConnections,
         clientConnection: state.clientConnection,
@@ -75,6 +114,10 @@ export const GlobalProvider = ({ children }) => {
         setPlayers,
         addHostConnection,
         setClientConnection,
+        setZPositions,
+        addGameObject,
+        removeGameObject,
+        updateGameObjects,
       }}
     >
       {children}

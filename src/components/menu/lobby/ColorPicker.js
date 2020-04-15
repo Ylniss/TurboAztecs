@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './LobbyMenu.css';
 import { getNext } from '../../../services/arrayHelper.js';
 
-const availableColors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00'];
+const availableColors = ['#47cf31', '#0c81f2', '#d2952b', '#808080'];
 
 export default function ColorPicker({ startColor }) {
   startColor = startColor ? startColor : availableColors[0];

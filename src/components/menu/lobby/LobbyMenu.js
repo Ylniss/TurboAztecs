@@ -10,7 +10,6 @@ import './LobbyMenu.css';
 import { useHostPeer } from '../../../hooks/hostPeer';
 
 export default function LobbyMenu() {
-  // const [gameId, setGameId] = useState('sdgwergerg34rf43'); //temporary init value for tests
   const { clearPlayers, hostPeer } = useContext(GlobalContext);
   const { clearConnections } = useHostPeer();
   const [hostPeerId, setHostPeerId] = useState();

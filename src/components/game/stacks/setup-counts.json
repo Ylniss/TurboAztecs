@@ -1,0 +1,32 @@
+{
+  "tiles": [
+    {
+      "name": "crossing-tile",
+      "count": 23
+    },
+    {
+      "name": "t-crossing-tile",
+      "count": 26
+    },
+    {
+      "name": "turn-tile",
+      "count": 28
+    },
+    {
+      "name": "straight-tile",
+      "count": 28
+    }
+  ],
+
+  "items": [
+    {
+      "name": "barrel",
+      "count": 4
+    },
+    {
+      "name": "amulet",
+      "count": 4
+    }
+
+  ]
+}

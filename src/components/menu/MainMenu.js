@@ -48,7 +48,7 @@ export default function MainMenu() {
         <Row>
           <div className='btn-row'>
             <Link to='/lobby'>
-              <button onClick={onCreate}>Create</button>
+              <button onClick={onCreate} disabled={pending}>Create</button>
             </Link>
             <Link to='/connect'>
               <button>Join</button>
