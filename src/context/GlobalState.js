@@ -3,6 +3,7 @@ import AppReducer from './AppReducer';
 
 const initialState = {
   nickname: '',
+  peerId: '',
   gameId: '',
   zPositions: [
     //needed for layering objects on screen properly
@@ -29,6 +30,13 @@ export const GlobalProvider = ({ children }) => {
     dispatch({
       type: 'SET_NICKNAME',
       payload: nickname,
+    });
+  }
+
+  function setPeerId(peerId) {
+    dispatch({
+      type: 'SET_PEER_ID',
+      payload: peerId,
     });
   }
 
@@ -94,6 +102,13 @@ export const GlobalProvider = ({ children }) => {
     });
   }
 
+  function updatePlayer(player) {
+    dispatch({
+      type: 'UPDATE_PLAYER',
+      payload: player,
+    });
+  }
+
   // TODO deleteConnection, deletePlayer (wyjebac clearPlayers)
 
   return (
@@ -101,6 +116,7 @@ export const GlobalProvider = ({ children }) => {
       value={{
         // This allows acces to global state and its actions from any component we request from useContext hook
         nickname: state.nickname,
+        peerId: state.peerId,
         hostPeer: state.hostPeer,
         players: state.players,
         zPositions: state.zPositions,
@@ -109,6 +125,7 @@ export const GlobalProvider = ({ children }) => {
         hostConnections: state.hostConnections,
         clientConnection: state.clientConnection,
         setNickname,
+        setPeerId,
         addPlayer,
         clearPlayers,
         setPlayers,
@@ -118,6 +135,7 @@ export const GlobalProvider = ({ children }) => {
         addGameObject,
         removeGameObject,
         updateGameObjects,
+        updatePlayer,
       }}
     >
       {children}

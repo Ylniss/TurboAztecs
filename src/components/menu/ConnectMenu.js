@@ -11,7 +11,7 @@ import { usePeerMessenger } from '../../hooks/peerMessenger';
 
 export default function ConnectMenu() {
   const { createPlayerPeer, connectToHost } = useClientPeer();
-  const { addPlayer, nickname, availableColors, setClientConnection } = useContext(GlobalContext);
+  const { addPlayer, nickname, availableColors, setClientConnection, setPeerId } = useContext(GlobalContext);
   const hostPeerId = useRef();
   const history = useHistory();
   const { sendMessage } = usePeerMessenger();
@@ -30,6 +30,7 @@ export default function ConnectMenu() {
           color: availableColors[0],
         };
         addPlayer(player);
+        setPeerId(playerPeer.id);
         connectToHost(playerPeer, hostPeerId.current.value).then(connection => {
           setClientConnection(connection);
           sendMessage(connection, 'player', player);

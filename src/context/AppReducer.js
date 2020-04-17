@@ -6,6 +6,11 @@ export default (state, action) => {
         ...state,
         nickname: action.payload,
       };
+    case 'SET_PEER_ID':
+      return {
+        ...state,
+        peerId: action.payload,
+      };
     case 'ADD_PLAYER':
       return {
         ...state,
@@ -46,6 +51,13 @@ export default (state, action) => {
         ...state,
         gameObjects: state.gameObjects.map(gameObj =>
           gameObj.id === action.payload.id ? action.payload : gameObj
+        ),
+      };
+    case 'UPDATE_PLAYER':
+      return {
+        ...state,
+        players: state.players.map(player =>
+          player.peerId === action.payload.peerId ? action.payload : player
         ),
       };
     default:
