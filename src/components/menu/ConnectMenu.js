@@ -38,7 +38,7 @@ export default function ConnectMenu() {
           });
         });
       }
-      alert('Provide game ID');
+      alert('Provide game ID'); // temporary
     });
   };
 
