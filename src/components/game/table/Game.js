@@ -32,18 +32,13 @@ export const Game = ({ players }) => {
   return (
     <Container sortableChildren={true}>
       <Board />
-      {/* {(() => {
-        if (Object.keys(gameObjects)[0]) {
-          return <GameObject id={Object.keys(gameObjects)[0]} gameObjects={gameObjects} images={images}/>
-        }
-      })()} */}
+      
+      {players.map(player => (
+        <PlayerPanel key={player.nickname} color={player.color} />
+      ))}
 
       {Object.keys(gameObjects).map(id => (
         <GameObject key={id} id={id} gameObjects={gameObjects} images={images} />
-      ))}
-
-      {players.map(player => (
-        <PlayerPanel key={player.color} />
       ))}
     </Container>
   );

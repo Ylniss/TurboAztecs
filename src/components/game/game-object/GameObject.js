@@ -1,64 +1,107 @@
-import React, { useEffect, useRef, useState, useContext } from 'react';
+import React, { useEffect, useRef, useContext } from 'react';
 import { GlobalContext } from '../../../context/GlobalState';
 import { useCollider } from '../../../hooks/collider';
 import DraggableSprite from './DraggableSprite';
+import Collider from './Collider';
 
 export const GameObject = ({ id, gameObjects, images }) => {
   const { zPositions } = useContext(GlobalContext);
-  const [gameObject] = useState(gameObjects[id]);
+  const self = useRef(gameObjects[id]).current;
   const { handleCollision } = useCollider();
 
   useEffect(() => {
-    gameObjects[id].z = zPositions[gameObject.type];
-    console.log(`${gameObject.name} (${gameObject.id}) rendered!`);
+    gameObjects[id].z = zPositions[self.type];
+    console.log(`${self.name} (${id}) rendered!`);
   }, []);
 
-  const onDragStart = () => {
-    let zPosition = zPositions[gameObject.type];
-    zPositions[gameObject.type] = ++zPosition;
-    gameObjects[id].z = ++zPosition;
+  const setPosition = (gameObject, x, y) => {
+    gameObject.x = x;
+    gameObject.y = y;
+    gameObject.collisionCircle.x = x + gameObject.collisionCircleOffset.x;
+    gameObject.collisionCircle.y = y + gameObject.collisionCircleOffset.y;
+  };
 
-    console.log(
-      gameObject.name + ' X: ' + gameObject.x + ' Y: ' + gameObject.y + ' Z: ' + gameObject.z
-    );
+  const onDragStart = () => {
+    gameObjects[id].z = ++zPositions[self.type];
+  };
+
+  const moveChildren = position => {
+    self.childrenIds.forEach(childId => {
+      const offset = {
+        x: gameObjects[childId].x - self.x,
+        y: gameObjects[childId].y - self.y,
+      };
+      setPosition(gameObjects[childId], position.x + offset.x, position.y + offset.y);
+    });
   };
 
   const onDrag = position => {
-    gameObject.childrenIds.forEach(childId => {
-      const offset = {
-        x: gameObjects[childId].x - gameObject.x,
-        y: gameObjects[childId].y - gameObject.y,
-      };
-      gameObjects[childId].x = position.x + offset.x;
-      gameObjects[childId].y = position.y + offset.y;
-    });
+    moveChildren(position);
+    setPosition(gameObjects[id], position.x, position.y);
 
-    gameObjects[id].x = position.x;
-    gameObjects[id].y = position.y;
+    console.log(self.name + ' X: ' + self.x + ' Y: ' + self.y + ' Z: ' + self.z);
+  };
 
-    console.log(
-      gameObject.name + ' X: ' + gameObject.x + ' Y: ' + gameObject.y + ' Z: ' + gameObject.z
-    );
+  const getOtherColliders = () => {
+    return Object.values(gameObjects)
+      .filter(gameObject => gameObject !== self) // don't check collision with itself
+      .map(gameObject => gameObject.collisionCircle);
   };
 
   const onDragEnd = () => {
-    //handleCollision(gameObjects, gameObject, onCollision);
+    const colliders = getOtherColliders();
+    handleCollision(colliders, self.collisionCircle, onCollision, onNonCollision);
   };
 
-  //const onCollision = collidedGameObj => {};
+  const onCollision = collided => {
+    // add smaller object to bigger
+    if (self.collisionCircle.radius < collided.radius) {
+      removeChildFromAll(self);
+      addChild(gameObjects[collided.id], self);
+    } else {
+      removeChildFromAll(gameObjects[collided.id]);
+      addChild(self, gameObjects[collided.id]);
+    }
+  };
+
+  const onNonCollision = nonCollided => {
+    removeChild(gameObjects[nonCollided.id], self);
+  };
+
+  const addChild = (parent, child) => {
+    const children = parent.childrenIds;
+    if (!children.includes(child.id)) {
+      children.push(child.id);
+      console.log(`${child.id} added to ${parent.id}`);
+    }
+  };
+
+  const removeChild = (parent, child) => {
+    const children = parent.childrenIds;
+    if (children.includes(child.id)) {
+      parent.childrenIds = children.filter(id => id !== child.id);
+      console.log(`${child.id} removed from ${parent.id}`);
+    }
+  };
+
+  const removeChildFromAll = child => {
+    Object.values(gameObjects).forEach(gameObject => removeChild(gameObject, child));
+  };
 
   return (
-    <DraggableSprite
-      onStart={onDragStart}
-      onDrag={onDrag}
-      onStop={onDragEnd}
-      id={id}
-      gameObjects={gameObjects}
-      image={images[gameObject.name + '.png']}
-      x={gameObject.x}
-      y={gameObject.y}
-      zIndex={gameObject.z ? gameObject.z : 0}
-      scale={0.93}
-    />
+    <>
+      <DraggableSprite
+        onStart={onDragStart}
+        onDrag={onDrag}
+        onStop={onDragEnd}
+        id={id}
+        gameObjects={gameObjects}
+        image={images[self.name + '.png']}
+        x={self.x}
+        y={self.y}
+        zIndex={self.z ? self.z : 0}
+      />
+      <Collider id={id} gameObjects={gameObjects} />
+    </>
   );
 };
