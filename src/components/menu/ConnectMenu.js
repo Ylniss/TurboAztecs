@@ -15,10 +15,10 @@ export default function ConnectMenu() {
   const hostPeerId = useRef();
   const history = useHistory();
   const { sendMessage } = usePeerMessenger();
-  const [linkClassName, setLinkClassName] = useState('');
+  const [linkClass, setLinkClass] = useState('');
 
   const onConnect = e => {
-    setLinkClassName('disabled-link');
+    setLinkClass('disabled-link');
     e.preventDefault();
     execute();
   };
@@ -60,10 +60,10 @@ export default function ConnectMenu() {
 
         <Row>
           <div className='btn-row'>
-            <Link to='/' className={linkClassName}>
+            <Link to='/' className={linkClass}>
               <button className='btn-back'>Back</button>
             </Link>
-            <Link to='/lobby' className={linkClassName}>
+            <Link to='/lobby' className={linkClass}>
               <button onClick={onConnect}>Connect</button>
             </Link>
           </div>

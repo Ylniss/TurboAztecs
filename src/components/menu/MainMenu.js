@@ -12,10 +12,10 @@ export default function MainMenu() {
   const { nickname, setNickname, availableColors, addPlayer } = useContext(GlobalContext);
   const { createHostPeer } = useHostPeer();
   const history = useHistory();
-  const [linkClassName, setLinkClassName] = useState('');
+  const [linkClass, setLinkClass] = useState('');
 
   const onCreate = e => {
-    setLinkClassName('disabled-link');
+    setLinkClass('disabled-link');
     e.preventDefault();
     execute();
   };
@@ -49,10 +49,10 @@ export default function MainMenu() {
 
         <Row>
           <div className='btn-row'>
-            <Link to='/lobby' className={linkClassName}>
+            <Link to='/lobby' className={linkClass}>
               <button onClick={onCreate}>Create</button>
             </Link>
-            <Link to='/connect' className={linkClassName}>
+            <Link to='/connect' className={linkClass}>
               <button>Join</button>
             </Link>
           </div>
