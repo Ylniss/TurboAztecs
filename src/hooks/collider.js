@@ -1,19 +1,19 @@
-import React from 'react';
-
 export const useCollider = () => {
-  const isCollision = (a, b) => {
-    return !(
-      a.y + a.height < b.y ||
-      a.y > b.y + b.height ||
-      a.x + a.width < b.x ||
-      a.x > b.x + b.width
-    );
+  const isCollision = (circle1, circle2) => {
+    var dx = circle1.x - circle2.x;
+    var dy = circle1.y - circle2.y;
+    var distance = Math.sqrt(dx * dx + dy * dy);
+
+    // one contains another
+    return distance < Math.abs(circle1.radius - circle2.radius);
   };
 
-  const handleCollision = (colliders, collider, onCollision) => {
+  const handleCollision = (colliders, collider, onCollision, onNonCollision) => {
     colliders.forEach(item => {
       if (isCollision(collider, item)) {
         onCollision(item);
+      } else {
+        onNonCollision(item);
       }
     });
   };
