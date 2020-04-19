@@ -1,4 +1,4 @@
-import React, { useContext, useRef } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import Panel from './shared/Panel';
 import Row from './shared/Row';
@@ -15,8 +15,10 @@ export default function ConnectMenu() {
   const hostPeerId = useRef();
   const history = useHistory();
   const { sendMessage } = usePeerMessenger();
+  const [linkClass, setLinkClass] = useState('');
 
   const onConnect = e => {
+    setLinkClass('disabled-link');
     e.preventDefault();
     execute();
   };
@@ -59,10 +61,10 @@ export default function ConnectMenu() {
 
         <Row>
           <div className='btn-row'>
-            <Link to='/'>
+            <Link to='/' className={linkClass}>
               <button className='btn-back'>Back</button>
             </Link>
-            <Link to='/lobby'>
+            <Link to='/lobby' className={linkClass}>
               <button onClick={onConnect}>Connect</button>
             </Link>
           </div>
