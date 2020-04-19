@@ -10,14 +10,26 @@ import './LobbyMenu.css';
 import { useHostPeer } from '../../../hooks/hostPeer';
 
 export default function LobbyMenu() {
-  const { clearPlayers, hostPeer } = useContext(GlobalContext);
+  const { clearPlayers, hostPeer, players } = useContext(GlobalContext);
   const { clearConnections } = useHostPeer();
   const [hostPeerId, setHostPeerId] = useState();
   const location = useLocation();
+  const [linkClass, setLinkClass] = useState('disabled-link');
 
   useEffect(() => {
     setHostPeerId(location.state.hostPeerId);
   }, [location.state.hostPeerId]);
+
+  useEffect(() => {
+    const playersColors = new Set(players.map(player => player.color));
+
+    // check if the are at least 2 players and their colors are all differnt
+    if (players.length > 1 && playersColors.size === players.length) {
+      setLinkClass('');
+    } else {
+      setLinkClass('disabled-link')
+    }
+  }, [players])
 
   const onBack = () => {
     // wszyscy peerowie też muszą zostać rozjebani i cofnięci do MainMenu/ConnectMenu
@@ -50,7 +62,7 @@ export default function LobbyMenu() {
               Back
             </button>
           </Link>
-          <Link to='/game'>
+          <Link to='/game' className={linkClass}>
             <button>Start</button>
           </Link>
         </div>

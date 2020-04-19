@@ -35,7 +35,7 @@ export default function ConnectMenu() {
         setPeerId(playerPeer.id);
         connectToHost(playerPeer, hostPeerId.current.value).then(connection => {
           setClientConnection(connection);
-          sendMessage(connection, 'player', player);
+          sendMessage(connection, 'ADD_PLAYER', player);
           history.push('/lobby', { hostPeerId: hostPeerId.current.value });
         });
       });

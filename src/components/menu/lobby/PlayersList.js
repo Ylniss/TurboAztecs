@@ -10,7 +10,7 @@ export default function PlayersList() {
 
   useEffect(() => {
     hostConnections.forEach(connection => {
-      sendMessage(connection, 'players', players);
+      sendMessage(connection, 'SET_PLAYERS', players);
     });
   }, [players]);
 

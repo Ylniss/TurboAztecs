@@ -9,7 +9,9 @@ import { useAsync } from '../../hooks/async';
 import { Loader } from './shared/Loader';
 
 export default function MainMenu() {
-  const { nickname, setNickname, availableColors, addPlayer } = useContext(GlobalContext);
+  const { nickname, setNickname, availableColors, addPlayer, setPeerId } = useContext(
+    GlobalContext
+  );
   const { createHostPeer } = useHostPeer();
   const history = useHistory();
   const [linkClass, setLinkClass] = useState('');
@@ -28,6 +30,7 @@ export default function MainMenu() {
           nickname,
           color: availableColors[0],
         };
+        setPeerId(hostPeer.id);
         addPlayer(host);
         history.push('/lobby', { hostPeerId: hostPeer.id });
       });

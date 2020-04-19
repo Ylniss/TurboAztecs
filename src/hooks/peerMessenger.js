@@ -3,7 +3,7 @@ import { useContext } from 'react';
 import { GlobalContext } from '../context/GlobalState';
 
 export const usePeerMessenger = () => {
-  const { addPlayer, setPlayers } = useContext(GlobalContext);
+  const { addPlayer, setPlayers, updatePlayer } = useContext(GlobalContext);
 
   const sendMessage = (connection, messageType, messageData) => {
     const message = addMessageType(messageType, messageData);
@@ -16,16 +16,19 @@ export const usePeerMessenger = () => {
 
   const receiveMessage = message => {
     switch (message.type) {
-      case 'player':
+      case 'ADD_PLAYER':
         addPlayer(message.data);
         break;
-      case 'players':
+      case 'UPDATE_PLAYER':
+        updatePlayer(message.data);
+        break;
+      case 'SET_PLAYERS':
         setPlayers(message.data);
         break;
-      case 'gameObjects':
+      case 'SET_GAME_OBJECTS':
         // setGameObjects(message.data);
         break;
-      case 'diceRoll':
+      case 'SET_DICE_ROLL':
         // setDice(message.data);
         break;
       default:

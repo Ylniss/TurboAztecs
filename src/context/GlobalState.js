@@ -16,7 +16,7 @@ const initialState = {
   players: [],
   availableColors: ['#47cf31', '#0c81f2', '#d2952b', '#808080'],
   hostConnections: [],
-  clientConnection: {},
+  clientConnection: null,
 };
 
 export const GlobalContext = createContext(initialState);
