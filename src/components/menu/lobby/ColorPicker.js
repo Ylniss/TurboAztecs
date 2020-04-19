@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import './LobbyMenu.css';
 import { getNext } from '../../../services/arrayHelper.js';
-import { GlobalContext } from '../../context/GlobalState';
+import { GlobalContext } from '../../../context/GlobalState';
 
 const availableColors = ['#47cf31', '#0c81f2', '#d2952b', '#808080'];
 

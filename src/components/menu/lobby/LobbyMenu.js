@@ -34,7 +34,7 @@ export default function LobbyMenu() {
           src={copyIcon}
           width='25'
           height='25'
-          onClick={copyToClipboard(hostPeerId)}
+          onClick={() => copyToClipboard(hostPeerId)}
           alt='copy'
         />
       </Row>
