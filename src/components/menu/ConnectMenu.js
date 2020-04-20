@@ -6,7 +6,7 @@ import '../../styles.css';
 import { useClientPeer } from '../../hooks/clientPeer';
 import { GlobalContext } from '../../context/GlobalState';
 import { useAsync } from '../../hooks/async';
-import { Loader } from './shared/Loader';
+import { Loader } from './shared/loader/Loader';
 import { usePeerMessenger } from '../../hooks/peerMessenger';
 
 export default function ConnectMenu() {
@@ -37,11 +37,11 @@ export default function ConnectMenu() {
       sendMessage(connection, 'player', player);
       history.push('/lobby', { hostPeerId: hostPeerId.current.value });
     });
-  };
+  }
 
   return (
     <>
-      <div>{pending && <Loader />}</div>
+      <div>{pending && <Loader text='Connecting' />}</div>
 
       <Panel width='500px' height='300px'>
         <Row size='1'>
