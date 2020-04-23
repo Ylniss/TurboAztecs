@@ -3,16 +3,18 @@ import { Link, useHistory } from 'react-router-dom';
 import Panel from './shared/Panel';
 import Row from './shared/Row';
 import '../../styles.css';
-import { useClientPeer } from '../../hooks/clientPeer';
+import { usePeer } from '../../hooks/peer';
 import { GlobalContext } from '../../context/GlobalState';
 import { useAsync } from '../../hooks/async';
 import { Loader } from './shared/loader/Loader';
 import { usePeerMessenger } from '../../hooks/peerMessenger';
 
 export default function ConnectMenu() {
-  const { createPlayerPeer, connectToHost } = useClientPeer();
-  const { addPlayer, nickname, availableColors, setClientConnection, setPeerId } = useContext(GlobalContext);
-  const hostPeerId = useRef();
+  const { createPeer, connect } = usePeer();
+  const { addPlayer, nickname, availableColors, addConnection, setPeer } = useContext(
+    GlobalContext
+  );
+  const gameId = useRef();
   const history = useHistory();
   const { sendMessage } = usePeerMessenger();
   const { execute, pending } = useAsync(createPlayer, false);
@@ -25,17 +27,18 @@ export default function ConnectMenu() {
   };
 
   async function createPlayer() {
-    const playerPeer = await createPlayerPeer();
+    const playerPeer = await createPeer();
+    setPeer(playerPeer);
     let player = {
       peerId: playerPeer.id,
       nickname,
       color: availableColors[0],
     };
     addPlayer(player);
-    connectToHost(playerPeer, hostPeerId.current.value).then(connection => {
-      setClientConnection(connection);
-      sendMessage(connection, 'player', player);
-      history.push('/lobby', { hostPeerId: hostPeerId.current.value });
+    connect(playerPeer, gameId.current.value).then(connection => {
+      addConnection(connection);
+      sendMessage(connection, 'ADD_PLAYER', player);
+      history.push('/lobby', { gameId: gameId.current.value });
     });
   }
 
@@ -46,7 +49,7 @@ export default function ConnectMenu() {
       <Panel width='500px' height='300px'>
         <Row size='1'>
           <label htmlFor='gameId'>Game id</label>
-          <input type='text' ref={hostPeerId} />
+          <input type='text' ref={gameId} />
         </Row>
 
         <Row>

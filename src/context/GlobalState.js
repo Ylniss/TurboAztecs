@@ -5,13 +5,11 @@ const initialState = {
   // constants
   availableColors: ['#47cf31', '#0c81f2', '#d2952b', '#808080'],
   screenDefaults: { width: 1920, height: 1080, aspectRatio: 0.5625 },
-
   nickname: '',
-  peerId: '',
   gameId: '',
   players: [],
-  hostConnections: [],
-  clientConnection: null,
+  connections: [],
+  peer: {},
 };
 
 export const GlobalContext = createContext(initialState);
@@ -35,13 +33,6 @@ export const GlobalProvider = ({ children }) => {
     });
   }
 
-  function setPeerId(peerId) {
-    dispatch({
-      type: 'SET_PEER_ID',
-      payload: peerId,
-    });
-  }
-
   function addPlayer(player) {
     dispatch({
       type: 'ADD_PLAYER',
@@ -62,16 +53,9 @@ export const GlobalProvider = ({ children }) => {
     });
   }
 
-  function addHostConnection(connection) {
+  function addConnection(connection) {
     dispatch({
       type: 'ADD_HOST_CONNECTION',
-      payload: connection,
-    });
-  }
-
-  function setClientConnection(connection) {
-    dispatch({
-      type: 'SET_CLIENT_CONNECTION',
       payload: connection,
     });
   }
@@ -80,6 +64,13 @@ export const GlobalProvider = ({ children }) => {
     dispatch({
       type: 'UPDATE_PLAYER',
       payload: player,
+    });
+  }
+
+  function setPeer(peer) {
+    dispatch({
+      type: 'SET_PEER',
+      payload: peer,
     });
   }
 
@@ -92,21 +83,18 @@ export const GlobalProvider = ({ children }) => {
         availableColors: state.availableColors,
         screenDefaults: state.screenDefaults,
         nickname: state.nickname,
-        peerId: state.peerId,
-        hostPeer: state.hostPeer,
+        peer: state.peer,
         players: state.players,
         gameObjects: gameObjects.current,
         zPositions: zPositions.current,
-        hostConnections: state.hostConnections,
-        clientConnection: state.clientConnection,
+        connections: state.connections,
         setNickname,
-        setPeerId,
         addPlayer,
         clearPlayers,
         setPlayers,
-        addHostConnection,
-        setClientConnection,
+        addConnection,
         updatePlayer,
+        setPeer,
       }}
     >
       {children}

@@ -22,15 +22,9 @@ export const usePeerMessenger = () => {
       case 'UPDATE_PLAYER':
         updatePlayer(message.data);
         break;
-      case 'SET_PLAYERS':
-        setPlayers(message.data);
-        break;
-      case 'SET_GAME_OBJECTS':
-        // setGameObjects(message.data);
-        break;
-      case 'SET_DICE_ROLL':
-        // setDice(message.data);
-        break;
+      // case 'SET_PLAYERS':
+      //   setPlayers(message.data);
+      //   break;
       default:
         console.log(`Unknown message: ${message}`);
         break;

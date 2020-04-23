@@ -10,15 +10,15 @@ import './LobbyMenu.css';
 import { useHostPeer } from '../../../hooks/hostPeer';
 
 export default function LobbyMenu() {
-  const { clearPlayers, hostPeer, players } = useContext(GlobalContext);
+  const { clearPlayers, peer, players } = useContext(GlobalContext);
   const { clearConnections } = useHostPeer();
-  const [hostPeerId, setHostPeerId] = useState();
+  const [gameId, setGameId] = useState();
   const location = useLocation();
   const [linkClass, setLinkClass] = useState('disabled-link');
 
   useEffect(() => {
-    setHostPeerId(location.state.hostPeerId);
-  }, [location.state.hostPeerId]);
+    setGameId(location.state.gameId);
+  }, [location.state.gameId]);
 
   useEffect(() => {
     const playersColors = new Set(players.map(player => player.color));
@@ -32,21 +32,20 @@ export default function LobbyMenu() {
   }, [players])
 
   const onBack = () => {
-    // wszyscy peerowie też muszą zostać rozjebani i cofnięci do MainMenu/ConnectMenu
-    clearConnections(hostPeer);
+    clearConnections(peer);
     clearPlayers();
   };
 
   return (
     <Panel width='600px' height='400px'>
       <Row size='1' itemsDirection='row'>
-        <div className='game-id'>Game ID:{' ' + hostPeerId}</div>
+        <div className='game-id'>Game ID:{' ' + gameId}</div>
         <img
           className='copy-icon'
           src={copyIcon}
           width='25'
           height='25'
-          onClick={() => copyToClipboard(hostPeerId)}
+          onClick={() => copyToClipboard(gameId)}
           alt='copy'
         />
       </Row>

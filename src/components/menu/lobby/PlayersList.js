@@ -5,14 +5,14 @@ import './LobbyMenu.css';
 import { usePeerMessenger } from '../../../hooks/peerMessenger';
 
 export default function PlayersList() {
-  const { players, hostConnections } = useContext(GlobalContext);
+  const { players, connections: hostConnections } = useContext(GlobalContext);
   const { sendMessage } = usePeerMessenger();
 
-  useEffect(() => {
-    hostConnections.forEach(connection => {
-      sendMessage(connection, 'SET_PLAYERS', players);
-    });
-  }, [players]);
+  // useEffect(() => {
+  //   hostConnections.forEach(connection => {
+  //     sendMessage(connection, 'SET_PLAYERS', players);
+  //   });
+  // }, [players]);
 
   return (
     <ul className='player-list'>

@@ -6,11 +6,6 @@ export default (state, action) => {
         ...state,
         nickname: action.payload,
       };
-    case 'SET_PEER_ID':
-      return {
-        ...state,
-        peerId: action.payload,
-      };
     case 'ADD_PLAYER':
       const usedColors = state.players.map(player => player.color);
       action.payload.color = state.availableColors.find(color => !usedColors.includes(color));
@@ -29,15 +24,10 @@ export default (state, action) => {
         ...state,
         players: action.payload,
       };
-    case 'ADD_HOST_CONNECTION':
+    case 'ADD_CONNECTION':
       return {
         ...state,
         hostConnections: [...state.hostConnections, action.payload],
-      };
-    case 'SET_CLIENT_CONNECTION':
-      return {
-        ...state,
-        clientConnection: action.payload,
       };
     case 'UPDATE_PLAYER':
       return {
@@ -45,6 +35,11 @@ export default (state, action) => {
         players: state.players.map(player =>
           player.peerId === action.payload.peerId ? action.payload : player
         ),
+      };
+    case 'SET_PEER':
+      return {
+        ...state,
+        peer: action.payload,
       };
     default:
       return state;
