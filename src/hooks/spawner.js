@@ -3,7 +3,7 @@ import { GlobalContext } from '../context/GlobalState';
 import { v4 as uuidv4 } from 'uuid';
 
 export const useSpawner = () => {
-  const { addGameObject } = useContext(GlobalContext);
+  const { gameObjects } = useContext(GlobalContext);
 
   const getType = name => {
     switch (name) {
@@ -29,37 +29,45 @@ export const useSpawner = () => {
   const getSize = type => {
     switch (type) {
       case 'diamond':
-        return 8.4;
+        return { width: 103, height: 103 };
       case 'tile':
-        return 12;
-      case 'item':
-        return 6.4;
+        return { width: 145, height: 145 };
       case 'pawn':
-        return 8;
-      default:
-        return null;
-    }
-  };
-
-  const getImgExtension = type => {
-    switch (type) {
-      case 'diamond':
-      case 'pawn':
-        return '.png';
-      default:
-        return '.jpg';
-    }
-  };
-
-  const getCollisionBox = (type, x, y) => {
-    switch (type) {
-      case 'diamond':
-        return { x, y, width: 5.4, height: 5.4 };
+        return { width: 95, height: 95 };
       case 'overlay':
-        return { x, y, width: 2, height: 9 };
+        return { width: 117, height: 43 };
+      case 'item':
+        return { width: 78, height: 78 };
       default:
-        return { x, y, width: getSize(type), height: getSize(type) };
+        return { width: 1, height: 1 };
     }
+  };
+
+  const getCollisionCircleRadius = type => {
+    switch (type) {
+      case 'tile':
+        return 75;
+      default:
+        return 12;
+    }
+  };
+
+  const getCollisionCircleOffset = type => {
+    const size = getSize(type);
+    switch (type) {
+      case 'diamond':
+        return { x: size.width / 2 - 2, y: size.height / 2 + 15 };
+      default:
+        return { x: size.width / 2, y: size.height / 2 };
+    }
+  };
+
+  const getCollisionCircle = (type, id, x, y) => {
+    const offset = getCollisionCircleOffset(type);
+    const collisionCirclePosition = { x: x + offset.x, y: y + offset.y };
+    const radius = getCollisionCircleRadius(type);
+
+    return { id, x: collisionCirclePosition.x, y: collisionCirclePosition.y, radius };
   };
 
   const isTurnable = type => {
@@ -88,21 +96,21 @@ export const useSpawner = () => {
   const spawn = (name, x, y, turn = 0, childrenIds = []) => {
     const type = getType(name);
     const id = uuidv4();
-    addGameObject({
+
+    gameObjects[id] = {
       id,
       type,
       name,
       x,
       y,
-      size: getSize(type),
-      collisionBox: getCollisionBox(type, x, y),
+      collisionCircleOffset: getCollisionCircleOffset(type),
+      collisionCircle: getCollisionCircle(type, id, x, y),
       turnable: isTurnable(type),
       flippable: isFlippable(type),
       turn,
       flipped: false,
-      imgExtension: getImgExtension(type),
       childrenIds,
-    });
+    };
 
     return id;
   };

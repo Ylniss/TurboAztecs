@@ -39,23 +39,6 @@ export default (state, action) => {
         ...state,
         clientConnection: action.payload,
       };
-    case 'SET_Z_POSITIONS':
-      return {
-        ...state,
-        zPositions: action.payload,
-      };
-    case 'ADD_GAMEOBJECT':
-      return {
-        ...state,
-        gameObjects: [...state.gameObjects, action.payload],
-      };
-    case 'UPDATE_GAMEOBJECTS':
-      return {
-        ...state,
-        gameObjects: state.gameObjects.map(gameObj =>
-          gameObj.id === action.payload.id ? action.payload : gameObj
-        ),
-      };
     case 'UPDATE_PLAYER':
       return {
         ...state,

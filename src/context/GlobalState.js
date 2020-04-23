@@ -1,20 +1,15 @@
-import React, { createContext, useReducer } from 'react';
+import React, { createContext, useReducer, useRef } from 'react';
 import AppReducer from './AppReducer';
 
 const initialState = {
+  // constants
+  availableColors: ['#47cf31', '#0c81f2', '#d2952b', '#808080'],
+  screenDefaults: { width: 1920, height: 1080, aspectRatio: 0.5625 },
+
   nickname: '',
   peerId: '',
   gameId: '',
-  zPositions: [
-    //needed for layering objects on screen properly
-    { type: 'diamond', z: 150000 },
-    { type: 'pawn', z: 100000 },
-    { type: 'item', z: 50000 },
-    { type: 'tile', z: 0 },
-  ],
-  gameObjects: [],
   players: [],
-  availableColors: ['#47cf31', '#0c81f2', '#d2952b', '#808080'],
   hostConnections: [],
   clientConnection: null,
 };
@@ -24,6 +19,13 @@ export const GlobalContext = createContext(initialState);
 // Provider component provides actions for other components to use
 export const GlobalProvider = ({ children }) => {
   const [state, dispatch] = useReducer(AppReducer, initialState);
+  const gameObjects = useRef({});
+  const zPositions = useRef({
+    diamond: 150000,
+    pawn: 100000,
+    item: 50000,
+    tile: 0,
+  });
 
   // Action dispatchers
   function setNickname(nickname) {
@@ -37,34 +39,6 @@ export const GlobalProvider = ({ children }) => {
     dispatch({
       type: 'SET_PEER_ID',
       payload: peerId,
-    });
-  }
-
-  function setZPositions(zPositions) {
-    dispatch({
-      type: 'SET_Z_POSITIONS',
-      payload: zPositions,
-    });
-  }
-
-  function addGameObject(gameObject) {
-    dispatch({
-      type: 'ADD_GAMEOBJECT',
-      payload: gameObject,
-    });
-  }
-
-  function removeGameObject(id) {
-    dispatch({
-      type: 'REMOVE_GAMEOBJECT',
-      payload: id,
-    });
-  }
-
-  function updateGameObjects(gameObject) {
-    dispatch({
-      type: 'UPDATE_GAMEOBJECTS',
-      payload: gameObject,
     });
   }
 
@@ -115,13 +89,14 @@ export const GlobalProvider = ({ children }) => {
     <GlobalContext.Provider
       value={{
         // This allows acces to global state and its actions from any component we request from useContext hook
+        availableColors: state.availableColors,
+        screenDefaults: state.screenDefaults,
         nickname: state.nickname,
         peerId: state.peerId,
         hostPeer: state.hostPeer,
         players: state.players,
-        zPositions: state.zPositions,
-        gameObjects: state.gameObjects,
-        availableColors: state.availableColors,
+        gameObjects: gameObjects.current,
+        zPositions: zPositions.current,
         hostConnections: state.hostConnections,
         clientConnection: state.clientConnection,
         setNickname,
@@ -131,10 +106,6 @@ export const GlobalProvider = ({ children }) => {
         setPlayers,
         addHostConnection,
         setClientConnection,
-        setZPositions,
-        addGameObject,
-        removeGameObject,
-        updateGameObjects,
         updatePlayer,
       }}
     >

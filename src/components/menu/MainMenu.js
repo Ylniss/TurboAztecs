@@ -6,7 +6,7 @@ import { GlobalContext } from '../../context/GlobalState';
 import { useHostPeer } from '../../hooks/hostPeer';
 import '../../styles.css';
 import { useAsync } from '../../hooks/async';
-import { Loader } from './shared/Loader';
+import { Loader } from './shared/loader/Loader';
 
 export default function MainMenu() {
   const { nickname, setNickname, availableColors, addPlayer, setPeerId } = useContext(
@@ -42,7 +42,7 @@ export default function MainMenu() {
   return (
     <>
       {/* It works because in JavaScript, true && expression always evaluates to expression, and false && expression always evaluates to false. */}
-      <div>{pending && <Loader />}</div>
+      <div>{pending && <Loader text='Creating'/>}</div>
 
       <Panel width='500px' height='300px'>
         <Row size='1'>

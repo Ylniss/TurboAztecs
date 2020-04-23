@@ -18,5 +18,5 @@ export const useAspectRatioContainer = aspectRatio => {
     }
   }, [windowWidth, windowHeight, aspectRatio]);
 
-  return [width, height];
+  return { width, height };
 };

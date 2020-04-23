@@ -4,9 +4,9 @@ import { getNext } from '../../../services/arrayHelper.js';
 import { GlobalContext } from '../../../context/GlobalState';
 import { usePeerMessenger } from '../../../hooks/peerMessenger';
 
-const availableColors = ['#47cf31', '#0c81f2', '#d2952b', '#808080'];
-
 export default function ColorPicker({ startColor }) {
+  const { availableColors } = useContext(GlobalContext);
+  
   startColor = startColor ? startColor : availableColors[0];
 
   //todo: color has to be send via peerjs to other clients
