@@ -4,13 +4,14 @@ import { useCollider } from '../../../hooks/collider';
 import DraggableSprite from './DraggableSprite';
 import Collider from './Collider';
 
-export const GameObject = ({ id, gameObjects, images }) => {
-  const { zPositions } = useContext(GlobalContext);
+export const GameObject = ({ id, images }) => {
+  const { zPositions, gameObjects } = useContext(GlobalContext);
   const self = useRef(gameObjects[id]).current;
   const { handleCollision } = useCollider();
 
   useEffect(() => {
-    gameObjects[id].z = zPositions[self.type];
+    // -1 because when getting from stack we want newly spawned to be under one that is taken
+    gameObjects[id].z = zPositions[self.type] - 1;
     console.log(`${self.name} (${id}) rendered!`);
   }, []);
 
@@ -101,7 +102,8 @@ export const GameObject = ({ id, gameObjects, images }) => {
         y={self.y}
         zIndex={self.z ? self.z : 0}
       />
-      <Collider id={id} gameObjects={gameObjects} />
+      {/* visual representation of collider, uncomment for debug purpose only */}
+      {/* <Collider id={id} gameObjects={gameObjects} /> */}
     </>
   );
 };

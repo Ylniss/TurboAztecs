@@ -19,11 +19,12 @@ export const GlobalContext = createContext(initialState);
 export const GlobalProvider = ({ children }) => {
   const [state, dispatch] = useReducer(AppReducer, initialState);
   const gameObjects = useRef({});
+  const stacks = useRef({});
   const zPositions = useRef({
     diamond: 150000,
     pawn: 100000,
     item: 50000,
-    tile: 0,
+    tile: 1,
   });
 
   // Action dispatchers
@@ -81,6 +82,7 @@ export const GlobalProvider = ({ children }) => {
         players: state.players,
         gameObjects: gameObjects.current,
         zPositions: zPositions.current,
+        stacks: stacks.current,
         hostConnections: state.hostConnections,
         clientConnection: state.clientConnection,
         setNickname,

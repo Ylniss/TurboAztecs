@@ -1,44 +1,65 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { GlobalContext } from '../../../context/GlobalState';
-import { Container, useApp } from '@inlet/react-pixi';
+import { Container, useApp, useTick } from '@inlet/react-pixi';
 import { Board } from './Board';
 import { useAspectRatioContainer } from '../../../hooks/aspectRatioContainer';
 import { useTableSettuper } from '../../../hooks/tableSettuper';
 import { useImages } from '../../../hooks/images';
 import { PlayerPanel } from './PlayerPanel';
 import { GameObject } from '../game-object/GameObject';
+import { Stack } from '../stacks/Stack';
 
 export const Game = ({ players }) => {
   const app = useApp();
-  const { screenDefaults, gameObjects } = useContext(GlobalContext);
+  const { screenDefaults, gameObjects, stacks } = useContext(GlobalContext);
   const { width, height } = useAspectRatioContainer(screenDefaults.aspectRatio);
+  const [triggerWindowChange, setTriggerWindowChange] = useState(false);
+  const [gameObjectIds, setGameObjectIds] = useState(Object.keys(gameObjects));
 
   const images = useImages();
-  const { spawnDiamondWithTile, spawnPlayerWithTile } = useTableSettuper();
+  const { spawnDiamondWithTile, spawnPlayerWithTile, createStacks } = useTableSettuper();
 
   useEffect(() => {
+    // only if(host) and then send gameObjects adn stacks to all
     spawnDiamondWithTile();
     players.forEach(player => {
       spawnPlayerWithTile(player.color);
+      createStacks(player.color);
     });
   }, []);
 
   useEffect(() => {
-    app.stage.position.set(app.renderer.width / 2, app.renderer.height / 2);
-    app.stage.scale.set(width / screenDefaults.width, height / screenDefaults.height);
-    app.stage.pivot.set(screenDefaults.width / 2, screenDefaults.height / 2);
+    setTriggerWindowChange(true);
   }, [app.renderer.width, app.renderer.height, width, height]);
+
+  useTick(delta => {
+    if (triggerWindowChange) {
+      setTriggerWindowChange(false);
+      app.stage.position.set(app.renderer.width / 2, app.renderer.height / 2);
+      app.stage.scale.set(width / screenDefaults.width, height / screenDefaults.height);
+      app.stage.pivot.set(screenDefaults.width / 2, screenDefaults.height / 2);
+    }
+
+    // triggers rerender when game object is added or removed
+    if (gameObjectIds.length !== Object.keys(gameObjects).length) {
+      setGameObjectIds(Object.keys(gameObjects));
+    }
+  });
 
   return (
     <Container sortableChildren={true}>
       <Board />
-      
+
       {players.map(player => (
         <PlayerPanel key={player.nickname} color={player.color} />
       ))}
 
-      {Object.keys(gameObjects).map(id => (
-        <GameObject key={id} id={id} gameObjects={gameObjects} images={images} />
+      {Object.keys(stacks).map(id => (
+        <Stack key={id} id={id} />
+      ))}
+
+      {gameObjectIds.map(id => (
+        <GameObject key={id} id={id} images={images} />
       ))}
     </Container>
   );
