@@ -17,14 +17,21 @@ export const Game = ({ players }) => {
   const [gameObjectIds, setGameObjectIds] = useState(Object.keys(gameObjects));
 
   const images = useImages();
-  const { spawnDiamondWithTile, spawnPlayerWithTile, createStacks } = useTableSettuper();
+  const {
+    spawnDiamondWithTile,
+    spawnPlayerWithTile,
+    createStacks,
+    getObjectNamesForAllStacks,
+  } = useTableSettuper();
 
   useEffect(() => {
-    // only if(host) and then send gameObjects adn stacks to all
+    // only if(host) and then send gameObjects and stacks to rest players
+    const { tileStacks, itemStacks } = getObjectNamesForAllStacks(players.length);
+
     spawnDiamondWithTile();
-    players.forEach(player => {
+    players.forEach((player, i) => {
       spawnPlayerWithTile(player.color);
-      createStacks(player.color);
+      createStacks(player.color, tileStacks[i], itemStacks[i]);
     });
   }, []);
 
@@ -51,7 +58,7 @@ export const Game = ({ players }) => {
       <Board />
 
       {players.map(player => (
-        <PlayerPanel key={player.nickname} color={player.color} />
+        <PlayerPanel key={player.nickname + player.color} color={player.color} />
       ))}
 
       {Object.keys(stacks).map(id => (

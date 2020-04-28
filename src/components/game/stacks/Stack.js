@@ -21,6 +21,7 @@ export const Stack = ({ id }) => {
     setTopItemId(itemId);
     if (self.content.length === 1) {
       // todo networking: send msg to refill
+
       
     }
   };

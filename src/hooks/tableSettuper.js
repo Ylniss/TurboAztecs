@@ -2,7 +2,7 @@ import { useContext } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { GlobalContext } from '../context/GlobalState';
 import { useSpawner } from './spawner';
-import { shuffle } from '../services/arrayHelper';
+import { shuffle, chunk } from '../services/arrayHelper';
 import { tiles, items } from '../components/game/stacks/setup-counts.json';
 
 export const useTableSettuper = () => {
@@ -52,34 +52,41 @@ export const useTableSettuper = () => {
     stacks[id] = { x, y, type, content };
   };
 
-  const createStacks = color => {
-    let stackTiles = getArrayFromCounts(tiles);
-    let stackItems = getArrayFromCounts(items);
+  const getObjectNamesForAllStacks = numberOfStacks => {
+    let tileStack = getArrayFromCounts(tiles);
+    let itemStack = getArrayFromCounts(items);
 
-    stackTiles = shuffle(stackTiles);
-    stackItems = shuffle(stackItems);
+    tileStack = shuffle(tileStack);
+    itemStack = shuffle(itemStack);
 
+    let tileStacks = chunk(tileStack, tileStack.length / numberOfStacks);
+    let itemStacks = chunk(itemStack, itemStack.length / numberOfStacks);
+
+    return { tileStacks, itemStacks };
+  };
+
+  const createStacks = (color, tileStack, itemStack) => {
     switch (color) {
       case availableColors[0]:
-        createStack(30, 310, 'tile', stackTiles);
-        createStack(230, 310, 'item', stackItems);
+        createStack(30, 310, 'tile', tileStack);
+        createStack(230, 310, 'item', itemStack);
         break;
       case availableColors[1]:
-        createStack(30, 610, 'tile', stackTiles);
-        createStack(230, 685, 'item', stackItems);
+        createStack(30, 610, 'tile', tileStack);
+        createStack(230, 685, 'item', itemStack);
         break;
       case availableColors[2]:
-        createStack(1740, 310, 'tile', stackTiles);
-        createStack(1635, 310, 'item', stackItems);
+        createStack(1740, 310, 'tile', tileStack);
+        createStack(1635, 310, 'item', itemStack);
         break;
       case availableColors[3]:
-        createStack(1740, 610, 'tile', stackTiles);
-        createStack(1635, 685, 'item', stackItems);
+        createStack(1740, 610, 'tile', tileStack);
+        createStack(1635, 685, 'item', itemStack);
         break;
       default:
         console.log(`Color ${color} is not supported!`);
     }
   };
 
-  return { spawnDiamondWithTile, spawnPlayerWithTile, createStacks };
+  return { spawnDiamondWithTile, spawnPlayerWithTile, createStacks, getObjectNamesForAllStacks };
 };
