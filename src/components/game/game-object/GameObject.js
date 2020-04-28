@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useContext } from 'react';
 import { GlobalContext } from '../../../context/GlobalState';
-import { useCollider } from '../../../hooks/collider';
+import { useCollider } from './useCollider';
 import DraggableSprite from './DraggableSprite';
 import Collider from './Collider';
 

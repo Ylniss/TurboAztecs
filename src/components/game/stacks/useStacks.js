@@ -1,41 +1,11 @@
 import { useContext } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { GlobalContext } from '../context/GlobalState';
-import { useSpawner } from './spawner';
-import { shuffle, chunk } from '../services/arrayHelper';
-import { tiles, items } from '../components/game/stacks/setup-counts.json';
+import { GlobalContext } from '../../../context/GlobalState';
+import { shuffle, chunk } from '../../../services/arrayHelper';
+import { tiles, items } from './setup-counts.json';
 
-export const useTableSettuper = () => {
+export const useStacks = () => {
   const { availableColors, stacks } = useContext(GlobalContext);
-  const { spawn } = useSpawner();
-
-  const spawnDiamondWithTile = () => {
-    const diamondId = spawn('diamond', 910, 493);
-    spawn('crossing-tile', 887, 468, 0, [diamondId]);
-  };
-
-  const spawnPlayerWithTile = color => {
-    switch (color) {
-      case availableColors[0]:
-        const greenPawnId = spawn('green-pawn', 625, 206);
-        spawn('turn-tile', 600, 182, 2, [greenPawnId]);
-        break;
-      case availableColors[1]:
-        const bluePawnId = spawn('blue-pawn', 625, 778);
-        spawn('turn-tile', 600, 755, 1, [bluePawnId]);
-        break;
-      case availableColors[2]:
-        const brownPawnId = spawn('brown-pawn', 1197, 206);
-        spawn('turn-tile', 1175, 182, 3, [brownPawnId]);
-        break;
-      case availableColors[3]:
-        const greyPawnId = spawn('grey-pawn', 1197, 778);
-        spawn('turn-tile', 1175, 755, 0, [greyPawnId]);
-        break;
-      default:
-        console.log(`Color ${color} is not supported!`);
-    }
-  };
 
   const getArrayFromCounts = counts => {
     let array = [];
@@ -88,5 +58,5 @@ export const useTableSettuper = () => {
     }
   };
 
-  return { spawnDiamondWithTile, spawnPlayerWithTile, createStacks, getObjectNamesForAllStacks };
+  return { createStacks, getObjectNamesForAllStacks };
 };

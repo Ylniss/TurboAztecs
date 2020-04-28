@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useContext } from 'react';
 import { Sprite, useTick } from '@inlet/react-pixi';
 import { GlobalContext } from '../../../context/GlobalState';
 import stackImage from '../../../assets/img/table/stack.png';
-import { useSpawner } from '../../../hooks/spawner';
+import { useSpawner } from '../useSpawner';
 
 export const Stack = ({ id }) => {
   const { stacks, gameObjects } = useContext(GlobalContext);
@@ -21,8 +21,6 @@ export const Stack = ({ id }) => {
     setTopItemId(itemId);
     if (self.content.length === 1) {
       // todo networking: send msg to refill
-
-      
     }
   };
 

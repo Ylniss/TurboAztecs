@@ -2,9 +2,10 @@ import React, { useContext, useEffect, useState } from 'react';
 import { GlobalContext } from '../../../context/GlobalState';
 import { Container, useApp, useTick } from '@inlet/react-pixi';
 import { Board } from './Board';
-import { useAspectRatioContainer } from '../../../hooks/aspectRatioContainer';
-import { useTableSettuper } from '../../../hooks/tableSettuper';
-import { useImages } from '../../../hooks/images';
+import { useAspectRatioContainer } from '../../../hooks/useAspectRatioContainer';
+import { useTableSettuper } from './useTableSettuper';
+import { useStacks } from '../stacks/useStacks';
+import { useImages } from './useImages';
 import { PlayerPanel } from './PlayerPanel';
 import { GameObject } from '../game-object/GameObject';
 import { Stack } from '../stacks/Stack';
@@ -17,12 +18,8 @@ export const Game = ({ players }) => {
   const [gameObjectIds, setGameObjectIds] = useState(Object.keys(gameObjects));
 
   const images = useImages();
-  const {
-    spawnDiamondWithTile,
-    spawnPlayerWithTile,
-    createStacks,
-    getObjectNamesForAllStacks,
-  } = useTableSettuper();
+  const { spawnDiamondWithTile, spawnPlayerWithTile } = useTableSettuper();
+  const { createStacks, getObjectNamesForAllStacks } = useStacks();
 
   useEffect(() => {
     // only if(host) and then send gameObjects and stacks to rest players

@@ -5,7 +5,7 @@ export const useImages = () => {
 
   useLayoutEffect(() => {
     const importGameObjectImages = () => {
-      const req = require.context('../assets/img/game-objects', false, /\.(png|jpe?g|svg)$/);
+      const req = require.context('../../../assets/img/game-objects', false, /\.(png|jpe?g|svg)$/);
 
       let images = {};
       req.keys().forEach(item => {
