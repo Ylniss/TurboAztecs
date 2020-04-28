@@ -22,7 +22,7 @@ export const useStacks = () => {
     stacks[id] = { x, y, type, content };
   };
 
-  const getObjectNamesForAllStacks = numberOfStacks => {
+  const getContentForAllStacks = numberOfStacks => {
     let tileStack = getArrayFromCounts(tiles);
     let itemStack = getArrayFromCounts(items);
 
@@ -58,5 +58,5 @@ export const useStacks = () => {
     }
   };
 
-  return { createStacks, getObjectNamesForAllStacks };
+  return { createStacks, getContentForAllStacks };
 };

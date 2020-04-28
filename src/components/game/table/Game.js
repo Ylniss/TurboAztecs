@@ -19,11 +19,11 @@ export const Game = ({ players }) => {
 
   const images = useImages();
   const { spawnDiamondWithTile, spawnPlayerWithTile } = useTableSettuper();
-  const { createStacks, getObjectNamesForAllStacks } = useStacks();
+  const { createStacks, getContentForAllStacks } = useStacks();
 
   useEffect(() => {
     // only if(host) and then send gameObjects and stacks to rest players
-    const { tileStacks, itemStacks } = getObjectNamesForAllStacks(players.length);
+    const { tileStacks, itemStacks } = getContentForAllStacks(players.length);
 
     spawnDiamondWithTile();
     players.forEach((player, i) => {
