@@ -3,7 +3,7 @@ import { useContext } from 'react';
 import { GlobalContext } from '../context/GlobalState';
 
 export const usePeerMessenger = () => {
-  const { addPlayer, setPlayers, updatePlayer } = useContext(GlobalContext);
+  const { addPlayer, updatePlayer, deletePlayer } = useContext(GlobalContext);
 
   const sendMessage = (connection, messageType, messageData) => {
     const message = addMessageType(messageType, messageData);
@@ -15,6 +15,9 @@ export const usePeerMessenger = () => {
   };
 
   const receiveMessage = message => {
+    console.log('Received message: ');
+    console.log(message);
+
     switch (message.type) {
       case 'ADD_PLAYER':
         addPlayer(message.data);
@@ -25,8 +28,11 @@ export const usePeerMessenger = () => {
       // case 'SET_PLAYERS':
       //   setPlayers(message.data);
       //   break;
+      case 'DELETE_PLAYER':
+        deletePlayer(message.data);
+        break;
       default:
-        console.log(`Unknown message: ${message}`);
+        console.log('Message type unknown.');
         break;
     }
   };

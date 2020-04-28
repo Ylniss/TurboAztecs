@@ -55,7 +55,7 @@ export const GlobalProvider = ({ children }) => {
 
   function addConnection(connection) {
     dispatch({
-      type: 'ADD_HOST_CONNECTION',
+      type: 'ADD_CONNECTION',
       payload: connection,
     });
   }

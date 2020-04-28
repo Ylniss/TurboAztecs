@@ -7,18 +7,33 @@ import Row from '../shared/Row';
 import PlayersList from './PlayersList';
 import { GlobalContext } from '../../../context/GlobalState.js';
 import './LobbyMenu.css';
-import { useHostPeer } from '../../../hooks/hostPeer';
+import { usePeer } from '../../../hooks/peer';
+import { usePeerMessenger } from '../../../hooks/peerMessenger';
 
 export default function LobbyMenu() {
-  const { clearPlayers, peer, players } = useContext(GlobalContext);
-  const { clearConnections } = useHostPeer();
+  const { clearPlayers, peer, players, connections, nickname, availableColors } = useContext(
+    GlobalContext
+  );
+  const { clearConnections } = usePeer();
   const [gameId, setGameId] = useState();
   const location = useLocation();
   const [linkClass, setLinkClass] = useState('disabled-link');
+  const { sendMessage } = usePeerMessenger();
 
   useEffect(() => {
     setGameId(location.state.gameId);
   }, [location.state.gameId]);
+
+  useEffect(() => {
+    const player = {
+      peerId: peer.id,
+      nickname,
+      color: availableColors[0],
+    };
+    connections.forEach(conn => {
+      sendMessage(conn, 'ADD_PLAYER', player);
+    });
+  }, [connections]);
 
   useEffect(() => {
     const playersColors = new Set(players.map(player => player.color));
@@ -27,13 +42,20 @@ export default function LobbyMenu() {
     if (players.length > 1 && playersColors.size === players.length) {
       setLinkClass('');
     } else {
-      setLinkClass('disabled-link')
+      setLinkClass('disabled-link');
     }
-  }, [players])
+  }, [players]);
 
   const onBack = () => {
     clearConnections(peer);
     clearPlayers();
+  };
+
+  window.onbeforeunload = e => {
+    connections.forEach(conn => {
+      sendMessage(conn, 'DELETE_PLAYER', peer.id);
+    });
+    clearConnections(peer);
   };
 
   return (

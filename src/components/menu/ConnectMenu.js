@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 import React, { useContext, useRef, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import Panel from './shared/Panel';
@@ -17,7 +18,6 @@ export default function ConnectMenu() {
   const gameId = useRef();
   const history = useHistory();
   const { sendMessage } = usePeerMessenger();
-  const { execute, pending } = useAsync(createPlayer, false);
   const [linkClass, setLinkClass] = useState('');
 
   const onConnect = e => {
@@ -26,21 +26,46 @@ export default function ConnectMenu() {
     execute();
   };
 
-  async function createPlayer() {
-    const playerPeer = await createPeer();
-    setPeer(playerPeer);
-    let player = {
-      peerId: playerPeer.id,
-      nickname,
-      color: availableColors[0],
-    };
-    addPlayer(player);
-    connect(playerPeer, gameId.current.value).then(connection => {
-      addConnection(connection);
-      sendMessage(connection, 'ADD_PLAYER', player);
-      history.push('/lobby', { gameId: gameId.current.value });
+  const createPlayer = () => {
+    return new Promise(() => {
+      if (gameId.current.value) {
+        createPeer().then(playerPeer => {
+          setPeer(playerPeer);
+          const player = {
+            peerId: playerPeer.id,
+            nickname,
+            color: availableColors[0],
+          };
+          addPlayer(player);
+
+          connect(playerPeer, gameId.current.value).then(connection => {
+            addConnection(connection);
+            history.push('/lobby', { gameId: gameId.current.value });
+          });
+        });
+      } else {
+        alert('Provide game ID'); // temporary
+      }
+
+      // const playerPeer = await createPeer();
+      // setPeer(playerPeer);
+      // let player = {
+      //   peerId: playerPeer.id,
+      //   nickname,
+      //   color: availableColors[0],
+      // };
+      // addPlayer(player);
+
+      // const connection = await connect(playerPeer, gameId.current.value);
+      // addConnection(connection);
+      // // setTimeout(() => {
+      // // sendMessage(connection, 'ADD_PLAYER', player);
+      // // }, 3000);
+      // history.push('/lobby', { gameId: gameId.current.value });
     });
-  }
+  };
+
+  const { execute, pending } = useAsync(createPlayer, false);
 
   return (
     <>

@@ -27,7 +27,7 @@ export default (state, action) => {
     case 'ADD_CONNECTION':
       return {
         ...state,
-        hostConnections: [...state.hostConnections, action.payload],
+        connections: [...state.connections, action.payload],
       };
     case 'UPDATE_PLAYER':
       return {

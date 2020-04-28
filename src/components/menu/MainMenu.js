@@ -9,13 +9,10 @@ import { useAsync } from '../../hooks/async';
 import { Loader } from './shared/loader/Loader';
 
 export default function MainMenu() {
-  const { nickname, setNickname, availableColors, addPlayer, setPeer } = useContext(
-    GlobalContext
-  );
+  const { nickname, setNickname, availableColors, addPlayer, setPeer } = useContext(GlobalContext);
   const { createPeer } = usePeer();
   const history = useHistory();
   const [linkClass, setLinkClass] = useState('');
-  const { execute, pending } = useAsync(createPlayer, false);
 
   const onCreate = e => {
     setLinkClass('disabled-link');
@@ -23,17 +20,22 @@ export default function MainMenu() {
     execute();
   };
 
-  async function createPlayer() {
-    const playerPeer = await createPeer();
-    setPeer(playerPeer);
-    let player = {
-      peerId: playerPeer.id,
-      nickname,
-      color: availableColors[0]
-    }
-    addPlayer(player);
-    history.push('/lobby', { gameId: playerPeer.id });
+  const createPlayer = async () => {
+    return new Promise(async () => {
+      createPeer().then(playerPeer => {
+        setPeer(playerPeer);
+        let player = {
+          peerId: playerPeer.id,
+          nickname,
+          color: availableColors[0],
+        };
+        addPlayer(player);
+        history.push('/lobby', { gameId: playerPeer.id });
+      });
+    });
   };
+
+  const { execute, pending } = useAsync(createPlayer, false);
 
   return (
     <>

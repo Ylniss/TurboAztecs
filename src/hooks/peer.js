@@ -2,26 +2,26 @@ import Peer from 'peerjs';
 import { useEffect, useState, useContext } from 'react';
 import { GlobalContext } from '../context/GlobalState';
 import { usePeerMessenger } from './peerMessenger';
+import { useHistory } from 'react-router-dom';
 
 // peerjs --port 9000 --key peerjs
 
 export const usePeer = () => {
   const [peer, setPeer] = useState();
-  const { receiveMessage } = usePeerMessenger();
-  // const { addHostConnection } = useContext(GlobalContext);
+  const { receiveMessage, sendMessage } = usePeerMessenger();
+  const { addConnection } = useContext(GlobalContext);
+  const history = useHistory();
 
   useEffect(() => {
     if (peer) {
       peer.on('connection', connection => {
         console.log(`Connected to: ${connection.peer}`);
-        // addHostConnection(connection);
 
         connection.on('data', data => {
-          console.log('Received data: ');
-          console.log(data);
-
           receiveMessage(data);
         });
+
+        addConnection(connection);
       });
 
       peer.on('disconnected', () => {
@@ -35,6 +35,7 @@ export const usePeer = () => {
       });
 
       peer.on('error', error => {
+        history.push('/lobby');
         console.log(error);
       });
 
@@ -42,25 +43,33 @@ export const usePeer = () => {
     }
   }, [peer]);
 
-  async function createPeer() {
-    const peer = await new Peer(null, { key: 'peerjs', debug: 2 });
+  const createPeer = () => {
+    return new Promise((resolve, reject) => {
+      const newPeer = new Peer(null, { key: 'peerjs', debug: 2 });
 
-    peer.on('open', id => {
-      console.log(`Opened peer with id: ${id}`);
-      setPeer(peer);
+      newPeer.on('open', id => {
+        console.log(`Opened peer with id: ${id}`);
+        setPeer(newPeer);
+
+        if (newPeer) {
+          resolve(newPeer);
+        } else {
+          console.log('Error occured when creating host peer');
+          reject();
+        }
+      });
     });
+  };
 
-    return peer;
-  }
+  const connect = (peer, hostId) => {
+    return new Promise((resolve, reject) => {
+      const connection = peer.connect(hostId, { serialization: 'json' });
 
-  async function connect(peer, hostId) {
-    const connection = peer.connect(hostId, { serialization: 'json' });
-
-    connection.on('open', () => {
-      console.log(`Connected to: ${connection.peer}`);
+      connection.on('open', () => {
+        console.log(`Connection opened with: ${connection.peer}`);
+        resolve(connection);
+      });
     });
-
-    return connection;
   };
 
   const clearConnections = peer => {
