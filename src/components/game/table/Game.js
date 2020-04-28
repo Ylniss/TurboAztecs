@@ -1,23 +1,21 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { GlobalContext } from '../../../context/GlobalState';
-import { Container, useApp, useTick } from '@inlet/react-pixi';
+import { Container, useTick } from '@inlet/react-pixi';
 import { Board } from './Board';
-import { useAspectRatioContainer } from '../../../hooks/useAspectRatioContainer';
 import { useTableSettuper } from './useTableSettuper';
 import { useStacks } from '../stacks/useStacks';
 import { useImages } from './useImages';
 import { PlayerPanel } from './PlayerPanel';
 import { GameObject } from '../game-object/GameObject';
 import { Stack } from '../stacks/Stack';
+import { useScreenResizer } from './useScreenResizer';
 
 export const Game = ({ players }) => {
-  const app = useApp();
-  const { screenDefaults, gameObjects, stacks } = useContext(GlobalContext);
-  const { width, height } = useAspectRatioContainer(screenDefaults.aspectRatio);
-  const [triggerWindowChange, setTriggerWindowChange] = useState(false);
+  const { gameObjects, stacks } = useContext(GlobalContext);
   const [gameObjectIds, setGameObjectIds] = useState(Object.keys(gameObjects));
 
   const images = useImages();
+  useScreenResizer();
   const { spawnDiamondWithTile, spawnPlayerWithTile } = useTableSettuper();
   const { createStacks, getContentForAllStacks } = useStacks();
 
@@ -32,18 +30,7 @@ export const Game = ({ players }) => {
     });
   }, []);
 
-  useEffect(() => {
-    setTriggerWindowChange(true);
-  }, [app.renderer.width, app.renderer.height, width, height]);
-
   useTick(delta => {
-    if (triggerWindowChange) {
-      setTriggerWindowChange(false);
-      app.stage.position.set(app.renderer.width / 2, app.renderer.height / 2);
-      app.stage.scale.set(width / screenDefaults.width, height / screenDefaults.height);
-      app.stage.pivot.set(screenDefaults.width / 2, screenDefaults.height / 2);
-    }
-
     // triggers rerender when game object is added or removed
     if (gameObjectIds.length !== Object.keys(gameObjects).length) {
       setGameObjectIds(Object.keys(gameObjects));
