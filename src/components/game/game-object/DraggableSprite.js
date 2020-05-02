@@ -1,9 +1,9 @@
-import { Sprite } from 'pixi.js';
+import { Sprite, Texture } from 'pixi.js';
 import { PixiComponent, applyDefaultProps } from '@inlet/react-pixi';
 
 export default PixiComponent('DraggableSprite', {
   create: props => {
-    return Sprite.from(props.image);
+    return Sprite.from(props.textures[0]);
   },
   willUnmount: (instance, parent) => {
     instance.destroy();
@@ -57,10 +57,16 @@ export default PixiComponent('DraggableSprite', {
         }
       };
 
+      const onRightClick = e => {
+        gameObjects[id].turn = (gameObjects[id].turn + 1) % 4;
+      };
+
       instance.on('pointerdown', e => onPointerDown(e));
       instance.on('pointermove', e => onPointerMove(e));
       instance.on('pointerup', e => onPointerUp(e));
       instance.on('pointerupoutside', e => onPointerUp(e));
+
+      instance.on('rightclick', e => onRightClick(e));
     }
   },
 });
