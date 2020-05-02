@@ -1,6 +1,6 @@
 import { useContext } from 'react';
-import { GlobalContext } from '../context/GlobalState';
-import { useSpawner } from './spawner';
+import { GlobalContext } from '../../../context/GlobalState';
+import { useSpawner } from '../useSpawner';
 
 export const useTableSettuper = () => {
   const { availableColors } = useContext(GlobalContext);

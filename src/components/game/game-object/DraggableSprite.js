@@ -21,7 +21,7 @@ export default PixiComponent('DraggableSprite', {
         requestAnimationFrame(update);
         instance.position.set(gameObjects[id].x, gameObjects[id].y);
         instance.zIndex = gameObjects[id].z;
-        instance.texture.rotate = 2 * gameObjects[id].turn;
+        instance.texture.rotate = 2 * gameObjects[id].turn; //todo: unfortunately has to be changed - cause: many same textures on screen
       };
       update();
 

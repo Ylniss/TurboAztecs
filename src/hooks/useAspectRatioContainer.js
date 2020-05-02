@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useWindowSize } from './windowSize';
+import { useWindowSize } from './useWindowSize';
 
 export const useAspectRatioContainer = aspectRatio => {
   const [windowWidth, windowHeight] = useWindowSize();
