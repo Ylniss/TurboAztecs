@@ -20,7 +20,7 @@ export const Game = ({ players }) => {
   const { createStacks, getContentForAllStacks } = useStacks();
 
   useEffect(() => {
-    // only if(host) and then send gameObjects and stacks to rest players
+    // todo: only if(host) and then send gameObjects and stacks to rest players
     const { tileStacks, itemStacks } = getContentForAllStacks(players.length);
 
     spawnDiamondWithTile();

@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import copyIcon from './copy-icon.svg';
-import { copyToClipboard } from '../../../services/clipboardService.js';
+import { copyToClipboard } from '../../../utils/clipboard.js';
 import Panel from '../shared/Panel';
 import Row from '../shared/Row';
 import PlayersList from './PlayersList';

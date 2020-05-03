@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { GlobalContext } from '../../../context/GlobalState';
-import { shuffle, chunk } from '../../../services/arrayHelper';
+import { shuffle, chunk } from '../../../utils/arrayHelper';
 import { tiles, items } from './setup-counts.json';
 
 export const useStacks = () => {
