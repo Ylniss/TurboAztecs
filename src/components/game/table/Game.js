@@ -30,7 +30,7 @@ export const Game = ({ players }) => {
     });
   }, []);
 
-  useTick(delta => {
+  useTick(() => {
     // triggers rerender when game object is added or removed
     if (gameObjectIds.length !== Object.keys(gameObjects).length) {
       setGameObjectIds(Object.keys(gameObjects));

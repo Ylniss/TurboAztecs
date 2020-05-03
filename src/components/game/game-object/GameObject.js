@@ -1,14 +1,14 @@
 import React, { useEffect, useRef, useContext } from 'react';
 import { GlobalContext } from '../../../context/GlobalState';
 import { useCollider } from './useCollider';
-import { useTexturer } from './useTexturer';
+import { useTextureNamesPicker } from './useTextureNamesPicker';
 import DraggableSprite from './DraggableSprite';
 import Collider from './Collider';
 
 export const GameObject = ({ id, images }) => {
   const { zPositions, gameObjects } = useContext(GlobalContext);
   const self = useRef(gameObjects[id]).current;
-  const { textures, backTexture } = useTexturer(images, self.type, self.name);
+  const { textureNames, backTextureName } = useTextureNamesPicker(images, self.type, self.name);
   const { handleCollision } = useCollider();
 
   useEffect(() => {
@@ -92,17 +92,22 @@ export const GameObject = ({ id, images }) => {
     Object.values(gameObjects).forEach(gameObject => removeChild(gameObject, child));
   };
 
+  const onDoubleClick = () => {
+    gameObjects[id].flipped = !gameObjects[id].flipped;
+  };
+
   return (
     <>
-      {textures && (
+      {textureNames && (
         <DraggableSprite
           onStart={onDragStart}
           onDrag={onDrag}
           onStop={onDragEnd}
+          onDoubleClick={onDoubleClick}
           id={id}
           gameObjects={gameObjects}
-          textures={textures}
-          backTexture={backTexture}
+          textureNames={textureNames}
+          backTextureName={backTextureName ? backTextureName : ''}
           x={self.x}
           y={self.y}
           zIndex={self.z ? self.z : 0}

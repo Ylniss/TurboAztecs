@@ -70,29 +70,6 @@ export const useSpawner = () => {
     return { id, x: collisionCirclePosition.x, y: collisionCirclePosition.y, radius };
   };
 
-  const isTurnable = type => {
-    switch (type) {
-      case 'diamond':
-      case 'item:':
-      case 'pawn':
-      case 'overlay':
-        return false;
-      default:
-        return true;
-    }
-  };
-
-  const isFlippable = type => {
-    switch (type) {
-      case 'diamond':
-      case 'pawn':
-      case 'overlay': //todo: add overlays
-        return false;
-      default:
-        return true;
-    }
-  };
-
   const spawn = (name, x, y, turn = 0, childrenIds = []) => {
     const type = getType(name);
     const id = uuidv4();
@@ -105,8 +82,6 @@ export const useSpawner = () => {
       y,
       collisionCircleOffset: getCollisionCircleOffset(type),
       collisionCircle: getCollisionCircle(type, id, x, y),
-      turnable: isTurnable(type),
-      flippable: isFlippable(type),
       turn,
       flipped: false,
       childrenIds,
