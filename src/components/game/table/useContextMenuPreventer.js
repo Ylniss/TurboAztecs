@@ -9,7 +9,7 @@ export const useContextMenuPreventer = () => {
 
     document.body.addEventListener('contextmenu', e => preventContextMenu(e));
     return () => {
-      document.body.addEventListener('contextmenu', e => preventContextMenu(e));
+      document.body.removeEventListener('contextmenu', e => preventContextMenu(e));
     };
   }, []);
 };

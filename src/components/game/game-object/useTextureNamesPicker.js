@@ -7,7 +7,7 @@ export const useTextureNamesPicker = (images, type, name) => {
   useEffect(() => {
     switch (type) {
       case 'tile':
-        setBackTextureName(images['explosed-tile.png']);
+        setBackTextureName(images['exploded-tile.png']);
         switch (name) {
           case 'crossing-tile':
             setTextureNames([images[name + '.png']]);
