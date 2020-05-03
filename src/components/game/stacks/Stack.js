@@ -34,7 +34,7 @@ export const Stack = ({ id }) => {
     setInitialized(true);
   }, []);
 
-  useTick(delta => {
+  useTick(() => {
     if (!initialized) return;
 
     if (

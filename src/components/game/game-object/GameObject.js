@@ -1,17 +1,20 @@
 import React, { useEffect, useRef, useContext } from 'react';
 import { GlobalContext } from '../../../context/GlobalState';
 import { useCollider } from './useCollider';
+import { useTextureNamesPicker } from './useTextureNamesPicker';
 import DraggableSprite from './DraggableSprite';
 import Collider from './Collider';
 
 export const GameObject = ({ id, images }) => {
   const { zPositions, gameObjects } = useContext(GlobalContext);
   const self = useRef(gameObjects[id]).current;
+  const { textureNames, backTextureName } = useTextureNamesPicker(images, self.type, self.name);
   const { handleCollision } = useCollider();
 
   useEffect(() => {
     // -1 because when getting from stack we want newly spawned to be under one that is taken
     gameObjects[id].z = zPositions[self.type] - 1;
+
     console.log(`${self.name} (${id}) rendered!`);
   }, []);
 
@@ -89,19 +92,27 @@ export const GameObject = ({ id, images }) => {
     Object.values(gameObjects).forEach(gameObject => removeChild(gameObject, child));
   };
 
+  const onDoubleClick = () => {
+    gameObjects[id].flipped = !gameObjects[id].flipped;
+  };
+
   return (
     <>
-      <DraggableSprite
-        onStart={onDragStart}
-        onDrag={onDrag}
-        onStop={onDragEnd}
-        id={id}
-        gameObjects={gameObjects}
-        image={images[self.name + '.png']}
-        x={self.x}
-        y={self.y}
-        zIndex={self.z ? self.z : 0}
-      />
+      {textureNames && (
+        <DraggableSprite
+          onStart={onDragStart}
+          onDrag={onDrag}
+          onStop={onDragEnd}
+          onDoubleClick={onDoubleClick}
+          id={id}
+          gameObjects={gameObjects}
+          textureNames={textureNames}
+          backTextureName={backTextureName ? backTextureName : ''}
+          x={self.x}
+          y={self.y}
+          zIndex={self.z ? self.z : 0}
+        />
+      )}
       {/* visual representation of collider, uncomment for debug purpose only */}
       {/* <Collider id={id} gameObjects={gameObjects} /> */}
     </>

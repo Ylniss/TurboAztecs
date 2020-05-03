@@ -1,15 +1,24 @@
-import { Sprite } from 'pixi.js';
+import { Sprite, Texture } from 'pixi.js';
 import { PixiComponent, applyDefaultProps } from '@inlet/react-pixi';
 
 export default PixiComponent('DraggableSprite', {
   create: props => {
-    return Sprite.from(props.image);
+    return Sprite.from(props.textureNames[0]);
   },
   willUnmount: (instance, parent) => {
     instance.destroy();
   },
   applyProps: (instance, oldProps, newProps) => {
-    const { onStart, onDrag, onStop, id, gameObjects } = newProps;
+    const {
+      onStart,
+      onDrag,
+      onStop,
+      onDoubleClick,
+      textureNames,
+      backTextureName,
+      id,
+      gameObjects,
+    } = newProps;
     applyDefaultProps(instance, oldProps, newProps);
 
     if (!instance.setup) {
@@ -17,11 +26,23 @@ export default PixiComponent('DraggableSprite', {
 
       instance.cursor = 'grab';
 
+      const textures = textureNames.map(name => Texture.from(name));
+
+      let backTexture;
+      if (backTextureName) {
+        backTexture = Texture.from(backTextureName);
+      }
+
       const update = () => {
         requestAnimationFrame(update);
         instance.position.set(gameObjects[id].x, gameObjects[id].y);
         instance.zIndex = gameObjects[id].z;
-        instance.texture.rotate = 2 * gameObjects[id].turn; //todo: unfortunately has to be changed - cause: many same textures on screen
+
+        if (backTexture && gameObjects[id].flipped) {
+          instance.texture = backTexture;
+        } else {
+          instance.texture = textures[gameObjects[id].turn];
+        }
       };
       update();
 
@@ -30,12 +51,29 @@ export default PixiComponent('DraggableSprite', {
       const cursorOffset = { x: 0, y: 0 };
       let dragging = false;
 
+      let clicks = 0;
+      let doubleClickTime = 0;
+
+      const handleDoubleClick = () => {
+        ++clicks;
+        doubleClickTime = setTimeout(() => {
+          clicks = 0;
+        }, 300);
+        if (clicks === 2) {
+          onDoubleClick();
+          clicks = 0;
+          clearTimeout(doubleClickTime);
+        }
+      };
+
       const onPointerDown = e => {
         if (e.data.button !== 0) return;
         cursorOffset.x = e.data.getLocalPosition(instance).x;
         cursorOffset.y = e.data.getLocalPosition(instance).y;
         dragging = true;
         onStart && onStart();
+
+        handleDoubleClick();
       };
 
       const onPointerMove = e => {
@@ -57,10 +95,16 @@ export default PixiComponent('DraggableSprite', {
         }
       };
 
+      const onRightClick = e => {
+        gameObjects[id].turn = (gameObjects[id].turn + 1) % textureNames.length;
+      };
+
       instance.on('pointerdown', e => onPointerDown(e));
       instance.on('pointermove', e => onPointerMove(e));
       instance.on('pointerup', e => onPointerUp(e));
       instance.on('pointerupoutside', e => onPointerUp(e));
+
+      instance.on('rightclick', e => onRightClick(e));
     }
   },
 });
