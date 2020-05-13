@@ -81,7 +81,7 @@ export const usePeer = (initialPeer) => {
   };
 
   const connect = (peer, hostId) => {
-    return new Promise(() => {
+    return new Promise((resolve) => {
       const connection = peer.connect(hostId, { serialization: 'json' });
 
       connection.on('open', () => {
@@ -97,6 +97,7 @@ export const usePeer = (initialPeer) => {
         };
 
         sendMessage(connection, 'ADD_PLAYER', player);
+        resolve();
       });
     });
   };
@@ -113,6 +114,8 @@ export const usePeer = (initialPeer) => {
   const receiveMessage = message => {
     console.log('Received message: ');
     console.log(message);
+    
+    let connections = null; // czy zbierać ich już tutaj?
 
     switch (message.type) {
       case 'ADD_PLAYER':
@@ -128,12 +131,15 @@ export const usePeer = (initialPeer) => {
         deletePlayer(message.data);
         break;
       case 'CONNECT':
-        const connections = getConnections(peer);
+        // TODO: przy trzecim graczu, drugi i trzeci dostają connecty na raz i łącza się dwa razy
+        connections = getConnections(peer);
         if (connections.every(conn => conn.peer !== message.data && peer.id !== message.data)) {
           connect(peer, message.data);
         }
         break;
       case 'CLOSE_CONNECTION':
+        connections = getConnections(peer);
+        connections.filter(conn => conn.peer !== message.data);
         break;
       default:
         console.log('Message type unknown.');
@@ -144,7 +150,10 @@ export const usePeer = (initialPeer) => {
   const clearPeer = peer => {
     // wyslac do wszystkich CLOSE_CONNECTION
     const connections = getConnections(peer);
-    connections.forEach(conn => sendMessage(conn, 'CLOSE_CONNECTION', peer.id));
+    connections.forEach(conn => {
+      sendMessage(conn, 'DELETE_PLAYER', peer.id);
+      sendMessage(conn, 'CLOSE_CONNECTION', peer.id);
+    });
     peer.destroy();
   };
 

@@ -35,7 +35,7 @@ export default function MainMenu() {
     });
   };
 
-  const { execute: onCreateHostPlayer, pending } = useAsync(createHostPlayer, false);
+  const { execute: onCreateHostPlayer, pending: creatingHostPlayer } = useAsync(createHostPlayer, false);
 
   // normal player
   const onConnect = e => {
@@ -58,12 +58,12 @@ export default function MainMenu() {
     });
   };
 
-  const { execute: onCreateNormalPlayer, pending2 } = useAsync(createNormalPlayer, false);
+  const { execute: onCreateNormalPlayer, pending: creatingNormalPlayer } = useAsync(createNormalPlayer, false);
 
   return (
     <>
-      <div>{pending && <Loader text='Creating' />}</div>
-      <div>{pending2 && <Loader text='Creating' />}</div>
+      <div>{creatingHostPlayer && <Loader text='Creating' />}</div>
+      <div>{creatingNormalPlayer && <Loader text='Creating player' />}</div>
 
       <Panel width='500px' height='300px'>
         <Row size='1'>

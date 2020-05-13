@@ -32,12 +32,12 @@ export default function LobbyMenu() {
   }, [players]);
 
   const onBack = () => {
-    clearPeer(peer);
+    clearPeer(location.state.peer);
     clearPlayers();
   };
 
   window.onbeforeunload = e => {
-    clearPeer(peer);
+    clearPeer(location.state.peer);
   };
 
   return (
@@ -60,12 +60,12 @@ export default function LobbyMenu() {
 
       <Row>
         <div className='btn-row'>
-          <Link to='/'>
+          <Link to='/' className={linkClass}>
             <button className='btn-back' onClick={onBack}>
               Back
             </button>
           </Link>
-          <Link to='/game'>
+          <Link to='/game' className={linkClass}>
             <button>Start</button>
           </Link>
         </div>

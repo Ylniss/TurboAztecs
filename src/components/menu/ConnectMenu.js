@@ -46,10 +46,10 @@ export default function ConnectMenu() {
 
         <Row>
           <div className='btn-row'>
-            <Link to='/' class={linkClass}>
+            <Link to='/' className={linkClass}>
               <button className='btn-back'>Back</button>
             </Link>
-            <Link to='/lobby' class={linkClass}>
+            <Link to='/lobby' className={linkClass}>
               <button onClick={onConnect}>Connect</button>
             </Link>
           </div>

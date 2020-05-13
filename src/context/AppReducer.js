@@ -9,11 +9,17 @@ export default (state, action) => {
     case 'ADD_PLAYER':
       const usedColors = state.players.map(player => player.color);
       action.payload.color = state.availableColors.find(color => !usedColors.includes(color));
-      
+
       return {
         ...state,
         players: [...state.players, action.payload],
       };
+    case 'DELETE_PLAYER':
+      return {
+        ...state,
+        players: [state.players.filter(player => player.peerId !== action.payload)],
+      };
+      break;
     case 'CLEAR_PLAYERS':
       return {
         ...state,

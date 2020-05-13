@@ -62,10 +62,10 @@ export const GlobalProvider = ({ children }) => {
     });
   }
 
-  function deletePlayer(player) {
+  function deletePlayer(peerId) {
     dispatch({
       type: 'DELETE_PLAYER',
-      payload: player,
+      payload: peerId,
     });
   }
 
