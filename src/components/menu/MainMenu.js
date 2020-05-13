@@ -6,10 +6,10 @@ import { GlobalContext } from '../../context/GlobalState';
 import { usePeer } from '../../hooks/peer';
 import '../../styles.css';
 import { useAsync } from '../../hooks/async';
-import { Loader } from './shared/Loader';
+import { Loader } from './shared/loader/Loader';
 
 export default function MainMenu() {
-  const { nickname, setNickname, addPlayer, setPeer } = useContext(GlobalContext);
+  const { nickname, setNickname, addPlayer } = useContext(GlobalContext);
   const { createPeer } = usePeer();
   const history = useHistory();
   const [linkClass, setLinkClass] = useState('');
@@ -24,7 +24,7 @@ export default function MainMenu() {
   const createHostPlayer = async () => {
     return new Promise(async () => {
       createPeer().then(playerPeer => {
-        setPeer(playerPeer);
+        // setPeer(playerPeer);
         let player = {
           peerId: playerPeer.id,
           nickname,
@@ -47,7 +47,7 @@ export default function MainMenu() {
   const createNormalPlayer = () => {
     return new Promise(() => {
       createPeer().then(playerPeer => {
-        setPeer(playerPeer);
+        // setPeer(playerPeer);
         const player = {
           peerId: playerPeer.id,
           nickname,

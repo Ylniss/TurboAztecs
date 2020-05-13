@@ -1,5 +1,4 @@
-/* eslint-disable no-use-before-define */
-import React, { useRef, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import Panel from './shared/Panel';
 import Row from './shared/Row';
@@ -35,14 +34,9 @@ export default function ConnectMenu() {
 
   const { execute, pending } = useAsync(connectToGame, false);
 
-  const connectStyle = {
-    display: 'flex',
-    justifyContent: 'center',
-  };
-
   return (
     <>
-      <div>{pending && <Loader />}</div>
+      <div>{pending && <Loader text='Connecting' />}</div>
 
       <Panel width='500px' height='300px'>
         <Row size='1'>

@@ -20,13 +20,88 @@
 
   "items": [
     {
-      "name": "barrel",
+      "name": "skeleton3",
+      "count": 6
+    },
+    {
+      "name": "skeleton4",
+      "count": 6
+    },
+    {
+      "name": "skeleton5",
       "count": 4
+    },
+    {
+      "name": "skeleton6",
+      "count": 2
     },
     {
       "name": "amulet",
       "count": 4
+    },
+    {
+      "name": "backpack",
+      "count": 4
+    },
+    {
+      "name": "barrel",
+      "count": 4
+    },
+    {
+      "name": "blink",
+      "count": 4
+    },
+    {
+      "name": "bomb",
+      "count": 4
+    },
+    {
+      "name": "boots",
+      "count": 4
+    },
+    {
+      "name": "club",
+      "count": 4
+    },
+    {
+      "name": "coins2",
+      "count": 8
+    },
+    {
+      "name": "coins3",
+      "count": 6
+    },
+    {
+      "name": "death_sentence_scroll",
+      "count": 4
+    },
+    {
+      "name": "heart",
+      "count": 4
+    },
+    {
+      "name": "rubble_player_scroll",
+      "count": 4
+    },
+    {
+      "name": "rubble_wall_scroll",
+      "count": 4
+    },
+    {
+      "name": "swap_four_tiles_scroll",
+      "count": 4
+    },
+    {
+      "name": "teleport_to_middle_scroll",
+      "count": 4
+    },
+    {
+      "name": "telekinesis_scroll",
+      "count": 4
+    },
+    {
+      "name": "word_of_faith_scroll",
+      "count": 4
     }
-
   ]
 }

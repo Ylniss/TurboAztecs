@@ -1,19 +1,14 @@
-import React, { createContext, useReducer } from 'react';
+import React, { createContext, useReducer, useRef } from 'react';
 import AppReducer from './AppReducer';
 
 const initialState = {
+  // constants
+  availableColors: ['#47cf31', '#0c81f2', '#d2952b', '#808080'],
+  screenDefaults: { width: 1920, height: 1080, aspectRatio: 0.5625 },
+
   nickname: '',
   gameId: '',
-  zPositions: [
-    //needed for layering objects on screen properly
-    { type: 'diamond', z: 150000 },
-    { type: 'pawn', z: 100000 },
-    { type: 'item', z: 50000 },
-    { type: 'tile', z: 0 },
-  ],
-  gameObjects: [],
   players: [],
-  availableColors: ['#47cf31', '#0c81f2', '#d2952b', '#808080'],
   peer: null,
 };
 
@@ -22,6 +17,14 @@ export const GlobalContext = createContext(initialState);
 // Provider component provides actions for other components to use
 export const GlobalProvider = ({ children }) => {
   const [state, dispatch] = useReducer(AppReducer, initialState);
+  const gameObjects = useRef({});
+  const stacks = useRef({});
+  const zPositions = useRef({
+    diamond: 150000,
+    pawn: 100000,
+    item: 50000,
+    tile: 1,
+  });
 
   // Action dispatchers
   // zmianka na arrow functions?
@@ -70,9 +73,14 @@ export const GlobalProvider = ({ children }) => {
     <GlobalContext.Provider
       value={{
         // This allows acces to global state and its actions from any component we request from useContext hook
+        availableColors: state.availableColors,
+        screenDefaults: state.screenDefaults,
         nickname: state.nickname,
         hostPeer: state.hostPeer,
         players: state.players,
+        gameObjects: gameObjects.current,
+        zPositions: zPositions.current,
+        stacks: stacks.current,
         setNickname,
         addPlayer,
         clearPlayers,
