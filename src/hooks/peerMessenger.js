@@ -1,12 +1,13 @@
-import { addMessageType } from '../services/messageHelper';
 import { useContext } from 'react';
 import { GlobalContext } from '../context/GlobalState';
+import { usePeer } from './peer';
 
 export const usePeerMessenger = () => {
-  const { addPlayer, setPlayers } = useContext(GlobalContext);
+  const { addPlayer, updatePlayer, deletePlayer, connections, peer } = useContext(GlobalContext);
+  const { connect } = usePeer();
 
   const sendMessage = (connection, messageType, messageData) => {
-    const message = addMessageType(messageType, messageData);
+    const message = { data: messageData, type: messageType };
 
     console.log('Sending message:');
     console.log(message);
@@ -27,6 +28,9 @@ export const usePeerMessenger = () => {
         break;
       case 'diceRoll':
         // setDice(message.data);
+        break;
+      case 'CONNECT':
+        connect(peer, message.data);
         break;
       default:
         console.log(`Unknown message: ${message}`);

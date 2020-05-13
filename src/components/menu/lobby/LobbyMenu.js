@@ -7,34 +7,49 @@ import Row from '../shared/Row';
 import PlayersList from './PlayersList';
 import { GlobalContext } from '../../../context/GlobalState.js';
 import './LobbyMenu.css';
-import { useHostPeer } from '../../../hooks/hostPeer';
+import { usePeer } from '../../../hooks/peer';
 
 export default function LobbyMenu() {
-  const { clearPlayers, hostConnections, clientConnection } = useContext(GlobalContext);
-  const { clearHostConnections } = useHostPeer();
-  const [hostPeerId, setHostPeerId] = useState();
+  const { clearPlayers, peer, players } = useContext(GlobalContext);
   const location = useLocation();
+  const { clearPeer } = usePeer(location.state.peer);
+  const [gameId, setGameId] = useState();
+  const [linkClass, setLinkClass] = useState('disabled-link');
 
   useEffect(() => {
-    setHostPeerId(location.state.hostPeerId);
-  }, [location.state.hostPeerId]);
+    setGameId(location.state.gameId);
+  }, [location.state.gameId]);
+
+  useEffect(() => {
+    const playersColors = new Set(players.map(player => player.color));
+
+    // check if the are at least 2 players and their colors are all different
+    if (players.length > 1 && playersColors.size === players.length) {
+      setLinkClass('');
+    } else {
+      setLinkClass('disabled-link');
+    }
+  }, [players]);
 
   const onBack = () => {
-    // wszyscy peerowie też muszą zostać rozjebani i cofnięci do MainMenu/ConnectMenu
-    clearHostConnections(hostConnections);
+    clearPeer(peer);
     clearPlayers();
+  };
+
+  window.onbeforeunload = e => {
+    clearPeer(peer);
   };
 
   return (
     <Panel width='600px' height='400px'>
       <Row size='1' itemsDirection='row'>
-        <div className='game-id'>Game ID:{' ' + hostPeerId}</div>
+        <div className='game-id'>Game ID:{' ' + gameId}</div>
         <img
           className='copy-icon'
           src={copyIcon}
           width='25'
           height='25'
-          onClick={copyToClipboard(hostPeerId)}
+          onClick={copyToClipboard(gameId)}
           alt='copy'
         />
       </Row>

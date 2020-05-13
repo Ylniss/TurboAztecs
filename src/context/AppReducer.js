@@ -7,6 +7,9 @@ export default (state, action) => {
         nickname: action.payload,
       };
     case 'ADD_PLAYER':
+      const usedColors = state.players.map(player => player.color);
+      action.payload.color = state.availableColors.find(color => !usedColors.includes(color));
+      
       return {
         ...state,
         players: [...state.players, action.payload],
@@ -21,12 +24,7 @@ export default (state, action) => {
         ...state,
         players: action.payload,
       };
-    case 'ADD_HOST_CONNECTION':
-      return {
-        ...state,
-        hostConnections: [...state.hostConnections, action.payload],
-      };
-    case 'SET_CLIENT_CONNECTION':
+    case 'UPDATE_PLAYER':
       return {
         ...state,
         clientConnection: action.payload,
@@ -53,6 +51,11 @@ export default (state, action) => {
           gameObj.id === action.payload.id ? action.payload : gameObj
         ),
       };
+    case 'DELETE_PLAYER':
+      return {
+        ...state,
+        players: state.players.filter((player) => { return player !== action.payload })
+      }
     default:
       return state;
   }

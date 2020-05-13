@@ -1,48 +1,39 @@
-import React, { useContext, useRef } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+/* eslint-disable no-use-before-define */
+import React, { useRef, useState } from 'react';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import Panel from './shared/Panel';
 import Row from './shared/Row';
 import '../../styles.css';
-import { useClientPeer } from '../../hooks/clientPeer';
-import { GlobalContext } from '../../context/GlobalState';
+import { usePeer } from '../../hooks/peer';
 import { useAsync } from '../../hooks/async';
-import { Loader } from './shared/Loader';
-import { usePeerMessenger } from '../../hooks/peerMessenger';
+import { Loader } from './shared/loader/Loader';
 
 export default function ConnectMenu() {
-  const { createPlayerPeer, connectToHost } = useClientPeer();
-  const { addPlayer, nickname, availableColors, setClientConnection } = useContext(GlobalContext);
-  const hostPeerId = useRef();
+  const location = useLocation();
+  const { connect } = usePeer(location.state.peer);
+  const gameId = useRef();
   const history = useHistory();
-  const { sendMessage } = usePeerMessenger();
+  const [linkClass, setLinkClass] = useState('');
 
   const onConnect = e => {
+    setLinkClass('disabled-link');
     e.preventDefault();
     execute();
   };
 
-  const createPlayer = () => {
+  const connectToGame = () => {
     return new Promise(() => {
-      if (hostPeerId.current.value) {
-        createPlayerPeer().then(playerPeer => {
-          let player = {
-            peerId: playerPeer.id,
-            nickname,
-            color: availableColors[0],
-          };
-          addPlayer(player);
-          connectToHost(playerPeer, hostPeerId.current.value).then(connection => {
-            setClientConnection(connection);
-            sendMessage(connection, 'player', player);
-            history.push('/lobby', { hostPeerId: hostPeerId.current.value });
-          });
-        });
+      if (!gameId.current.value) {
+        alert('Provide game ID'); // temporary
       }
-      alert('Provide game ID'); // temporary
+
+      connect(location.state.peer, gameId.current.value).then(() => {
+        history.push('/lobby', { gameId: gameId.current.value, peer: location.state.peer });
+      });
     });
   };
 
-  const { execute, pending } = useAsync(createPlayer, false);
+  const { execute, pending } = useAsync(connectToGame, false);
 
   const connectStyle = {
     display: 'flex',
@@ -56,15 +47,15 @@ export default function ConnectMenu() {
       <Panel width='500px' height='300px'>
         <Row size='1'>
           <label htmlFor='gameId'>Game id</label>
-          <input type='text' ref={hostPeerId} />
+          <input type='text' ref={gameId} />
         </Row>
 
         <Row>
           <div className='btn-row'>
-            <Link to='/'>
+            <Link to='/' class={linkClass}>
               <button className='btn-back'>Back</button>
             </Link>
-            <Link to='/lobby'>
+            <Link to='/lobby' class={linkClass}>
               <button onClick={onConnect}>Connect</button>
             </Link>
           </div>

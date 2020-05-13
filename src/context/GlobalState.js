@@ -14,8 +14,7 @@ const initialState = {
   gameObjects: [],
   players: [],
   availableColors: ['#47cf31', '#0c81f2', '#d2952b', '#808080'],
-  hostConnections: [],
-  clientConnection: {},
+  peer: null,
 };
 
 export const GlobalContext = createContext(initialState);
@@ -25,38 +24,11 @@ export const GlobalProvider = ({ children }) => {
   const [state, dispatch] = useReducer(AppReducer, initialState);
 
   // Action dispatchers
+  // zmianka na arrow functions?
   function setNickname(nickname) {
     dispatch({
       type: 'SET_NICKNAME',
       payload: nickname,
-    });
-  }
-
-  function setZPositions(zPositions) {
-    dispatch({
-      type: 'SET_Z_POSITIONS',
-      payload: zPositions,
-    });
-  }
-
-  function addGameObject(gameObject) {
-    dispatch({
-      type: 'ADD_GAMEOBJECT',
-      payload: gameObject,
-    });
-  }
-
-  function removeGameObject(id) {
-    dispatch({
-      type: 'REMOVE_GAMEOBJECT',
-      payload: id,
-    });
-  }
-
-  function updateGameObjects(gameObject) {
-    dispatch({
-      type: 'UPDATE_GAMEOBJECTS',
-      payload: gameObject,
     });
   }
 
@@ -80,27 +52,19 @@ export const GlobalProvider = ({ children }) => {
     });
   }
 
-  function addHostConnection(connection) {
+  function updatePlayer(player) {
     dispatch({
-      type: 'ADD_HOST_CONNECTION',
-      payload: connection,
+      type: 'UPDATE_PLAYER',
+      payload: player,
     });
   }
 
-  function setClientConnection(connection) {
+  function deletePlayer(player) {
     dispatch({
-      type: 'SET_CLIENT_CONNECTION',
-      payload: connection,
+      type: 'DELETE_PLAYER',
+      payload: player,
     });
   }
-
-  function clearHostConnections() {
-    dispatch({
-      type: 'CLEAR_HOST_CONNECTIONS',
-    });
-  }
-
-  // TODO deleteConnection, deletePlayer (wyjebac clearPlayers)
 
   return (
     <GlobalContext.Provider
@@ -109,22 +73,12 @@ export const GlobalProvider = ({ children }) => {
         nickname: state.nickname,
         hostPeer: state.hostPeer,
         players: state.players,
-        zPositions: state.zPositions,
-        gameObjects: state.gameObjects,
-        availableColors: state.availableColors,
-        hostConnections: state.hostConnections,
-        clientConnection: state.clientConnection,
         setNickname,
         addPlayer,
         clearPlayers,
         setPlayers,
-        addHostConnection,
-        setClientConnection,
-        setZPositions,
-        addGameObject,
-        removeGameObject,
-        updateGameObjects,
-        clearHostConnections
+        updatePlayer,
+        deletePlayer,
       }}
     >
       {children}

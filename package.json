@@ -9,6 +9,7 @@
     "peerjs": "^1.2.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-pixi": "^0.9.19",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.1",
     "uuid": "^7.0.2"

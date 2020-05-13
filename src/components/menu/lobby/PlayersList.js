@@ -1,18 +1,10 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { GlobalContext } from '../../../context/GlobalState';
 import ColorPicker from './ColorPicker';
 import './LobbyMenu.css';
-import { usePeerMessenger } from '../../../hooks/peerMessenger';
 
 export default function PlayersList() {
-  const { players, hostConnections } = useContext(GlobalContext);
-  const { sendMessage } = usePeerMessenger();
-
-  useEffect(() => {
-    hostConnections.forEach(connection => {
-      sendMessage(connection, 'players', players);
-    });
-  }, [players]);
+  const { players } = useContext(GlobalContext);
 
   return (
     <ul className='player-list'>

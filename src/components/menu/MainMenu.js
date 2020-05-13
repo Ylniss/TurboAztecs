@@ -1,43 +1,69 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import Panel from './shared/Panel';
 import Row from './shared/Row';
 import { Link, useHistory } from 'react-router-dom';
 import { GlobalContext } from '../../context/GlobalState';
-import { useHostPeer } from '../../hooks/hostPeer';
+import { usePeer } from '../../hooks/peer';
 import '../../styles.css';
 import { useAsync } from '../../hooks/async';
 import { Loader } from './shared/Loader';
 
 export default function MainMenu() {
-  const { nickname, setNickname, availableColors, addPlayer } = useContext(GlobalContext);
-  const { createHostPeer } = useHostPeer();
+  const { nickname, setNickname, addPlayer, setPeer } = useContext(GlobalContext);
+  const { createPeer } = usePeer();
   const history = useHistory();
+  const [linkClass, setLinkClass] = useState('');
 
+  // host player
   const onCreate = e => {
+    setLinkClass('disabled-link');
     e.preventDefault();
-    execute();
+    onCreateHostPlayer();
   };
 
-  const createHost = () => {
-    return new Promise((resolve, reject) => {
-      createHostPeer().then(hostPeer => {
-        let host = {
-          peerId: hostPeer.id,
+  const createHostPlayer = async () => {
+    return new Promise(async () => {
+      createPeer().then(playerPeer => {
+        setPeer(playerPeer);
+        let player = {
+          peerId: playerPeer.id,
           nickname,
-          color: availableColors[0],
         };
-        addPlayer(host);
-        history.push('/lobby', { hostPeerId: hostPeer.id });
+        addPlayer(player);
+        history.push('/lobby', { gameId: playerPeer.id, peer: playerPeer });
       });
     });
   };
 
-  const { execute, pending } = useAsync(createHost, false);
+  const { execute: onCreateHostPlayer, pending } = useAsync(createHostPlayer, false);
+
+  // normal player
+  const onConnect = e => {
+    setLinkClass('disabled-link');
+    e.preventDefault();
+    onCreateNormalPlayer();
+  };
+
+  const createNormalPlayer = () => {
+    return new Promise(() => {
+      createPeer().then(playerPeer => {
+        setPeer(playerPeer);
+        const player = {
+          peerId: playerPeer.id,
+          nickname,
+        };
+        addPlayer(player);
+        history.push('/connect', { peer: playerPeer })
+      });
+    });
+  };
+
+  const { execute: onCreateNormalPlayer, pending2 } = useAsync(createNormalPlayer, false);
 
   return (
     <>
-      {/* It works because in JavaScript, true && expression always evaluates to expression, and false && expression always evaluates to false. */}
-      <div>{pending && <Loader />}</div>
+      <div>{pending && <Loader text='Creating' />}</div>
+      <div>{pending2 && <Loader text='Creating' />}</div>
 
       <Panel width='500px' height='300px'>
         <Row size='1'>
@@ -47,11 +73,11 @@ export default function MainMenu() {
 
         <Row>
           <div className='btn-row'>
-            <Link to='/lobby'>
-              <button onClick={onCreate} disabled={pending}>Create</button>
+            <Link to='/lobby' className={linkClass}>
+              <button onClick={onCreate}>Create</button>
             </Link>
-            <Link to='/connect'>
-              <button>Join</button>
+            <Link to='/connect' className={linkClass}>
+              <button onClick={onConnect}>Join</button>
             </Link>
           </div>
         </Row>
